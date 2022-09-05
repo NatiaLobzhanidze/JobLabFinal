@@ -1,0 +1,21 @@
+//
+//  RegistrationConfiguration.swift
+//  JobLabFinal
+//
+//  Created by Natia's Mac on 05.09.22.
+//
+
+import Foundation
+
+enum RegistrationConfiguration  {
+    static func configure() -> RegistrationViewController{
+        let presenter = RegistrationPresenter()
+        let interactor = RegistrationInteractor()
+        let router = RegistrationRouter()
+        let viewController = RegistrationViewController(interactor: interactor, router: router)
+        presenter.viewController = viewController
+        router.viewController = viewController
+        
+        return viewController
+    }
+}
