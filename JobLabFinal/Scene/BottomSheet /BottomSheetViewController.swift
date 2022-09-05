@@ -112,8 +112,8 @@ class BottomSheetViewController: UIViewController, BottomSheetDisplayLogic
         print("its ok tap")
         let vc = CategoriesViewController()
         vc.modalPresentationStyle = .fullScreen
-        
-        self.present(vc, animated: true, completion: nil)
+       // self.navigationController?.pushViewController(vc, animated: true)
+       self.present(vc, animated: true, completion: nil)
         
     }
 

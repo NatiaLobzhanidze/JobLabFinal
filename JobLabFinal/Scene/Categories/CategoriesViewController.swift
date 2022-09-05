@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol CategoriesDisplayLogic: class
+protocol CategoriesDisplayLogic: AnyObject
 {
   func displaySomething(viewModel: Categories.Something.ViewModel)
 }
@@ -20,8 +20,60 @@ protocol CategoriesDisplayLogic: class
 class CategoriesViewController: UIViewController, CategoriesDisplayLogic
 {
   var interactor: CategoriesBusinessLogic?
-  var router: (NSObjectProtocol & CategoriesRoutingLogic & CategoriesDataPassing)?
-
+  var router: (CategoriesRoutingLogic & CategoriesDataPassing)?
+  //MARK: UI ELements
+    let backButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("<", for: .normal)
+        btn.setTitleColor(hexStringToUIColor(hex: "#5583F7"), for: .normal)
+        btn.backgroundColor = hexStringToUIColor(hex: "#EBF1FD")
+        btn.layer.cornerRadius = 6
+        return btn
+    }()
+    
+    let headlineLb: UILabel = {
+        let lb = UILabel()
+        lb.text = "What job you want?"
+        lb.font = .systemFont(ofSize: 20)
+        
+        return lb
+    }()
+    
+    let subTitleLb : UILabel = {
+        let lb = UILabel()
+        lb.text = "Choose 3-5 job categories and we'll optimize the job vacancy for you"
+        lb.font = .systemFont(ofSize: 15)
+        lb.numberOfLines = 0
+        return lb
+    }()
+    
+    let collectionView: UICollectionView = {
+     
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.width/2.5)
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 0
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.isScrollEnabled = true
+        view.showsVerticalScrollIndicator = false
+        view.backgroundColor = .white
+        view.contentInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20)
+        view.registerClass(class: CircleCollectionViewCell.self)
+        return view
+    }()
+    
+    let saveButton: UIButton = {
+        let btn = UIButton()
+        
+        btn.setTitle("Save", for: .normal)
+        btn.setTitleColor(hexStringToUIColor(hex: "#5583F7"), for: .normal)
+        btn.backgroundColor = .white
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = hexStringToUIColor(hex: "#5583F7").cgColor
+        btn.layer.cornerRadius = 20
+        
+        return btn
+    }()
   // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -53,38 +105,73 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
   }
   
   // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
+
   
   // MARK: View lifecycle
   
   override func viewDidLoad()
   {
-      view.backgroundColor = .blue
+    view.backgroundColor = .white
     super.viewDidLoad()
     doSomething()
+      setUpViewElemets()
+      collectionView.delegate = self
+      collectionView.dataSource = self
+      
   }
   
   // MARK: Do something
+    func setUpViewElemets() {
+        view.addSubview(backButton)
+        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20, width: 30, height: 30)
+        view.addSubview(headlineLb)
+        headlineLb.anchor( left: backButton.rightAnchor, paddingLeft: 20,width: 200,  height: 35)
+        headlineLb.centerY(inView: backButton)
+        view.addSubview(subTitleLb)
+        subTitleLb.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20, height: 50)
+        view.addSubview(collectionView)
+        collectionView.anchor(top: subTitleLb.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingRight: 0)
+        view.addSubview(saveButton)
+        saveButton.anchor(top: collectionView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 30, paddingRight: 40,  height: 40)
+    }
   
-  //@IBOutlet weak var nameTextField: UITextField!
   
   func doSomething()
   {
     let request = Categories.Something.Request()
     interactor?.doSomething(request: request)
   }
-  
+    
+    @objc func goToEditProfile() {
+        
+    }
   func displaySomething(viewModel: Categories.Something.ViewModel)
   {
     //nameTextField.text = viewModel.name
   }
+}
+
+extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellSize =  Categories.CategoriesField.circleSizes[indexPath.row] * 2
+         return CGSize(width: cellSize, height: cellSize)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        Categories.CategoriesField.categoriesFields.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.deque(CircleCollectionViewCell.self, for: indexPath)
+        cell.titleLabel.text = Categories.CategoriesField.categoriesFields[indexPath.row]
+        cell.layer.cornerRadius = cell.frame.size.height/2
+        cell.backgroundColor = hexStringToUIColor(hex: "#5583F7")
+        
+        return cell
+    }
+    
+    
 }

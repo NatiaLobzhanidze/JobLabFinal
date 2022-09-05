@@ -60,6 +60,14 @@
 		6075AC9428C6496300FD823A /* CategoriesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC8E28C6496300FD823A /* CategoriesModels.swift */; };
 		6075AC9528C6496300FD823A /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC8F28C6496300FD823A /* CategoriesViewController.swift */; };
 		6075AC9628C6496300FD823A /* CategoriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9028C6496300FD823A /* CategoriesInteractor.swift */; };
+		6075AC9A28C6A50B00FD823A /* CircleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9928C6A50B00FD823A /* CircleCollectionViewCell.swift */; };
+		6075AC9C28C6AF1400FD823A /* LayoutInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9B28C6AF1400FD823A /* LayoutInformation.swift */; };
+		6075ACA328C6B67200FD823A /* EditProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9D28C6B67200FD823A /* EditProfilePresenter.swift */; };
+		6075ACA428C6B67200FD823A /* EditProfileWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9E28C6B67200FD823A /* EditProfileWorker.swift */; };
+		6075ACA528C6B67200FD823A /* EditProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC9F28C6B67200FD823A /* EditProfileRouter.swift */; };
+		6075ACA628C6B67200FD823A /* EditProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075ACA028C6B67200FD823A /* EditProfileModels.swift */; };
+		6075ACA728C6B67200FD823A /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075ACA128C6B67200FD823A /* EditProfileViewController.swift */; };
+		6075ACA828C6B67200FD823A /* EditProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075ACA228C6B67200FD823A /* EditProfileInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +126,14 @@
 		6075AC8E28C6496300FD823A /* CategoriesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModels.swift; sourceTree = "<group>"; };
 		6075AC8F28C6496300FD823A /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		6075AC9028C6496300FD823A /* CategoriesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesInteractor.swift; sourceTree = "<group>"; };
+		6075AC9928C6A50B00FD823A /* CircleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCollectionViewCell.swift; sourceTree = "<group>"; };
+		6075AC9B28C6AF1400FD823A /* LayoutInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInformation.swift; sourceTree = "<group>"; };
+		6075AC9D28C6B67200FD823A /* EditProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfilePresenter.swift; sourceTree = "<group>"; };
+		6075AC9E28C6B67200FD823A /* EditProfileWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileWorker.swift; sourceTree = "<group>"; };
+		6075AC9F28C6B67200FD823A /* EditProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRouter.swift; sourceTree = "<group>"; };
+		6075ACA028C6B67200FD823A /* EditProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileModels.swift; sourceTree = "<group>"; };
+		6075ACA128C6B67200FD823A /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		6075ACA228C6B67200FD823A /* EditProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +198,7 @@
 		6075AC1D28BF918D00FD823A /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				6075ACA928C6B67C00FD823A /* EditProfile */,
 				6075AC9728C6496A00FD823A /* Categories */,
 				6075AC8028C5449E00FD823A /* BottomSheet  */,
 				6075AC7028C3B25200FD823A /* Registration */,
@@ -210,6 +227,7 @@
 		6075AC2D28BF951F00FD823A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6075AC2E28BF953300FD823A /* OnBoarding */,
 				6075AC7D28C3FA8100FD823A /* UserModel */,
 			);
 			path = Model;
@@ -324,7 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				6075AC7E28C3FA9500FD823A /* UserModel.swift */,
-				6075AC2E28BF953300FD823A /* OnBoarding */,
 			);
 			path = UserModel;
 			sourceTree = "<group>";
@@ -342,6 +359,7 @@
 		6075AC9728C6496A00FD823A /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				6075AC9828C6A4E600FD823A /* CircleCells */,
 				6075AC8B28C6496300FD823A /* CategoriesPresenter.swift */,
 				6075AC8C28C6496300FD823A /* CategoriesWorker.swift */,
 				6075AC8D28C6496300FD823A /* CategoriesRouter.swift */,
@@ -350,6 +368,28 @@
 				6075AC9028C6496300FD823A /* CategoriesInteractor.swift */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		6075AC9828C6A4E600FD823A /* CircleCells */ = {
+			isa = PBXGroup;
+			children = (
+				6075AC9928C6A50B00FD823A /* CircleCollectionViewCell.swift */,
+				6075AC9B28C6AF1400FD823A /* LayoutInformation.swift */,
+			);
+			path = CircleCells;
+			sourceTree = "<group>";
+		};
+		6075ACA928C6B67C00FD823A /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				6075AC9D28C6B67200FD823A /* EditProfilePresenter.swift */,
+				6075AC9E28C6B67200FD823A /* EditProfileWorker.swift */,
+				6075AC9F28C6B67200FD823A /* EditProfileRouter.swift */,
+				6075ACA028C6B67200FD823A /* EditProfileModels.swift */,
+				6075ACA128C6B67200FD823A /* EditProfileViewController.swift */,
+				6075ACA228C6B67200FD823A /* EditProfileInteractor.swift */,
+			);
+			path = EditProfile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,13 +462,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6075ACA728C6B67200FD823A /* EditProfileViewController.swift in Sources */,
 				6075AC9428C6496300FD823A /* CategoriesModels.swift in Sources */,
+				6075AC9C28C6AF1400FD823A /* LayoutInformation.swift in Sources */,
 				6075AC4228C0A3E200FD823A /* CollectionViewExtensions.swift in Sources */,
 				6075AC8428C5476900FD823A /* BottomSheetViewController.swift in Sources */,
 				6075AC5A28C210C200FD823A /* PageControllFuncs .swift in Sources */,
 				6075AC7B28C3B26F00FD823A /* RegistrationViewController.swift in Sources */,
 				6075AC5728C15E4000FD823A /* AuthenticationViewController.swift in Sources */,
 				6075AC0F28BF911C00FD823A /* JobLabFinal.xcdatamodeld in Sources */,
+				6075ACA428C6B67200FD823A /* EditProfileWorker.swift in Sources */,
 				6075AC2C28BF926300FD823A /* OnBoardingConfigure.swift in Sources */,
 				6075AC7728C3B26F00FD823A /* RegistrationPresenter.swift in Sources */,
 				6075AC9328C6496300FD823A /* CategoriesRouter.swift in Sources */,
@@ -440,6 +483,9 @@
 				6075AC6728C28FEA00FD823A /* TextFieldExtension.swift in Sources */,
 				6075AC4628C0A46700FD823A /* TableVExtensions.swift in Sources */,
 				6075AC0528BF911C00FD823A /* AppDelegate.swift in Sources */,
+				6075AC9A28C6A50B00FD823A /* CircleCollectionViewCell.swift in Sources */,
+				6075ACA328C6B67200FD823A /* EditProfilePresenter.swift in Sources */,
+				6075ACA828C6B67200FD823A /* EditProfileInteractor.swift in Sources */,
 				6075AC0728BF911C00FD823A /* SceneDelegate.swift in Sources */,
 				6075AC9228C6496300FD823A /* CategoriesWorker.swift in Sources */,
 				6075AC5428C15E4000FD823A /* AuthenticationWorker.swift in Sources */,
@@ -454,12 +500,14 @@
 				6075AC5828C15E4000FD823A /* AuthenticationInteractor.swift in Sources */,
 				6075AC2828BF922E00FD823A /* OnBoardingModels.swift in Sources */,
 				6075AC4B28C0DD6B00FD823A /* SetUpViewExtensions.swift in Sources */,
+				6075ACA628C6B67200FD823A /* EditProfileModels.swift in Sources */,
 				6075AC5D28C2217A00FD823A /* AddOnScrollView.swift in Sources */,
 				6075AC2728BF922E00FD823A /* OnBoardingRouter.swift in Sources */,
 				6075AC7928C3B26F00FD823A /* RegistrationRouter.swift in Sources */,
 				6075AC9528C6496300FD823A /* CategoriesViewController.swift in Sources */,
 				6075AC5328C15E4000FD823A /* AuthenticationPresenter.swift in Sources */,
 				6075AC7A28C3B26F00FD823A /* RegistrationModels.swift in Sources */,
+				6075ACA528C6B67200FD823A /* EditProfileRouter.swift in Sources */,
 				6075AC3828C0999400FD823A /* CustomCollectionViewExtension .swift in Sources */,
 				6075AC9128C6496300FD823A /* CategoriesPresenter.swift in Sources */,
 				6075AC7828C3B26F00FD823A /* RegistrationWorker.swift in Sources */,

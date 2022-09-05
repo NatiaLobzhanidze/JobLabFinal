@@ -12,8 +12,6 @@ extension OnBoardingViewController {
     
     func customCollectionView() -> UICollectionView {
         
-        let itemheight = UIScreen.main.bounds.height - 100
-        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
         layout.scrollDirection = .horizontal
