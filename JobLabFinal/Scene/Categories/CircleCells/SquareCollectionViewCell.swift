@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CircleCollectionViewCell: UICollectionViewCell {
+class SquareCollectionViewCell: UICollectionViewCell {
 //    lazy var welcomeImage: UIImageView = {
 //        let welcomeImage = UIImageView()
 //        return welcomeImage

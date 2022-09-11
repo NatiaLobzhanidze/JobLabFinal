@@ -58,7 +58,8 @@ class AuthenticationRouter: NSObject, AuthenticationRoutingLogic, Authentication
   func navigateToSomewhere( destination: UIViewController)
   {
 //    source.show(destination, sender: nil)
-      self.viewController?.navigationController?.pushViewController(destination, animated: true)
+      self.viewController?.present(destination, animated: true)
+      
   }
   }
   

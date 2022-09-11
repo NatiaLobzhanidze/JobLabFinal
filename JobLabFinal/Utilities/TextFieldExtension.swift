@@ -50,12 +50,23 @@ extension UITextField {
 extension UIView {
     func shadowedtoView(){
         
-        self.layer.shadowColor = UIColor.blue.cgColor
-        self.layer.shadowRadius = 5
-        self.layer.shadowOpacity = 0.6
-        self.layer.shadowOffset = CGSize(width: 20,
-                                             height: 20)
-       // self.layer.masksToBounds = true
+        self.layer.shadowColor = hexStringToUIColor(hex: "#5583F7").cgColor
+        self.layer.shadowRadius = 20
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowOffset = CGSize(width: 3,
+                                             height: 3)
+   
         
     }
+    func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = color.cgColor
+        layer.shadowOpacity = opacity
+        layer.shadowOffset = offSet
+        layer.shadowRadius = radius
+
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+      }
 }

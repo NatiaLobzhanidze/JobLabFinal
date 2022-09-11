@@ -14,16 +14,22 @@ import UIKit
 
 protocol EditProfileDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: EditProfile.Something.ViewModel)
+  func displayHomeScreen(viewModel: EditProfile.Something.ViewModel)
+   
 }
 
 class EditProfileViewController: UIViewController, EditProfileDisplayLogic
 {
+    func displayHomeScreen(viewModel: EditProfile.Something.ViewModel) {
+        router?.navigateToHomeScene()
+    }
+    
   var interactor: EditProfileBusinessLogic?
   var router: (NSObjectProtocol & EditProfileRoutingLogic & EditProfileDataPassing)?
     
     //MARK: UI Elements
-    let searchButton: UIButton = {
+ 
+    let logoButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(systemName: "person.crop.square.fill"), for: .normal)
         btn.tintColor = hexStringToUIColor(hex: "#5583F7")
@@ -37,6 +43,31 @@ class EditProfileViewController: UIViewController, EditProfileDisplayLogic
         return lb
     }()
     
+    let profileImage: UIImageView = {
+        let img = UIImageView()
+        img.image = UIImage(systemName: "icloud.and.arrow.down")
+        
+        return img
+        
+    }()
+    
+    lazy var tableView: UITableView = {
+        let v = UITableView()
+        
+        v.registerClass(class: ProfileEdditorableViewCell.self)
+        v.separatorStyle = .none
+        return v
+    }()
+    
+    lazy var confirme: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Confirme", for: .normal)
+        btn.backgroundColor = hexStringToUIColor(hex: "#5583F7")
+        btn.layer.cornerRadius = 20
+        btn.addTarget(self, action: #selector(confirmeInfo), for: .touchUpInside)
+        
+        return btn
+    }()
 
   // MARK: Object lifecycle
   
@@ -70,36 +101,63 @@ class EditProfileViewController: UIViewController, EditProfileDisplayLogic
   
   // MARK: Routing
   
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
-  
+    
   // MARK: View lifecycle
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    doSomething()
+
+      view.backgroundColor = .white
+      title = "Profile"
+      setUpView()
+      tableView.dataSource = self
+      tableView.delegate = self
   }
   
   // MARK: Do something
+    func setUpView() {
+        view.addSubview(profileImage)
+        profileImage.anchor(top: view.safeAreaLayoutGuide.topAnchor,  paddingTop: 29,   width: 100, height: 100)
+        profileImage.centerX(inView: view)
+        profileImage.tintColor = .blue
+        view.addSubview(tableView)
+        tableView.anchor(top: profileImage.bottomAnchor, left: view.leftAnchor,  right: view.rightAnchor, paddingTop: 20, paddingLeft: 0,  paddingRight: 0)
+        view.addSubview(confirme)
+        
+        confirme.anchor( top: tableView.bottomAnchor , left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor,  paddingTop: 20, paddingLeft: 30, paddingBottom: 40, paddingRight: 30, height: 45)
+        addTopAndBottomBorders()
+    }
   
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething()
-  {
-    let request = EditProfile.Something.Request()
-    interactor?.doSomething(request: request)
-  }
-  
-  func displaySomething(viewModel: EditProfile.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+ 
+    func addTopAndBottomBorders() {
+       let thickness: CGFloat = 2.0
+       let topBorder = CALayer()
+       topBorder.frame = CGRect(x: 0.0, y: 0.0, width: self.tableView.frame.size.width, height: thickness)
+       topBorder.backgroundColor = UIColor.red.cgColor
+       tableView.layer.addSublayer(topBorder)
+     
+    }
+    @objc func confirmeInfo() {
+        interactor?.tapToConfirmeBtn(request: EditProfile.Something.Request())
+    }
+}
+
+extension EditProfileViewController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        ProfileModel.filedsArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.deque(class: ProfileEdditorableViewCell.self, for: indexPath)
+        cell.configure(with: ProfileModel.filedsArray[indexPath.row])
+        if ProfileModel.filedsArray[indexPath.row] == "Date of birth" {
+            cell.createDatePicker(for: cell.tField)
+        }
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    
 }

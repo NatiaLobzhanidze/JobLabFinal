@@ -217,9 +217,11 @@ class AuthenticationViewController: UIViewController
     func filterSheetCall() {
         let filterVC = BottomSheetViewController()
         filterVC.modalPresentationStyle = .custom
+      
         filterVC.transitioningDelegate = self
-        //self.navigationController?.pushViewController(filterVC, animated: true)
-        self.present(filterVC, animated: true, completion: nil)
+        router?.navigateToSomewhere(destination: filterVC)
+      //  self.navigationController?.pushViewController(filterVC, animated: true)
+       // self.present(filterVC, animated: true, completion: nil)
     }
  
 }

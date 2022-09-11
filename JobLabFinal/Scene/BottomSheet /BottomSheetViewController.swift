@@ -20,6 +20,11 @@ protocol BottomSheetDisplayLogic: AnyObject
 class BottomSheetViewController: UIViewController, BottomSheetDisplayLogic
 {
     
+     lazy var navController:UINavigationController? = {
+        let navigationController = UINavigationController(rootViewController: BottomSheetViewController())
+        navigationController.setNavigationBarHidden(true, animated: false)
+        return navigationController
+    }()
     
     let topView: UIView = {
         let view = UIView()
@@ -108,12 +113,15 @@ class BottomSheetViewController: UIViewController, BottomSheetDisplayLogic
         iWantEmployeeView.addGestureRecognizer(tapemployee)
         iWantJobView.addGestureRecognizer(tap)
     }
+    
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
         print("its ok tap")
         let vc = CategoriesViewController()
-        vc.modalPresentationStyle = .fullScreen
-       // self.navigationController?.pushViewController(vc, animated: true)
-       self.present(vc, animated: true, completion: nil)
+        let navc2 = UINavigationController(rootViewController: vc)
+        view.window?.rootViewController = navc2
+        view.window?.makeKeyAndVisible()
+        
+       
         
     }
 

@@ -28,6 +28,7 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         btn.setTitleColor(hexStringToUIColor(hex: "#5583F7"), for: .normal)
         btn.backgroundColor = hexStringToUIColor(hex: "#EBF1FD")
         btn.layer.cornerRadius = 6
+        btn.addTarget(self, action: #selector(backBSheet), for: .touchUpInside)
         return btn
     }()
     
@@ -58,7 +59,7 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         view.showsVerticalScrollIndicator = false
         view.backgroundColor = .white
         view.contentInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20)
-        view.registerClass(class: CircleCollectionViewCell.self)
+        view.registerClass(class: SquareCollectionViewCell.self)
         return view
     }()
     
@@ -71,6 +72,7 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         btn.layer.borderWidth = 1
         btn.layer.borderColor = hexStringToUIColor(hex: "#5583F7").cgColor
         btn.layer.cornerRadius = 20
+        btn.addTarget(self, action: #selector(goToEditProfile), for: .touchUpInside)
         
         return btn
     }()
@@ -113,6 +115,8 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
   {
     view.backgroundColor = .white
     super.viewDidLoad()
+      let myVC = UIViewController()
+      _ = UINavigationController(rootViewController: myVC)
     doSomething()
       setUpViewElemets()
       collectionView.delegate = self
@@ -143,7 +147,14 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
   }
     
     @objc func goToEditProfile() {
-        
+        let vc = EditProfileViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+        print()
+    }
+    
+    @objc func backBSheet() {
+        let vc = BottomSheetViewController()
+        //self.navigationController?.popToViewController(vc, animated: true)
     }
   func displaySomething(viewModel: Categories.Something.ViewModel)
   {
@@ -154,8 +165,8 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
 extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize =  Categories.CategoriesField.circleSizes[indexPath.row] * 2
-         return CGSize(width: cellSize, height: cellSize)
+        let cellSize =  UIScreen.main.bounds.size.width/2 - 40
+         return CGSize(width: cellSize, height: cellSize - 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -165,13 +176,28 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.deque(CircleCollectionViewCell.self, for: indexPath)
-        cell.titleLabel.text = Categories.CategoriesField.categoriesFields[indexPath.row]
-        cell.layer.cornerRadius = cell.frame.size.height/2
-        cell.backgroundColor = hexStringToUIColor(hex: "#5583F7")
+        let cell = collectionView.deque(SquareCollectionViewCell.self, for: indexPath)
+        let model = Categories.CategoriesField.categoriesFields[indexPath.row]
+        cell.titleLabel.text = model
+        cell.layer.cornerRadius = cell.frame.size.height/4
+        cell.backgroundColor = .white
+        cell.layer.borderWidth = 2
+        cell.layer.borderColor = hexStringToUIColor(hex: "#ECEEF2").cgColor
+        cell.shadowedtoView()
+        cell.addview(with: model)
+        
         
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? SquareCollectionViewCell {
+            UIView.animate(withDuration: 0.7) {
+                let blue = UIColor.blue.cgColor
+                let current = hexStringToUIColor(hex: "#ECEEF2").cgColor
+                cell.layer.borderColor =  cell.layer.borderColor == current ? blue : current
+            }
+            
+    }
+    }
 }

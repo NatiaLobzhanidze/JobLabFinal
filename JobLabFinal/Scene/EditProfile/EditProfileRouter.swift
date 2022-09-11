@@ -14,6 +14,7 @@ import UIKit
 
 @objc protocol EditProfileRoutingLogic
 {
+    func navigateToHomeScene()
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
@@ -46,10 +47,10 @@ class EditProfileRouter: NSObject, EditProfileRoutingLogic, EditProfileDataPassi
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: EditProfileViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+    func navigateToHomeScene() {
+        let vc =  HomeSceneConfiguration.configure()
+        self.viewController?.navigationController?.pushViewController(vc, animated: true)
+    }
   
   // MARK: Passing data
   

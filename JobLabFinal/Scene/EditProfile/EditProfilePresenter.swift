@@ -15,10 +15,13 @@ import UIKit
 protocol EditProfilePresentationLogic
 {
   func presentSomething(response: EditProfile.Something.Response)
+    func presentHomeScene()
 }
 
 class EditProfilePresenter: EditProfilePresentationLogic
 {
+   
+    
   weak var viewController: EditProfileDisplayLogic?
   
   // MARK: Do something
@@ -26,6 +29,9 @@ class EditProfilePresenter: EditProfilePresentationLogic
   func presentSomething(response: EditProfile.Something.Response)
   {
     let viewModel = EditProfile.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
+    viewController?.displayHomeScreen(viewModel: viewModel)
   }
+    func presentHomeScene() {
+        viewController?.displayHomeScreen(viewModel: EditProfile.Something.ViewModel())
+    }
 }

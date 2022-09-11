@@ -14,7 +14,7 @@ import UIKit
 
 protocol EditProfileBusinessLogic
 {
-  func doSomething(request: EditProfile.Something.Request)
+  func tapToConfirmeBtn(request: EditProfile.Something.Request)
 }
 
 protocol EditProfileDataStore
@@ -22,7 +22,7 @@ protocol EditProfileDataStore
   //var name: String { get set }
 }
 
-class EditProfileInteractor: EditProfileBusinessLogic, EditProfileDataStore
+class EditProfileInteractor: EditProfileDataStore
 {
   var presenter: EditProfilePresentationLogic?
   var worker: EditProfileWorker?
@@ -38,4 +38,14 @@ class EditProfileInteractor: EditProfileBusinessLogic, EditProfileDataStore
     let response = EditProfile.Something.Response()
     presenter?.presentSomething(response: response)
   }
+}
+
+extension EditProfileInteractor: EditProfileBusinessLogic
+{
+    func tapToConfirmeBtn(request: EditProfile.Something.Request) {
+        
+        presenter?.presentHomeScene()
+    }
+    
+    
 }

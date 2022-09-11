@@ -24,7 +24,9 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
     var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)?
     
     private lazy var collectionView: UICollectionView = {
-        let sm = customCollectionView()
+      //  let sm = customCollectionView()
+        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5))
+
         sm.delegate = self
         sm.dataSource = self
         return sm
@@ -143,7 +145,7 @@ extension OnBoardingViewController : UICollectionViewDataSource {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let width = scrollView.frame.width
+        _ = scrollView.frame.width
         pageControll.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
     }
 }
