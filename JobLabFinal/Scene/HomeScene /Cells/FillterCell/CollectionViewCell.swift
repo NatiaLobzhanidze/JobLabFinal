@@ -43,7 +43,7 @@ class FilterCollectionViewCell: UICollectionViewCell {
     
     func setUpView() {
         contentView.addSubview(myview)
-        myview.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        myview.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)
         myview.addSubview(filtersTitle)
         filtersTitle.centerX(inView: myview)
         filtersTitle.centerY(inView: myview)

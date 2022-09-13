@@ -30,4 +30,18 @@ enum AllTipsListScene
         var data: [TipsModel]
     }
   }
+    enum SeeDetails {
+        struct Request
+        {
+            var data: TipsModel
+        }
+        struct Response
+        {
+          
+        }
+        struct ViewModel
+        {
+            var data: TipsModel
+        }
+    }
 }

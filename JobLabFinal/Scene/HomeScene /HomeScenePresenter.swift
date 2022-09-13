@@ -16,6 +16,9 @@ protocol HomeScenePresentationLogic
 {
   func presentTipsData(response: HomeScene.GetTips.Response)
   func presentAllTips(response: HomeScene.ShowAllTips.Response)
+  func presnetTipsDetails(response: HomeScene.SeeDetails.Response)
+  func presentAllJobs(response: HomeScene.ShowAllJobs.Response)
+  func presentFetchedJobs(response: HomeScene.Getjobs.Response)
 }
 
 class HomeScenePresenter
@@ -23,23 +26,30 @@ class HomeScenePresenter
   weak var viewController: HomeSceneDisplayLogic?
   
   // MARK: Private Methods
-    
-    private func configureTableModel(from data: [TipsModel]) -> [TipsModel] {
-        
-       return data
-    }
   
- 
 }
 
 extension HomeScenePresenter: HomeScenePresentationLogic {
+    
+    func presentFetchedJobs(response: HomeScene.Getjobs.Response) {
+        let viewModel = response.data
+        self.viewController?.displayJobs(viewModel: HomeScene.Getjobs.ViewModel(data: viewModel))
+    }
+    func presentAllJobs(response: HomeScene.ShowAllJobs.Response) {
+        viewController?.displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel())
+    }
+    func presnetTipsDetails(response: HomeScene.SeeDetails.Response) {
+        viewController?.displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel())
+    }
+    
     func presentAllTips(response: HomeScene.ShowAllTips.Response) {
         viewController?.displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel())
     }
     
     func presentTipsData(response: HomeScene.GetTips.Response)
     {
-        let viewModel = configureTableModel(from: response.data)
+        let viewModel = response.data
         viewController?.displayTips(viewModel: HomeScene.GetTips.ViewModel(data: viewModel))
     }
+    
 }

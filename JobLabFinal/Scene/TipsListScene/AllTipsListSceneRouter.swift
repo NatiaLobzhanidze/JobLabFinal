@@ -14,7 +14,7 @@ import UIKit
 
 @objc protocol AllTipsListSceneRoutingLogic
 {
-  
+  func navigateToTipsDetails()
 }
 
 protocol AllTipsListSceneDataPassing
@@ -32,16 +32,14 @@ class AllTipsListSceneRouter: NSObject, AllTipsListSceneRoutingLogic, AllTipsLis
     init(dataStore: AllTipsListSceneDataStore) {
         self.dataStore = dataStore
     }
-    
-  // MARK: Routing
-   
 
   // MARK: Navigation
   
-  //func navigateToSomewhere(source: AllTipsListSceneViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
+    func navigateToTipsDetails() {
+        guard let selectedTip = dataStore?.selectedTip else { return }
+        let destVc = TipsDetailsSceneConfiguration.configure(with: selectedTip)
+        viewController?.navigationController?.pushViewController(destVc, animated: true)
+    }
   
   // MARK: Passing data
   

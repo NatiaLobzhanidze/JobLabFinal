@@ -15,18 +15,25 @@ import UIKit
 protocol HomeSceneDisplayLogic: AnyObject
 {
     func displayTips(viewModel: HomeScene.GetTips.ViewModel)
+    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel)
+    
+    func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel)
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel)
+    func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel)
+   
 }
 
-class HomeSceneViewController: UIViewController
+class HomeSceneViewController: UIViewController, UICollectionViewDelegate
 {
   
-  var interactor: HomeSceneBusinessLogic?
-  var router: (HomeSceneRoutingLogic & HomeSceneDataPassing)?
+    var interactor: HomeSceneBusinessLogic?
+    var router: (HomeSceneRoutingLogic & HomeSceneDataPassing)?
+    
     private var dataSource = [TipsModel]()
+    private var jobsDataSource = [JobModel]()
+    private var selectedtip: TipsModel!
     
    //MARK: UI Elements
-    
     
     let mySearchBar: UISearchBar = {
         let sr = UISearchBar()
@@ -34,10 +41,10 @@ class HomeSceneViewController: UIViewController
         sr.placeholder = " Search..."
         sr.sizeToFit()
         sr.isTranslucent = false
-        
-        
+    
         return sr
     }()
+    
     let listButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(systemName: "line.3.horizontal.decrease"), for: .normal)
@@ -48,8 +55,6 @@ class HomeSceneViewController: UIViewController
     
     let tableView: UITableView = {
         let v = UITableView()
-        v.backgroundColor = .red
-        
         v.separatorStyle = .none
         return v
     }()
@@ -66,26 +71,29 @@ class HomeSceneViewController: UIViewController
         fatalError("init(coder:) has not been implemented")
     }
     
-  
   // MARK: View lifecycle
   
   override func viewDidLoad()
   {
-    super.viewDidLoad()
+      super.viewDidLoad()
       view.backgroundColor = .white
       title = "Hello, Natia"
+      
       mySearchBar.delegate = self
-      interactor?.getTips(request: HomeScene.GetTips.Request())
       setUpTableView()
+      
+      interactor?.getTips(request: HomeScene.GetTips.Request())
+      interactor?.getJobs(request: HomeScene.Getjobs.Request())
+    
   }
-  //MARK: @objC methods
-    
-  
-    
   // MARK: Private methods
-    
-    private func setTableData(data: [TipsModel]) {
+    private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
+        tableView.reloadData()
+    }
+    
+    private func setJobsTableData(data: [JobModel]) {
+        self.jobsDataSource = data
         tableView.reloadData()
     }
     
@@ -96,7 +104,8 @@ class HomeSceneViewController: UIViewController
         tableView.dataSource = self
         tableView.registerClass(class: FirstTableViewCell.self)
         tableView.registerClass(class: TipsTableViewCell.self)
-        tableView.registerClass(class: JobListTableViewCell.self)
+        tableView.registerClass(class: SeeAllJobsTableViewCell.self)
+        tableView.registerClass(class: JobsTableViewCell.self)
         tableView.registerClass(class: FilterTableViewCell.self)
         setUpViews()
         tableView.reloadData()
@@ -104,41 +113,75 @@ class HomeSceneViewController: UIViewController
     
    private func setUpViews() {
         view.addSubview(mySearchBar)
-        mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,  paddingTop: 10, paddingLeft: 20, height: 40)
+        mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,  paddingTop: 0, paddingLeft: 20, height: 40)
        view.addSubview(listButton)
-       listButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: mySearchBar.rightAnchor , right: view.rightAnchor,paddingTop: 10,paddingLeft: 0, paddingRight: 20 , width: 50, height: 50)
+       listButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                         left: mySearchBar.rightAnchor, bottom: mySearchBar.bottomAnchor ,right: view.rightAnchor,
+                         paddingTop: 0,
+                         paddingLeft: 0, paddingBottom: 0,
+                         paddingRight: 20 , width: 50)
         view.addSubview(tableView)
-        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
         
     }
   
 }
+//MARK: Delegate/Protocols
+
 extension HomeSceneViewController: OpenAllTipsScene {
-    
     func passData() {
-        
         self.interactor?.didTapSeeAllTips(request: HomeScene.ShowAllTips.Request(data: dataSource))
     }
+}
+extension HomeSceneViewController: SendDelegatTovc {
+  
+    func passDataToVc(with title: String) {
+       
+        guard let tipObject =  self.dataSource.filter({$0.title == title }).first else { return }
+        self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tip: tipObject))
+    }
+}
+extension HomeSceneViewController: SeeAllJobsDelegate {
+    func didTapSeeALL() {
+        self.interactor?.didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request())
+        
+    }
+    
     
 }
 extension HomeSceneViewController : UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
     }
 }
+
+//MARK: display logic methods
+
 extension HomeSceneViewController: HomeSceneDisplayLogic {
     
+    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel) {
+        DispatchQueue.main.async {[weak self] in
+            self?.setJobsTableData(data: viewModel.data)
+        }
+    }
+    func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
+        router?.navigateToAllJobsScene()
+    }
+    
+    
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel) {
-        
         router?.navigateToAllTipsListScene()
     }
     
-   
-    
     func displayTips(viewModel: HomeScene.GetTips.ViewModel) {
         DispatchQueue.main.async {[weak self] in
-            self?.setTableData(data: viewModel.data)
+            self?.setTipsTableData(data: viewModel.data)
         }
+    }
+    
+    func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
+        router?.navigateToDetailsScene()
+        print("vc")
     }
 }
 
@@ -146,13 +189,13 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0, 2:
-             return 50
+             return 30
         case 1:
-             return 220
+             return 170
         case 3:
-            return 80
+            return 60
         default:
-          return 120
+          return 300
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -169,16 +212,16 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.deque(class: FirstTableViewCell.self, for: indexPath)
             cell.textlb.text = "Tips for you"
             cell.delegate = self
-            cell.forPassData = dataSource
             cell.selectionStyle = .none
             return cell
         case 1 :
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
+            cell.delegate = self
             cell.tipsArray = dataSource
             return cell
         case 2:
-            let cell = tableView.deque(class: FirstTableViewCell.self, for: indexPath)
-            cell.textlb.text = "Job recomendation"
+            let cell = tableView.deque(class: SeeAllJobsTableViewCell.self, for: indexPath)
+            cell.delegate = self
             cell.selectionStyle = .none
             return cell
         case 3:
@@ -186,9 +229,8 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         
             return cell
         case 4:
-            let cell = tableView.deque(class: JobListTableViewCell.self, for: indexPath)
-            cell.configureCell(with: JobModel(logoImage: "job1", brand: "Motus Line", jobTitle: " Transportation Manager", location: "Tbilisi, Georgia", jobType: "Full time", sallary: 1200, isFavorite: false))
-        
+            let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
+                cell.jobsConteiner = jobsDataSource
             return cell
         default:
             fatalError("error while cell return")

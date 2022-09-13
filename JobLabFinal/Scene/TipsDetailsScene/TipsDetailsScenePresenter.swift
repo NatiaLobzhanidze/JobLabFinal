@@ -14,18 +14,19 @@ import UIKit
 
 protocol TipsDetailsScenePresentationLogic
 {
-  func presentSomething(response: TipsDetailsScene.Something.Response)
+  func presentDetails(response: TipsDetailsScene.Details.Response)
 }
 
 class TipsDetailsScenePresenter: TipsDetailsScenePresentationLogic
 {
   weak var viewController: TipsDetailsSceneDisplayLogic?
   
-  // MARK: Do something
+  // MARK: Methods
   
-  func presentSomething(response: TipsDetailsScene.Something.Response)
+  func presentDetails(response: TipsDetailsScene.Details.Response)
   {
-    let viewModel = TipsDetailsScene.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
+      let data = response.tip
+    let viewModel = TipsDetailsScene.Details.ViewModel(tipDetails: data)
+      viewController?.displayDetails(viewModel: viewModel)
   }
 }

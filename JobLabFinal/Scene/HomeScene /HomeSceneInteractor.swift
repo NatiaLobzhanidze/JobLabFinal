@@ -15,23 +15,37 @@ import UIKit
 protocol HomeSceneBusinessLogic
 {
     func getTips(request: HomeScene.GetTips.Request)
+    func getJobs(request: HomeScene.Getjobs.Request)
+    
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
+    func seeTipsDetails(request: HomeScene.SeeDetails.Request )
+    func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request)
 }
 
 protocol HomeSceneDataStore
 {
     var passingData: [TipsModel] { get }
+    var selectedTip: TipsModel? { get }
+    var passingJob: [JobModel] { get }
 }
 
 class HomeSceneInteractor: HomeSceneDataStore
 {
-    var passingData = [TipsModel]()
+    // MARK: Clean components
     
     var presenter: HomeScenePresentationLogic?
     var worker: HomeSceneWorker
     
+    //MARK: Models Array
+    
     var tips = [TipsModel]()
     var currentData: [TipsModel]?
+    var fetchedJobs = [JobModel]()
+    
+    var selectedTip: TipsModel?
+    
+    var passingData = [TipsModel]()
+    var passingJob = [JobModel]()
     
     // MARK: Object Lifecycle
     
@@ -42,12 +56,32 @@ class HomeSceneInteractor: HomeSceneDataStore
 }
 
 extension HomeSceneInteractor:  HomeSceneBusinessLogic {
+    
+    func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request) {
+        presenter?.presentAllJobs(response: HomeScene.ShowAllJobs.Response(data: passingJob))
+    }
+    func seeTipsDetails(request: HomeScene.SeeDetails.Request) {
+        self.selectedTip = request.tip
+        presenter?.presnetTipsDetails(response: HomeScene.SeeDetails.Response())
+
+    }
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request) {
         self.passingData = tips
         presenter?.presentAllTips(response: HomeScene.ShowAllTips.Response())
     }
     
+     //MARK: NetworkCall
     
+    func getJobs(request: HomeScene.Getjobs.Request) {
+        Task {
+        let jobResponse = try await worker.fetchAllJobs()
+        DispatchQueue.main.async { [weak self] in
+            self?.passingJob = jobResponse
+            self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: jobResponse))
+    
+        }
+        }
+    }
     func getTips(request: HomeScene.GetTips.Request) {
         Task {
             do {
@@ -61,4 +95,6 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
             }
         }
     }
+    
+ 
 }

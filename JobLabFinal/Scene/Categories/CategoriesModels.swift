@@ -30,7 +30,6 @@ enum Categories
   }
     
     enum CategoriesField {
-        static let categoriesFields = ["Art & Design", "Programming", "Marketing", "Sales", "Healthycare", "Content Writer", "Finance", "Food & Restourant", "Construction"]
-        //static let circleSizes = [30, 70, 73, 55, 35, 70, 30, 75, 45, 85, 30,  70]
+        static let categoriesFields = ["All", "Art & Design", "Programming", "Marketing", "Sales", "Healthycare", "Content Writer", "Finance", "Food & Restourant", "Construction"]
     }
 }

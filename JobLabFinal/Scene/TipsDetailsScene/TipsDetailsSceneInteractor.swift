@@ -14,7 +14,7 @@ import UIKit
 
 protocol TipsDetailsSceneBusinessLogic
 {
-  func doSomething(request: TipsDetailsScene.Something.Request)
+  func getDetails(request: TipsDetailsScene.Details.Request)
 }
 
 protocol TipsDetailsSceneDataStore
@@ -22,20 +22,24 @@ protocol TipsDetailsSceneDataStore
   //var name: String { get set }
 }
 
-class TipsDetailsSceneInteractor: TipsDetailsSceneBusinessLogic, TipsDetailsSceneDataStore
+class TipsDetailsSceneInteractor:  TipsDetailsSceneDataStore
 {
   var presenter: TipsDetailsScenePresentationLogic?
-  var worker: TipsDetailsSceneWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: TipsDetailsScene.Something.Request)
-  {
-    worker = TipsDetailsSceneWorker()
-    worker?.doSomeWork()
+    private(set) var selectedTip: TipsModel
     
-    let response = TipsDetailsScene.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    init(presenter: TipsDetailsScenePresentationLogic, selectedTip: TipsModel) {
+        self.presenter = presenter
+        self.selectedTip = selectedTip
+    }
+  
+    
+}
+extension TipsDetailsSceneInteractor: TipsDetailsSceneBusinessLogic {
+    func getDetails(request: TipsDetailsScene.Details.Request) {
+        
+        let response = TipsDetailsScene.Details.Response(tip: selectedTip)
+        presenter?.presentDetails(response: response)
+    }
+    
+    
 }

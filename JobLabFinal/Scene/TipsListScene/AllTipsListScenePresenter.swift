@@ -15,20 +15,27 @@ import UIKit
 protocol AllTipsListScenePresentationLogic
 {
     func presentAllTipsList(response: AllTipsListScene.ShowAllTipsList.Response)
+    func presentTipsDetails(response: AllTipsListScene.SeeDetails.Response)
 }
 
 class AllTipsListScenePresenter: AllTipsListScenePresentationLogic
 {
    
    
+   
   weak var viewController: AllTipsListSceneDisplayLogic?
   
-  // MARK: Do something
-  
+  // MARK: PresentationLogic Protocol Methods
+    
 func presentAllTipsList(response: AllTipsListScene.ShowAllTipsList.Response) {
     
     let viewModel = AllTipsListScene.ShowAllTipsList.ViewModel(data: response.data)
     
     viewController?.displayAllTipsList(viewModel: viewModel)
   }
+   
+func presentTipsDetails(response: AllTipsListScene.SeeDetails.Response) {
+    viewController?.displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel())
+    }
+    
 }

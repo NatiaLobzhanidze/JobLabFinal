@@ -15,10 +15,13 @@ import UIKit
 protocol AllTipsListSceneDisplayLogic: AnyObject
 {
     func displayAllTipsList(viewModel: AllTipsListScene.ShowAllTipsList.ViewModel)
+    func displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel)
 }
 
 class AllTipsListSceneViewController: UIViewController
 {
+    //MARK: Clean Components
+    
   var interactor: AllTipsListSceneBusinessLogic?
   var router: (AllTipsListSceneRoutingLogic & AllTipsListSceneDataPassing)?
     
@@ -30,7 +33,7 @@ class AllTipsListSceneViewController: UIViewController
     }
     
     private lazy var collectionView: UICollectionView = {
-        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 4))
+        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width - 40 , height: UIScreen.main.bounds.height / 7))
     
         return sm
     }()
@@ -67,11 +70,13 @@ class AllTipsListSceneViewController: UIViewController
         view.addSubview(collectionView)
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0)
     }
-
- 
 }
 extension AllTipsListSceneViewController:
     AllTipsListSceneDisplayLogic {
+    func displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel) {
+        router?.navigateToTipsDetails()
+    }
+    
     func displayAllTipsList(viewModel: AllTipsListScene.ShowAllTipsList.ViewModel) {
         DispatchQueue.main.async { [weak self] in
             self?.AllTipsContainer = viewModel.data
@@ -85,13 +90,23 @@ extension AllTipsListSceneViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(AllTipsListCollectionViewCell.self, for: indexPath)
+    
         //cell.myview.backgroundColor = .blue
         cell.configure(with: AllTipsContainer[indexPath.row])
-        
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width, height: 300)
+        CGSize(width: 280, height: 200)
     }
+}
+
+extension AllTipsListSceneViewController : GoDetailsDelegate {
+    func didTapTip(with model: String) {
+        guard let selectedObject = self.AllTipsContainer.filter({$0.title == model}).first else { return }
+        self.interactor?.seeTipsDetails(request: AllTipsListScene.SeeDetails.Request(data: selectedObject))
+    }
+    
+    
 }

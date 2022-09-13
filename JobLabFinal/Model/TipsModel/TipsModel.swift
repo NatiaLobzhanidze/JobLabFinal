@@ -7,9 +7,7 @@
 
 import Foundation
 
-//struct TipsResponse: Decodable {
-//    let tips: [TipsModel]
-//}
+
 struct TipsModel: Decodable {
     
     let title, text, author, authorOccupation, cover: String

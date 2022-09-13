@@ -12,78 +12,131 @@
 
 import UIKit
 
-protocol TipsDetailsSceneDisplayLogic: class
+protocol TipsDetailsSceneDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: TipsDetailsScene.Something.ViewModel)
+    func displayDetails(viewModel: TipsDetailsScene.Details.ViewModel)
 }
 
-class TipsDetailsSceneViewController: UIViewController, TipsDetailsSceneDisplayLogic
+class TipsDetailsSceneViewController: UIViewController
 {
-  var interactor: TipsDetailsSceneBusinessLogic?
-  var router: (NSObjectProtocol & TipsDetailsSceneRoutingLogic & TipsDetailsSceneDataPassing)?
+    // MARK: - Clean Components
+    
+    var interactor: TipsDetailsSceneBusinessLogic?
+    var router: (TipsDetailsSceneRoutingLogic & TipsDetailsSceneDataPassing)?
+    
+    // MARK: - View
+    let banner: UIImageView = {
+        let img = UIImageView()
+        img.contentMode = .scaleAspectFill
+       
+        
+        return img
+    }()
+    
+   lazy var tipTitle: UILabel = {
+        let lb = UILabel()
+       lb.textColor = .white
+       lb.textAlignment = .right
+       lb.numberOfLines = 0
+       lb.font = .systemFont(ofSize: 21, weight: .semibold)
+        return lb
+    }()
+  lazy  var lineView: UIView = {
+      let tiptitlewidht = Int(tipTitle.bounds.size.width)
+      let v = UIView()
+      v.setDimensions(height: 1, width: 100)
+      v.backgroundColor = .white
+      
+      return v
+    }()
+    let author: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .white
+        lb.textAlignment = .right
+        lb.font = .systemFont(ofSize: 19, weight: .medium)
+        lb.numberOfLines = 0
+        return lb
+    }()
+    let occupation: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .white
+        lb.textAlignment = .right
+        lb.numberOfLines = 0
+        return lb
+    }()
+    
+    var textTitle: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .black
+        lb.font = .systemFont(ofSize: 24, weight: .semibold)
+        lb.numberOfLines = 0
 
-  // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-    setup()
-  }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = TipsDetailsSceneInteractor()
-    let presenter = TipsDetailsScenePresenter()
-    let router = TipsDetailsSceneRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
+        return lb
+    }()
+    let article: UITextView = {
+        let txt = UITextView()
+        txt.contentMode = .scaleAspectFill
+        txt.font = .systemFont(ofSize: 16, weight: .semibold)
+        txt.isUserInteractionEnabled = false
+        return txt
+    }()
+    // MARK: Object lifecycle
+    
+    init(interactor: TipsDetailsSceneBusinessLogic,
+         router: (TipsDetailsSceneRoutingLogic & TipsDetailsSceneDataPassing)) {
+        self.interactor = interactor
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
     }
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    doSomething()
-  }
-  
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething()
-  {
-    let request = TipsDetailsScene.Something.Request()
-    interactor?.doSomething(request: request)
-  }
-  
-  func displaySomething(viewModel: TipsDetailsScene.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+    }
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "Tips for you"
+        setUpView()
+        interactor?.getDetails(request: TipsDetailsScene.Details.Request())
+    }
+    
+    // MARK: Set up view
+    
+    private func setUpView() {
+        view.addSubview(banner)
+        banner.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,  right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30,  height: 200)
+        
+        let stackview = UIStackView(arrangedSubviews: [tipTitle,lineView, author, occupation ])
+        stackview.axis = .vertical
+        stackview.alignment = .trailing
+        stackview.distribution = .equalSpacing
+        view.addSubview(stackview)
+        stackview.anchor(top: banner.topAnchor, right: banner.rightAnchor, paddingTop: 0, paddingRight: 15, width: 160 ,height: 200)
+        view.addSubview(textTitle)
+        textTitle.anchor(top: banner.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 90)
+       
+        view.addSubview(article)
+        article.anchor(top: textTitle.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
+        
+    }
+}
+extension TipsDetailsSceneViewController :  TipsDetailsSceneDisplayLogic {
+    func displayDetails(viewModel: TipsDetailsScene.Details.ViewModel) {
+        let model = viewModel.tipDetails
+        self.textTitle.text = model.title
+        self.banner.load(url: URL(string: model.cover)!)
+        
+        self.author.text = model.author
+        self.occupation.text = model.authorOccupation
+        self.tipTitle.text = model.title
+        self.article.text = model.text
+       
+    }
+    
+    
 }

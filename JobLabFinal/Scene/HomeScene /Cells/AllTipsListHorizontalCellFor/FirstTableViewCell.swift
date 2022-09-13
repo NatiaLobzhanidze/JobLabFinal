@@ -11,7 +11,6 @@ protocol OpenAllTipsScene {
 }
 class FirstTableViewCell: UITableViewCell {
     
-    var counter = 0
     
     var delegate: OpenAllTipsScene!
     
@@ -28,7 +27,7 @@ class FirstTableViewCell: UITableViewCell {
     var textlb: UILabel = {
        let lb = UILabel()
         lb.text = "Tips for you"
-        lb.font = .systemFont(ofSize: 20)
+        lb.font = .systemFont(ofSize: 16)
         return lb
     }()
     
@@ -45,6 +44,7 @@ class FirstTableViewCell: UITableViewCell {
     //MARK: @objC methods
       
       @objc func seeAllTipsTapped() {
+          print("es mushaobs")
           self.delegate.passData()
       }
     
@@ -68,9 +68,9 @@ class FirstTableViewCell: UITableViewCell {
 
     private func setUpViews() {
         self.contentView.addSubview(textlb)
-        textlb.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingTop: 10, paddingLeft: 30, paddingBottom: 10,  width: 200)
+        textlb.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0,  width: 200)
         self.contentView.addSubview(seeAllBtn)
-        seeAllBtn.anchor(   right: contentView.rightAnchor, paddingRight: 30, width: 90, height: 30)
+        seeAllBtn.anchor(   right: contentView.rightAnchor, paddingRight: 30, width: 90, height: 27)
         seeAllBtn.centerY(inView: textlb)
         
     }

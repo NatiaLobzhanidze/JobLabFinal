@@ -8,5 +8,6 @@
 import Foundation
 
 enum ApiUrls: String {
-    case tips = "https://run.mocky.io/v3/f60c14ed-dec3-4b5d-be9f-7584d863c3ba"
+    case tips = "https://run.mocky.io/v3/efa374c1-e17b-4430-95fd-12cdc7193d00"
+    case jobs = "https://run.mocky.io/v3/25ab7bc5-899e-48a8-b4ec-59608606a69a"
 }

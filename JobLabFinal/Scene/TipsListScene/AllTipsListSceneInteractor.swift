@@ -15,19 +15,20 @@ import UIKit
 protocol AllTipsListSceneBusinessLogic
 {
     func getAllTips(request: AllTipsListScene.ShowAllTipsList.Request)
+    func seeTipsDetails(request: AllTipsListScene.SeeDetails.Request )
 }
 
 protocol AllTipsListSceneDataStore
 {
-  //var name: String { get set }
+    var selectedTip: TipsModel? { get }
 }
 
-class AllTipsListSceneInteractor: AllTipsListSceneBusinessLogic, AllTipsListSceneDataStore
+class AllTipsListSceneInteractor:  AllTipsListSceneDataStore
 {
-   
   var presenter: AllTipsListScenePresentationLogic?
     private(set) var passedObject: [TipsModel]
-  //var name: String = ""
+    var selectedTip: TipsModel?
+
   
   // MARK: Object LifeCycle
     
@@ -36,9 +37,20 @@ class AllTipsListSceneInteractor: AllTipsListSceneBusinessLogic, AllTipsListScen
         self.passedObject = passedObject
     }
   
+ 
+  
+}
+
+extension AllTipsListSceneInteractor: AllTipsListSceneBusinessLogic {
+    
     func getAllTips(request: AllTipsListScene.ShowAllTipsList.Request) {
       
         let response = AllTipsListScene.ShowAllTipsList.Response(data: self.passedObject)
         self.presenter?.presentAllTipsList(response: response)
+    }
+    
+    func seeTipsDetails(request: AllTipsListScene.SeeDetails.Request) {
+        self.selectedTip = request.data
+        self.presenter?.presentTipsDetails(response: AllTipsListScene.SeeDetails.Response())
     }
 }

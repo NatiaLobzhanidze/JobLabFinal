@@ -45,4 +45,49 @@ enum HomeScene
       
         }
     }
+    enum SeeDetails {
+        struct Request
+        {
+            let tip: TipsModel
+           
+        }
+        struct Response
+        {
+           
+        }
+        struct ViewModel
+        {
+      
+        }
+    }
+    enum ShowAllJobs {
+        struct Request
+        {
+           
+        }
+        struct Response
+        {
+            let data: [JobModel]
+           
+        }
+        struct ViewModel
+        {
+      
+        }
+    }
+    enum Getjobs {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            let data: [JobModel]
+        }
+        struct ViewModel
+        {
+            let data: [JobModel]
+      
+        }
+    }
+
 }
