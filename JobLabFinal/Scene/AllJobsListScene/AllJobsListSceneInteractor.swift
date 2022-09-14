@@ -19,7 +19,7 @@ protocol AllJobsListSceneBusinessLogic
 
 protocol AllJobsListSceneDataStore
 {
-  var jobModel: [JobModel] { get }
+  var myJobModel: [JobModel] { get }
 }
 
 class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
@@ -28,13 +28,13 @@ class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
     
   var presenter: AllJobsListScenePresentationLogic?
 
-    var jobModel:  [JobModel]
+    var myJobModel:  [JobModel]
     
   // MARK: Object LifeCycle
     
-    init(presenter: AllJobsListScenePresentationLogic, jobModel:  [JobModel]) {
+    init(presenter: AllJobsListScenePresentationLogic, myJobModel:  [JobModel]) {
         self.presenter = presenter
-        self.jobModel = jobModel
+        self.myJobModel = myJobModel
     }
   
 
@@ -43,7 +43,7 @@ class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
 extension AllJobsListSceneInteractor: AllJobsListSceneBusinessLogic {
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request) {
    
-        let response = AllJobsListScene.GetAllJobs.Response(data: self.jobModel)
+        let response = AllJobsListScene.GetAllJobs.Response(data: self.myJobModel)
          presenter?.presentAllJobs(response: response)
     }
     

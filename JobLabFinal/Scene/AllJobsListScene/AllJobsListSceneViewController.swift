@@ -68,11 +68,8 @@ class AllJobsListSceneViewController: UIViewController
   }
     
   // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-      view.backgroundColor = .red
+  override func viewDidLoad() {
+      super.viewDidLoad()
       interactor?.getAllJobs(request: AllJobsListScene.GetAllJobs.Request())
       setUpView()
       collectionView.registerClass(class: AllJobsListCollectionViewCell.self)

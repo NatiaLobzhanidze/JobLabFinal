@@ -15,7 +15,7 @@ import UIKit
 protocol HomeSceneBusinessLogic
 {
     func getTips(request: HomeScene.GetTips.Request)
-    func getJobs(request: HomeScene.Getjobs.Request)
+    func getJobs(request: HomeScene.Getjobs.Request) async
     
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
@@ -72,15 +72,18 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     
      //MARK: NetworkCall
     
-    func getJobs(request: HomeScene.Getjobs.Request) {
-        Task {
+    func getJobs(request: HomeScene.Getjobs.Request) async {
+        do {
         let jobResponse = try await worker.fetchAllJobs()
         DispatchQueue.main.async { [weak self] in
             self?.passingJob = jobResponse
             self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: jobResponse))
     
+        
+        } } catch {
+            print(error)
         }
-        }
+        
     }
     func getTips(request: HomeScene.GetTips.Request) {
         Task {

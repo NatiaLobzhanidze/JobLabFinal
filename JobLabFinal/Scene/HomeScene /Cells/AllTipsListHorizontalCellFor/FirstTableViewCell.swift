@@ -16,10 +16,6 @@ class FirstTableViewCell: UITableViewCell {
     
     var forPassData = [TipsModel]() {
         didSet {
-//            let vc = AllTipsListSceneConfiguration.configure(with: forPassData)
-//            vc.AllTipsContainer = forPassData
-            
-           // self.delegate.passData(data: forPassData)
         }
     }
     
@@ -44,7 +40,6 @@ class FirstTableViewCell: UITableViewCell {
     //MARK: @objC methods
       
       @objc func seeAllTipsTapped() {
-          print("es mushaobs")
           self.delegate.passData()
       }
     

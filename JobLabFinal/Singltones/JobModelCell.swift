@@ -15,28 +15,21 @@ class JobModelStackview {
     private init() { }
     
      func setUpViews(location: UILabel, jobTimeType: UILabel, jobName: UILabel, employerName: UILabel, favoriteButton: UIButton,sallery: UILabel, logoImage: UIImageView, view: UIView ) {
-        
-          let innerStackview1 = UIStackView(arrangedSubviews: [ jobTimeType])
-          innerStackview1.axis = .horizontal
-          innerStackview1.distribution = .fillEqually
-          innerStackview1.spacing = 0
-         // innerStackview1.setDimensions(height: 50, width: 220)
+         view.addSubview(logoImage)
+         logoImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor,  paddingTop: 10, paddingLeft: 20, paddingBottom: 10)
+
           let stackview1 = UIStackView(arrangedSubviews: [jobName, employerName])
           stackview1.axis = .vertical
-          let innerStackview2 = UIStackView(arrangedSubviews: [favoriteButton, sallery])
-          innerStackview2.axis = .vertical
-          innerStackview2.distribution = .fillProportionally
-          innerStackview2.alignment = .fill
-          
+          stackview1.spacing = 10
+          stackview1.distribution = .fill
       
-         let mainStackview = UIStackView(arrangedSubviews: [logoImage, stackview1, innerStackview2])
+         let mainStackview = UIStackView(arrangedSubviews: [stackview1, favoriteButton])
           mainStackview.axis = .horizontal
           mainStackview.distribution = .fill
-         mainStackview.spacing = 10
-          
+          mainStackview.spacing = 10
           
           view.addSubview(mainStackview)
-          mainStackview.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 5, paddingRight: 5)
+          mainStackview.anchor(top: logoImage.topAnchor, left: logoImage.rightAnchor, bottom: logoImage.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 20)
           
       }
 }

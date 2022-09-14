@@ -9,5 +9,6 @@ import Foundation
 
 enum ApiUrls: String {
     case tips = "https://run.mocky.io/v3/efa374c1-e17b-4430-95fd-12cdc7193d00"
-    case jobs = "https://run.mocky.io/v3/25ab7bc5-899e-48a8-b4ec-59608606a69a"
+    case jobs = "https://run.mocky.io/v3/cdb997dc-380f-4fe2-a2a0-2723d5be0f51"
 }
+

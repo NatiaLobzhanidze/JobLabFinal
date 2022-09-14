@@ -7,14 +7,24 @@
 
 import Foundation
 
-struct JobModel: Decodable {
-    let logoImage, brand, jobTitle, location, jobType,  category: String
+struct JobModel: Codable {
+    
+    let logoImage: String
+    let brand : String
+    let jobTitle: String
+    let location: String
+    let jobType: String
+    let category: String
     let sallary: Int
 }
 
-struct Job: Decodable {
-    
-  
-    
-}
 
+struct newJobModeL: Codable {
+    let logoImage: String
+    let brand : String
+    let jobTitle: String
+    let location: String
+    let jobType: String
+    let category: String
+    let sallary: Int
+}

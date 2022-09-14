@@ -33,14 +33,23 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
     private var jobsDataSource = [JobModel]()
     private var selectedtip: TipsModel!
     
-   //MARK: UI Elements
-    
+   //MARK: View
+    let backView: UIView = {
+        let v = UIView()
+        v.backgroundColor = hexStringToUIColor(hex: "#E6E7EA")
+        v.layer.cornerRadius = 20
+        return v
+    }()
     let mySearchBar: UISearchBar = {
         let sr = UISearchBar()
-        sr.searchBarStyle = UISearchBar.Style.minimal
-        sr.placeholder = " Search..."
+        sr.searchBarStyle = .minimal
+        sr.backgroundColor = .clear
+        sr.searchTextField.backgroundColor = .clear
+        sr.barTintColor = .clear
+      
+        sr.placeholder = " Search job ..."
         sr.sizeToFit()
-        sr.isTranslucent = false
+//sr.isTranslucent = true
     
         return sr
     }()
@@ -73,7 +82,7 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
     
   // MARK: View lifecycle
   
-  override func viewDidLoad()
+    override func viewDidLoad() 
   {
       super.viewDidLoad()
       view.backgroundColor = .white
@@ -81,11 +90,16 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
       
       mySearchBar.delegate = self
       setUpTableView()
-      
+
       interactor?.getTips(request: HomeScene.GetTips.Request())
-      interactor?.getJobs(request: HomeScene.Getjobs.Request())
+      getdt()
     
   }
+    func getdt() {
+        Task {
+            await interactor?.getJobs(request: HomeScene.Getjobs.Request())
+        }
+    }
   // MARK: Private methods
     private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
@@ -112,19 +126,30 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
     }
     
    private func setUpViews() {
-        view.addSubview(mySearchBar)
-        mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,  paddingTop: 0, paddingLeft: 20, height: 40)
-       view.addSubview(listButton)
-       listButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                         left: mySearchBar.rightAnchor, bottom: mySearchBar.bottomAnchor ,right: view.rightAnchor,
-                         paddingTop: 0,
-                         paddingLeft: 0, paddingBottom: 0,
-                         paddingRight: 20 , width: 50)
+       view.addSubview(mySearchBar)
+       mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                          left: view.leftAnchor,
+                         
+                          right: view.rightAnchor,
+                          paddingTop: 0, paddingLeft: 20,  paddingRight: 20,height: 40)
+       mySearchBar.addSubview(listButton)
+       listButton.anchor(top: mySearchBar.topAnchor,
+                         left: mySearchBar.rightAnchor, bottom: mySearchBar.bottomAnchor ,right: mySearchBar.rightAnchor,
+                         paddingTop: 5,
+                         paddingLeft: 10, paddingBottom: 5,
+                         paddingRight: 10 , width: 30)
         view.addSubview(tableView)
-        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
         
     }
   
+}
+//MARK:
+extension HomeSceneViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+       // interactor?.filterCountries(request: Countries.FilterCountries.Request(keyword: text))
+    }
 }
 //MARK: Delegate/Protocols
 
@@ -146,8 +171,6 @@ extension HomeSceneViewController: SeeAllJobsDelegate {
         self.interactor?.didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request())
         
     }
-    
-    
 }
 extension HomeSceneViewController : UISearchBarDelegate {
     
@@ -185,6 +208,8 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     }
 }
 
+//MARK: Tableview delegate, dataSource protocol methods
+
 extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
@@ -195,7 +220,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         case 3:
             return 60
         default:
-          return 300
+          return 350
         }
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -237,3 +262,4 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+

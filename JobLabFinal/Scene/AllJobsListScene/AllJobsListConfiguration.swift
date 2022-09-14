@@ -10,7 +10,7 @@ import Foundation
 enum AlljobsListControllerConfiguration {
     static func configure(with modelObject: [JobModel]) -> AllJobsListSceneViewController {
         let presenter = AllJobsListScenePresenter()
-        let interactor = AllJobsListSceneInteractor(presenter: presenter, jobModel: modelObject)
+        let interactor = AllJobsListSceneInteractor(presenter: presenter, myJobModel: modelObject)
         let router = AllJobsListSceneRouter(dataStore: interactor)
         let viewController = AllJobsListSceneViewController(interactor: interactor, router: router)
         presenter.viewController = viewController

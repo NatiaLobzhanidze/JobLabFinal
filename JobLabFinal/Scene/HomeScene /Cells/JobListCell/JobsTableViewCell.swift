@@ -8,22 +8,23 @@
 import UIKit
 
 class JobsTableViewCell: UITableViewCell {
-   
     
     //MARK: View
     
     let collectionView: UICollectionView = {
         let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width  - 40, height: 120))
-      
         return cv
-        
     }()
-    //MARK: stored properties
+    
+    //MARK:  properties
     var jobsConteiner = [JobModel]() {
         didSet {
             self.collectionView.reloadData()
         }
     }
+    
+    
+    //MARK: View lifeCycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,13 +48,16 @@ class JobsTableViewCell: UITableViewCell {
 
         setUpViews()
     }
+    
+    // MARK: Private Methods
+    
     private func setUpViews() {
-        
         self.contentView.addSubview(collectionView)
         collectionView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
-
 }
+
+//MARK: Collectionview dataSoruce, delegate protocols
 
 extension JobsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -63,12 +67,12 @@ extension JobsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(AllJobsListCollectionViewCell.self, for: indexPath)
         cell.configureCell(with: jobsConteiner[indexPath.row])
+        cell.layer.borderWidth = 0.5
+        cell.layer.borderColor = UIColor.tintColor.cgColor
+        cell.layer.cornerRadius = 20
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-           
-          
-        return CGSize(width: UIScreen.main.bounds.width - 40, height: 100)
+        return CGSize(width: UIScreen.main.bounds.width - 30, height: 90)
         }
-    
 }
