@@ -17,8 +17,11 @@ protocol HomeScenePresentationLogic
   func presentTipsData(response: HomeScene.GetTips.Response)
   func presentAllTips(response: HomeScene.ShowAllTips.Response)
   func presnetTipsDetails(response: HomeScene.SeeDetails.Response)
+  func presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response)
   func presentAllJobs(response: HomeScene.ShowAllJobs.Response)
   func presentFetchedJobs(response: HomeScene.Getjobs.Response)
+  func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
+  func presentjobsByCategory(response: HomeScene.FilterJobs.Response)
 }
 
 class HomeScenePresenter
@@ -30,6 +33,20 @@ class HomeScenePresenter
 }
 
 extension HomeScenePresenter: HomeScenePresentationLogic {
+    func presentjobsByCategory(response: HomeScene.FilterJobs.Response) {
+        let viewModel  = response.data
+        viewController?.displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))
+    }
+    
+    func presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response) {
+        viewController?.displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel())
+    }
+    
+    func presentFilteredJobs(response: HomeScene.FilterJobs.Response) {
+        let viewModel =  response.data
+        viewController?.displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))
+    }
+    
     
     func presentFetchedJobs(response: HomeScene.Getjobs.Response) {
         let viewModel = response.data

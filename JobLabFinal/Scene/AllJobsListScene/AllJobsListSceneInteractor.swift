@@ -15,11 +15,14 @@ import UIKit
 protocol AllJobsListSceneBusinessLogic
 {
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request)
+    func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request)
+    func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request)
 }
 
 protocol AllJobsListSceneDataStore
 {
   var myJobModel: [JobModel] { get }
+  var selectedJob: JobModel? { get }
 }
 
 class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
@@ -29,7 +32,7 @@ class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
   var presenter: AllJobsListScenePresentationLogic?
 
     var myJobModel:  [JobModel]
-    
+    var selectedJob: JobModel?
   // MARK: Object LifeCycle
     
     init(presenter: AllJobsListScenePresentationLogic, myJobModel:  [JobModel]) {
@@ -41,6 +44,22 @@ class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
 }
 
 extension AllJobsListSceneInteractor: AllJobsListSceneBusinessLogic {
+    func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request) {
+        self.selectedJob = request.data
+        presenter?.presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response())
+    }
+    
+    func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request) {
+        let keyword = request.keyword.lowercased()
+        let filteredJobs = myJobModel.filter({$0.jobTitle.lowercased().contains(keyword) })
+        if keyword != "" {
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: filteredJobs))
+        } else {
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: myJobModel))
+        }
+        
+    }
+    
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request) {
    
         let response = AllJobsListScene.GetAllJobs.Response(data: self.myJobModel)

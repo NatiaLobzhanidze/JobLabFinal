@@ -90,8 +90,6 @@ extension AllTipsListSceneViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(AllTipsListCollectionViewCell.self, for: indexPath)
-    
-        //cell.myview.backgroundColor = .blue
         cell.configure(with: AllTipsContainer[indexPath.row])
         cell.delegate = self
         return cell
@@ -107,6 +105,4 @@ extension AllTipsListSceneViewController : GoDetailsDelegate {
         guard let selectedObject = self.AllTipsContainer.filter({$0.title == model}).first else { return }
         self.interactor?.seeTipsDetails(request: AllTipsListScene.SeeDetails.Request(data: selectedObject))
     }
-    
-    
 }

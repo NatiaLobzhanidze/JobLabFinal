@@ -15,10 +15,15 @@ import UIKit
 protocol AllJobsListScenePresentationLogic
 {
     func presentAllJobs(response: AllJobsListScene.GetAllJobs.Response)
+    func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
+    func presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response)
 }
 
 class AllJobsListScenePresenter: AllJobsListScenePresentationLogic
 {
+   
+   
+    
   
     
   weak var viewController: AllJobsListSceneDisplayLogic?
@@ -31,5 +36,13 @@ class AllJobsListScenePresenter: AllJobsListScenePresentationLogic
         let viewModel = AllJobsListScene.GetAllJobs.ViewModel(data: response.data)
         viewController?.displayJobsList(viewModel: viewModel)
     }
-  
+    
+    func presentFilteredJobs(response: HomeScene.FilterJobs.Response) {
+        let viewModel = response.data
+        viewController?.displayFilteredJobs(viewModel: AllJobsListScene.FilterJobs.ViewModel(data: viewModel))
+    }
+    func presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response) {
+        viewController?.displayJobDetailsScene(viewModel: AllJobsListScene.SeeJobDetails.ViewModel())
+    }
+    
 }

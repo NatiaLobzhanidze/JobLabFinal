@@ -21,7 +21,6 @@
 		6075AC2C28BF926300FD823A /* OnBoardingConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC2B28BF926300FD823A /* OnBoardingConfigure.swift */; };
 		6075AC3028BF954A00FD823A /* OnBoardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC2F28BF954A00FD823A /* OnBoardingModel.swift */; };
 		6075AC3328BFA43800FD823A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC3228BFA43800FD823A /* OnboardCollectionViewCell.swift */; };
-		6075AC3828C0999400FD823A /* CustomCollectionViewExtension .swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC3728C0999400FD823A /* CustomCollectionViewExtension .swift */; };
 		6075AC3B28C09F3E00FD823A /* ConstraintsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC3A28C09F3E00FD823A /* ConstraintsExtensions.swift */; };
 		6075AC4028C09F8F00FD823A /* AllertMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC3F28C09F8F00FD823A /* AllertMessageExt.swift */; };
 		6075AC4228C0A3E200FD823A /* CollectionViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC4128C0A3E200FD823A /* CollectionViewExtensions.swift */; };
@@ -104,7 +103,6 @@
 		60D07F6728CDCBCE00D8562B /* TipsDetailsSceneInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F6128CDCBCE00D8562B /* TipsDetailsSceneInteractor.swift */; };
 		60D07F6928CDEAFE00D8562B /* TipsDetailsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F6828CDEAFE00D8562B /* TipsDetailsConfiguration.swift */; };
 		60D07F7428CF34FD00D8562B /* AllJobsListScenePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F6E28CF34FD00D8562B /* AllJobsListScenePresenter.swift */; };
-		60D07F7528CF34FD00D8562B /* AllJobsListSceneWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F6F28CF34FD00D8562B /* AllJobsListSceneWorker.swift */; };
 		60D07F7628CF34FD00D8562B /* AllJobsListSceneRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F7028CF34FD00D8562B /* AllJobsListSceneRouter.swift */; };
 		60D07F7728CF34FD00D8562B /* AllJobsListSceneModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F7128CF34FD00D8562B /* AllJobsListSceneModels.swift */; };
 		60D07F7828CF34FD00D8562B /* AllJobsListSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F7228CF34FD00D8562B /* AllJobsListSceneViewController.swift */; };
@@ -115,6 +113,15 @@
 		60D07F8528CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8428CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift */; };
 		60D07F8728CF9AA600D8562B /* JobModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8628CF9AA600D8562B /* JobModelCell.swift */; };
 		60D07F8928CFA19300D8562B /* JobsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8828CFA19300D8562B /* JobsTableViewCell.swift */; };
+		60D07F9228D28C3100D8562B /* JobDetailsScenePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8C28D28C3100D8562B /* JobDetailsScenePresenter.swift */; };
+		60D07F9328D28C3100D8562B /* JobDetailsSceneWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8D28D28C3100D8562B /* JobDetailsSceneWorker.swift */; };
+		60D07F9428D28C3100D8562B /* JobDetailsSceneRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8E28D28C3100D8562B /* JobDetailsSceneRouter.swift */; };
+		60D07F9528D28C3100D8562B /* JobDetailsSceneModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8F28D28C3100D8562B /* JobDetailsSceneModels.swift */; };
+		60D07F9628D28C3100D8562B /* JobDetailsSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F9028D28C3100D8562B /* JobDetailsSceneViewController.swift */; };
+		60D07F9728D28C3100D8562B /* JobDetailsSceneInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F9128D28C3100D8562B /* JobDetailsSceneInteractor.swift */; };
+		60D07F9928D28CED00D8562B /* JobDetailsViewControllerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F9828D28CED00D8562B /* JobDetailsViewControllerConfiguration.swift */; };
+		60D07F9B28D345CD00D8562B /* AddBorderLinesToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F9A28D345CD00D8562B /* AddBorderLinesToView.swift */; };
+		60D07F9E28D3473A00D8562B /* RequirementsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F9D28D3473A00D8562B /* RequirementsCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,7 +141,6 @@
 		6075AC2B28BF926300FD823A /* OnBoardingConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingConfigure.swift; sourceTree = "<group>"; };
 		6075AC2F28BF954A00FD823A /* OnBoardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingModel.swift; sourceTree = "<group>"; };
 		6075AC3228BFA43800FD823A /* OnboardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardCollectionViewCell.swift; sourceTree = "<group>"; };
-		6075AC3728C0999400FD823A /* CustomCollectionViewExtension .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomCollectionViewExtension .swift"; sourceTree = "<group>"; };
 		6075AC3A28C09F3E00FD823A /* ConstraintsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintsExtensions.swift; sourceTree = "<group>"; };
 		6075AC3F28C09F8F00FD823A /* AllertMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllertMessageExt.swift; sourceTree = "<group>"; };
 		6075AC4128C0A3E200FD823A /* CollectionViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtensions.swift; sourceTree = "<group>"; };
@@ -217,7 +223,6 @@
 		60D07F6128CDCBCE00D8562B /* TipsDetailsSceneInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsDetailsSceneInteractor.swift; sourceTree = "<group>"; };
 		60D07F6828CDEAFE00D8562B /* TipsDetailsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsDetailsConfiguration.swift; sourceTree = "<group>"; };
 		60D07F6E28CF34FD00D8562B /* AllJobsListScenePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListScenePresenter.swift; sourceTree = "<group>"; };
-		60D07F6F28CF34FD00D8562B /* AllJobsListSceneWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListSceneWorker.swift; sourceTree = "<group>"; };
 		60D07F7028CF34FD00D8562B /* AllJobsListSceneRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListSceneRouter.swift; sourceTree = "<group>"; };
 		60D07F7128CF34FD00D8562B /* AllJobsListSceneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListSceneModels.swift; sourceTree = "<group>"; };
 		60D07F7228CF34FD00D8562B /* AllJobsListSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListSceneViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +233,15 @@
 		60D07F8428CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		60D07F8628CF9AA600D8562B /* JobModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobModelCell.swift; sourceTree = "<group>"; };
 		60D07F8828CFA19300D8562B /* JobsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsTableViewCell.swift; sourceTree = "<group>"; };
+		60D07F8C28D28C3100D8562B /* JobDetailsScenePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsScenePresenter.swift; path = JobLabFinal/Scene/JobDetailsScenePresenter.swift; sourceTree = SOURCE_ROOT; };
+		60D07F8D28D28C3100D8562B /* JobDetailsSceneWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsSceneWorker.swift; path = JobLabFinal/Scene/JobDetailsSceneWorker.swift; sourceTree = SOURCE_ROOT; };
+		60D07F8E28D28C3100D8562B /* JobDetailsSceneRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsSceneRouter.swift; path = JobLabFinal/Scene/JobDetailsSceneRouter.swift; sourceTree = SOURCE_ROOT; };
+		60D07F8F28D28C3100D8562B /* JobDetailsSceneModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsSceneModels.swift; path = JobLabFinal/Scene/JobDetailsSceneModels.swift; sourceTree = SOURCE_ROOT; };
+		60D07F9028D28C3100D8562B /* JobDetailsSceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsSceneViewController.swift; path = JobLabFinal/Scene/JobDetailsSceneViewController.swift; sourceTree = SOURCE_ROOT; };
+		60D07F9128D28C3100D8562B /* JobDetailsSceneInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsSceneInteractor.swift; path = JobLabFinal/Scene/JobDetailsSceneInteractor.swift; sourceTree = SOURCE_ROOT; };
+		60D07F9828D28CED00D8562B /* JobDetailsViewControllerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDetailsViewControllerConfiguration.swift; sourceTree = "<group>"; };
+		60D07F9A28D345CD00D8562B /* AddBorderLinesToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBorderLinesToView.swift; sourceTree = "<group>"; };
+		60D07F9D28D3473A00D8562B /* RequirementsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequirementsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,9 +308,10 @@
 		6075AC1D28BF918D00FD823A /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				60D07F8B28D28C1300D8562B /* JobDetails */,
 				60D07F6D28CF34DB00D8562B /* AllJobsListScene */,
 				60D07F5B28CDCAB100D8562B /* TipsDetailsScene */,
-				60D07F4328CD292E00D8562B /* TipsListScene */,
+				60D07F4328CD292E00D8562B /* AllTipsListScene */,
 				60D07F1128C8E3AD00D8562B /* HomeScene  */,
 				6075ACA928C6B67C00FD823A /* EditProfile */,
 				6075AC9728C6496A00FD823A /* Categories */,
@@ -347,7 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				6075AC3228BFA43800FD823A /* OnboardCollectionViewCell.swift */,
-				6075AC3728C0999400FD823A /* CustomCollectionViewExtension .swift */,
 			);
 			path = OnBoardCollectionViewCell;
 			sourceTree = "<group>";
@@ -363,6 +377,7 @@
 				6075AC6428C28F3A00FD823A /* LabelExtension.swift */,
 				6075AC6628C28FEA00FD823A /* TextFieldExtension.swift */,
 				60D07F3528CB33FE00D8562B /* ImageViewExtension.swift */,
+				60D07F9A28D345CD00D8562B /* AddBorderLinesToView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -463,7 +478,7 @@
 		6075AC9728C6496A00FD823A /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				6075AC9828C6A4E600FD823A /* CircleCells */,
+				6075AC9828C6A4E600FD823A /* SquareCell */,
 				6075AC8F28C6496300FD823A /* CategoriesViewController.swift */,
 				6075AC8B28C6496300FD823A /* CategoriesPresenter.swift */,
 				6075AC8C28C6496300FD823A /* CategoriesWorker.swift */,
@@ -474,13 +489,13 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		6075AC9828C6A4E600FD823A /* CircleCells */ = {
+		6075AC9828C6A4E600FD823A /* SquareCell */ = {
 			isa = PBXGroup;
 			children = (
 				6075AC9928C6A50B00FD823A /* SquareCollectionViewCell.swift */,
 				6075AC9B28C6AF1400FD823A /* LayoutInformation.swift */,
 			);
-			path = CircleCells;
+			path = SquareCell;
 			sourceTree = "<group>";
 		};
 		6075ACA928C6B67C00FD823A /* EditProfile */ = {
@@ -594,7 +609,7 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		60D07F4328CD292E00D8562B /* TipsListScene */ = {
+		60D07F4328CD292E00D8562B /* AllTipsListScene */ = {
 			isa = PBXGroup;
 			children = (
 				60D07F5228CD2A5F00D8562B /* AllTipsCollectionView */,
@@ -605,7 +620,7 @@
 				60D07F4628CD296600D8562B /* AllTipsListSceneRouter.swift */,
 				60D07F4728CD296600D8562B /* AllTipsListSceneModels.swift */,
 			);
-			path = TipsListScene;
+			path = AllTipsListScene;
 			sourceTree = "<group>";
 		};
 		60D07F5228CD2A5F00D8562B /* AllTipsCollectionView */ = {
@@ -641,12 +656,10 @@
 		60D07F6D28CF34DB00D8562B /* AllJobsListScene */ = {
 			isa = PBXGroup;
 			children = (
-				60D07F8328CF8F4D00D8562B /* AllJobsCell */,
 				60D07F7E28CF6C1F00D8562B /* AllJobsListConfiguration.swift */,
 				60D07F7228CF34FD00D8562B /* AllJobsListSceneViewController.swift */,
 				60D07F7328CF34FD00D8562B /* AllJobsListSceneInteractor.swift */,
 				60D07F6E28CF34FD00D8562B /* AllJobsListScenePresenter.swift */,
-				60D07F6F28CF34FD00D8562B /* AllJobsListSceneWorker.swift */,
 				60D07F7028CF34FD00D8562B /* AllJobsListSceneRouter.swift */,
 				60D07F7128CF34FD00D8562B /* AllJobsListSceneModels.swift */,
 			);
@@ -662,19 +675,35 @@
 			path = Singltones;
 			sourceTree = "<group>";
 		};
-		60D07F8328CF8F4D00D8562B /* AllJobsCell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = AllJobsCell;
-			sourceTree = "<group>";
-		};
 		60D07F8A28D11AA200D8562B /* JobModel */ = {
 			isa = PBXGroup;
 			children = (
 				60D07F2B28CA789900D8562B /* JobModel.swift */,
 			);
 			path = JobModel;
+			sourceTree = "<group>";
+		};
+		60D07F8B28D28C1300D8562B /* JobDetails */ = {
+			isa = PBXGroup;
+			children = (
+				60D07F9C28D3470E00D8562B /* Requirements Cell */,
+				60D07F9828D28CED00D8562B /* JobDetailsViewControllerConfiguration.swift */,
+				60D07F9028D28C3100D8562B /* JobDetailsSceneViewController.swift */,
+				60D07F9128D28C3100D8562B /* JobDetailsSceneInteractor.swift */,
+				60D07F8C28D28C3100D8562B /* JobDetailsScenePresenter.swift */,
+				60D07F8E28D28C3100D8562B /* JobDetailsSceneRouter.swift */,
+				60D07F8D28D28C3100D8562B /* JobDetailsSceneWorker.swift */,
+				60D07F8F28D28C3100D8562B /* JobDetailsSceneModels.swift */,
+			);
+			path = JobDetails;
+			sourceTree = "<group>";
+		};
+		60D07F9C28D3470E00D8562B /* Requirements Cell */ = {
+			isa = PBXGroup;
+			children = (
+				60D07F9D28D3473A00D8562B /* RequirementsCell.swift */,
+			);
+			path = "Requirements Cell";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -754,11 +783,11 @@
 				6075AC4228C0A3E200FD823A /* CollectionViewExtensions.swift in Sources */,
 				60D07F6428CDCBCE00D8562B /* TipsDetailsSceneRouter.swift in Sources */,
 				6075ACAC28C8030E00FD823A /* ProfileEdditorableViewCell.swift in Sources */,
+				60D07F9228D28C3100D8562B /* JobDetailsScenePresenter.swift in Sources */,
 				60D07F3428CA8C7B00D8562B /* CollectionViewCell.swift in Sources */,
 				6075AC8428C5476900FD823A /* BottomSheetViewController.swift in Sources */,
 				60D07F3928CB34B700D8562B /* TipsModel.swift in Sources */,
 				6075AC5A28C210C200FD823A /* PageControllFuncs .swift in Sources */,
-				60D07F7528CF34FD00D8562B /* AllJobsListSceneWorker.swift in Sources */,
 				60D07F7628CF34FD00D8562B /* AllJobsListSceneRouter.swift in Sources */,
 				6075AC7B28C3B26F00FD823A /* RegistrationViewController.swift in Sources */,
 				60D07F2428C92A2B00D8562B /* TipsTableViewCell.swift in Sources */,
@@ -766,6 +795,7 @@
 				6075AC0F28BF911C00FD823A /* JobLabFinal.xcdatamodeld in Sources */,
 				60D07F4028CBFEEA00D8562B /* APIURLS.swift in Sources */,
 				6075ACA428C6B67200FD823A /* EditProfileWorker.swift in Sources */,
+				60D07F9728D28C3100D8562B /* JobDetailsSceneInteractor.swift in Sources */,
 				6075AC2C28BF926300FD823A /* OnBoardingConfigure.swift in Sources */,
 				6075AC7728C3B26F00FD823A /* RegistrationPresenter.swift in Sources */,
 				6075AC9328C6496300FD823A /* CategoriesRouter.swift in Sources */,
@@ -777,6 +807,9 @@
 				6075AC8A28C6095900FD823A /* FiltersViewsCells.swift in Sources */,
 				60D07F4228CC6A6900D8562B /* HomeSceneConfiguration.swift in Sources */,
 				6075AC8828C5FFAF00FD823A /* RegistrationConfiguration.swift in Sources */,
+				60D07F9528D28C3100D8562B /* JobDetailsSceneModels.swift in Sources */,
+				60D07F9928D28CED00D8562B /* JobDetailsViewControllerConfiguration.swift in Sources */,
+				60D07F9328D28C3100D8562B /* JobDetailsSceneWorker.swift in Sources */,
 				6075AC6528C28F3A00FD823A /* LabelExtension.swift in Sources */,
 				6075AC8628C5FBC600FD823A /* ConfigurAuthVC.swift in Sources */,
 				6075AC6728C28FEA00FD823A /* TextFieldExtension.swift in Sources */,
@@ -787,6 +820,7 @@
 				6075AC9A28C6A50B00FD823A /* SquareCollectionViewCell.swift in Sources */,
 				6075ACA328C6B67200FD823A /* EditProfilePresenter.swift in Sources */,
 				60D07F3028CA866F00D8562B /* FilterTableViewCell.swift in Sources */,
+				60D07F9E28D3473A00D8562B /* RequirementsCell.swift in Sources */,
 				6075ACA828C6B67200FD823A /* EditProfileInteractor.swift in Sources */,
 				60D07F7F28CF6C1F00D8562B /* AllJobsListConfiguration.swift in Sources */,
 				6075AC0728BF911C00FD823A /* SceneDelegate.swift in Sources */,
@@ -813,8 +847,11 @@
 				6075AC8228C544B600FD823A /* PresentationController.swift in Sources */,
 				60D07F8228CF8D9100D8562B /* CollevtionViewSingltones.swift in Sources */,
 				6075AC5828C15E4000FD823A /* AuthenticationInteractor.swift in Sources */,
+				60D07F9B28D345CD00D8562B /* AddBorderLinesToView.swift in Sources */,
 				60D07F4F28CD296600D8562B /* AllTipsListSceneInteractor.swift in Sources */,
 				60D07F3C28CBF8AE00D8562B /* APIManager.swift in Sources */,
+				60D07F9628D28C3100D8562B /* JobDetailsSceneViewController.swift in Sources */,
+				60D07F9428D28C3100D8562B /* JobDetailsSceneRouter.swift in Sources */,
 				6075AC2828BF922E00FD823A /* OnBoardingModels.swift in Sources */,
 				60D07F1A28C8E3FC00D8562B /* HomeSceneRouter.swift in Sources */,
 				60D07F1C28C8E3FC00D8562B /* HomeSceneViewController.swift in Sources */,
@@ -829,7 +866,6 @@
 				6075AC5328C15E4000FD823A /* AuthenticationPresenter.swift in Sources */,
 				6075AC7A28C3B26F00FD823A /* RegistrationModels.swift in Sources */,
 				6075ACA528C6B67200FD823A /* EditProfileRouter.swift in Sources */,
-				6075AC3828C0999400FD823A /* CustomCollectionViewExtension .swift in Sources */,
 				6075AC9128C6496300FD823A /* CategoriesPresenter.swift in Sources */,
 				6075AC7828C3B26F00FD823A /* RegistrationWorker.swift in Sources */,
 				6075AC6328C28F1600FD823A /* ColorExtensions.swift in Sources */,

@@ -19,7 +19,11 @@ protocol HomeSceneBusinessLogic
     
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
+    func seeJobDetails(request: HomeScene.SeeJobDetails.Request)
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request)
+    func getFilteredJobs(request: HomeScene.FilterJobs.Request)
+    
+    func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
 }
 
 protocol HomeSceneDataStore
@@ -27,6 +31,7 @@ protocol HomeSceneDataStore
     var passingData: [TipsModel] { get }
     var selectedTip: TipsModel? { get }
     var passingJob: [JobModel] { get }
+    var selectedJob: JobModel? { get }
 }
 
 class HomeSceneInteractor: HomeSceneDataStore
@@ -43,6 +48,7 @@ class HomeSceneInteractor: HomeSceneDataStore
     var fetchedJobs = [JobModel]()
     
     var selectedTip: TipsModel?
+    var selectedJob: JobModel?
     
     var passingData = [TipsModel]()
     var passingJob = [JobModel]()
@@ -56,10 +62,41 @@ class HomeSceneInteractor: HomeSceneDataStore
 }
 
 extension HomeSceneInteractor:  HomeSceneBusinessLogic {
+    func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
+        let keyword = request.keyword.lowercased()
+        if keyword == "all jobs" {
+            presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: passingJob))
+        } else {
+            
+            let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
+            presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: filteredJobs))
+        }
+        
+    }
+    
+  
+    
+    func seeJobDetails(request: HomeScene.SeeJobDetails.Request) {
+        self.selectedJob = request.job
+        presenter?.presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response())
+    }
+    
+    
+    func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
+        let keyword = request.keyword.lowercased()
+        let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword) })
+        if keyword != "" {
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: filteredJobs))
+        } else {
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: passingJob))
+        }
+        
+    }
     
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request) {
         presenter?.presentAllJobs(response: HomeScene.ShowAllJobs.Response(data: passingJob))
     }
+    
     func seeTipsDetails(request: HomeScene.SeeDetails.Request) {
         self.selectedTip = request.tip
         presenter?.presnetTipsDetails(response: HomeScene.SeeDetails.Response())

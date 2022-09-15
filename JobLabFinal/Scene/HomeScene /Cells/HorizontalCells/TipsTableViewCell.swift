@@ -88,6 +88,8 @@ extension TipsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
 }
 
+//MARK: SeeDetailsDelegate  method
+
 extension TipsTableViewCell : SeeDetailsDelegate {
     func seeDetails(of: String) {
         print("we have tipsTable viewCell here ")

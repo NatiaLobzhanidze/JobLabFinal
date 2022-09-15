@@ -89,5 +89,34 @@ enum HomeScene
       
         }
     }
-
+    enum FilterJobs {
+        struct Request
+        {
+            let keyword: String
+        }
+        struct Response
+        {
+            let data: [JobModel]
+        }
+        struct ViewModel
+        {
+            let data: [JobModel]
+      
+        }
+    }
+    enum SeeJobDetails {
+        struct Request
+        {
+            let job: JobModel
+           
+        }
+        struct Response
+        {
+           
+        }
+        struct ViewModel
+        {
+      
+        }
+    }
 }

@@ -16,14 +16,15 @@ protocol HomeSceneDisplayLogic: AnyObject
 {
     func displayTips(viewModel: HomeScene.GetTips.ViewModel)
     func displayJobs(viewModel: HomeScene.Getjobs.ViewModel)
-    
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel)
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel)
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel)
-   
+    func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
+    func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel)
+    func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel)
 }
 
-class HomeSceneViewController: UIViewController, UICollectionViewDelegate
+class HomeSceneViewController: UIViewController
 {
   
     var interactor: HomeSceneBusinessLogic?
@@ -34,32 +35,19 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
     private var selectedtip: TipsModel!
     
    //MARK: View
-    let backView: UIView = {
-        let v = UIView()
-        v.backgroundColor = hexStringToUIColor(hex: "#E6E7EA")
-        v.layer.cornerRadius = 20
-        return v
-    }()
+
     let mySearchBar: UISearchBar = {
         let sr = UISearchBar()
+   
         sr.searchBarStyle = .minimal
         sr.backgroundColor = .clear
         sr.searchTextField.backgroundColor = .clear
         sr.barTintColor = .clear
-      
         sr.placeholder = " Search job ..."
+        sr.returnKeyType = .search
         sr.sizeToFit()
-//sr.isTranslucent = true
     
         return sr
-    }()
-    
-    let listButton: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(systemName: "line.3.horizontal.decrease"), for: .normal)
-        btn.setTitleColor(.tintColor, for: .normal)
-       
-        return btn
     }()
     
     let tableView: UITableView = {
@@ -90,9 +78,9 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
       
       mySearchBar.delegate = self
       setUpTableView()
-
       interactor?.getTips(request: HomeScene.GetTips.Request())
       getdt()
+     
     
   }
     func getdt() {
@@ -101,6 +89,7 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
         }
     }
   // MARK: Private methods
+  
     private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
         tableView.reloadData()
@@ -132,28 +121,15 @@ class HomeSceneViewController: UIViewController, UICollectionViewDelegate
                          
                           right: view.rightAnchor,
                           paddingTop: 0, paddingLeft: 20,  paddingRight: 20,height: 40)
-       mySearchBar.addSubview(listButton)
-       listButton.anchor(top: mySearchBar.topAnchor,
-                         left: mySearchBar.rightAnchor, bottom: mySearchBar.bottomAnchor ,right: mySearchBar.rightAnchor,
-                         paddingTop: 5,
-                         paddingLeft: 10, paddingBottom: 5,
-                         paddingRight: 10 , width: 30)
         view.addSubview(tableView)
         tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
-        
-    }
-  
-}
-//MARK:
-extension HomeSceneViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-       // interactor?.filterCountries(request: Countries.FilterCountries.Request(keyword: text))
     }
 }
+
 //MARK: Delegate/Protocols
 
 extension HomeSceneViewController: OpenAllTipsScene {
+    
     func passData() {
         self.interactor?.didTapSeeAllTips(request: HomeScene.ShowAllTips.Request(data: dataSource))
     }
@@ -161,7 +137,6 @@ extension HomeSceneViewController: OpenAllTipsScene {
 extension HomeSceneViewController: SendDelegatTovc {
   
     func passDataToVc(with title: String) {
-       
         guard let tipObject =  self.dataSource.filter({$0.title == title }).first else { return }
         self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tip: tipObject))
     }
@@ -169,18 +144,58 @@ extension HomeSceneViewController: SendDelegatTovc {
 extension HomeSceneViewController: SeeAllJobsDelegate {
     func didTapSeeALL() {
         self.interactor?.didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request())
-        
     }
 }
+extension HomeSceneViewController: SelsectJobDelegateProtocol {
+    func selectJob(data: JobModel) {
+        self.interactor?.seeJobDetails(request: HomeScene.SeeJobDetails.Request(job: data))
+    }
+}
+extension HomeSceneViewController: FilterByCategoryDelegate {
+    func filterByCategory(with title: String) {
+        self.interactor?.filterJobsByCategory(request: HomeScene.FilterJobs.Request(keyword: title))
+    }
+}
+
+//MARK: SearchBar Methods
+
 extension HomeSceneViewController : UISearchBarDelegate {
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+            searchBar.showsCancelButton = true
+      }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+       
+        guard let text = searchBar.text else { return }
+        self.interactor?.getFilteredJobs(request: HomeScene.FilterJobs.Request(keyword: text))
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.showsCancelButton = false
+        searchBar.endEditing(true)
+        self.getdt()
     }
 }
+
 
 //MARK: display logic methods
 
 extension HomeSceneViewController: HomeSceneDisplayLogic {
+    func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
+        self.setJobsTableData(data: viewModel.data)
+        self.tableView.reloadData()
+    }
+    
+    func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel) {
+        router?.navigateToJobDetailsScene()
+    }
+    
+    func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel) {
+        self.setJobsTableData(data: viewModel.data)
+        self.tableView.reloadData()
+    }
+    
     
     func displayJobs(viewModel: HomeScene.Getjobs.ViewModel) {
         DispatchQueue.main.async {[weak self] in
@@ -204,7 +219,7 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
         router?.navigateToDetailsScene()
-        print("vc")
+       
     }
 }
 
@@ -222,6 +237,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         default:
           return 350
         }
+       
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         5
@@ -243,6 +259,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
             cell.delegate = self
             cell.tipsArray = dataSource
+            print("indexpath is ", indexPath)
             return cell
         case 2:
             let cell = tableView.deque(class: SeeAllJobsTableViewCell.self, for: indexPath)
@@ -251,11 +268,13 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.deque(class: FilterTableViewCell.self, for: indexPath)
-        
+            cell.fillCategories(from: jobsDataSource)
+            cell.delegate = self
             return cell
         case 4:
             let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
                 cell.jobsConteiner = jobsDataSource
+            cell.delegate = self
             return cell
         default:
             fatalError("error while cell return")

@@ -19,8 +19,6 @@ protocol OnBoardingPresentationLogic
 
 class OnBoardingPresenter: OnBoardingPresentationLogic
 {
-   
-    
   weak var viewController: OnBoardingDisplayLogic?
   
   // MARK: Do something
@@ -32,12 +30,9 @@ class OnBoardingPresenter: OnBoardingPresentationLogic
         })
         return tableModel
     }
-    
-    
+
     func presentBanners(response: OnBoarding.GetOnBoardingData.Response) {
         let viewModel =  configureTableModel(from: response.data)
-        
         viewController?.displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel(tableData: viewModel))
     }
- 
 }

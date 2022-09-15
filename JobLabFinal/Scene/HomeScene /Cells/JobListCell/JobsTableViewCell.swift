@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SelsectJobDelegateProtocol {
+    func selectJob(data: JobModel)
+}
+
 class JobsTableViewCell: UITableViewCell {
     
     //MARK: View
@@ -22,6 +26,7 @@ class JobsTableViewCell: UITableViewCell {
             self.collectionView.reloadData()
         }
     }
+    var delegate: SelsectJobDelegateProtocol!
     
     
     //MARK: View lifeCycle
@@ -75,4 +80,7 @@ extension JobsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 30, height: 90)
         }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.selectJob(data: jobsConteiner[indexPath.row])
+    }
 }

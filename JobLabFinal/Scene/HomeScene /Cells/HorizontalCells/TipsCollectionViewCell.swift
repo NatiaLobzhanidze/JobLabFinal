@@ -53,9 +53,7 @@ class TipsCollectionViewCell: UICollectionViewCell {
         
         return btn
     }()
-    @objc func forTest() {
-        print("tapped")
-    }
+   
     override func prepareForReuse() {
                 super.prepareForReuse()
         }

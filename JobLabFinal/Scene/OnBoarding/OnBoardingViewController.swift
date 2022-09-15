@@ -19,14 +19,11 @@ protocol OnBoardingDisplayLogic: AnyObject
 
 class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
 {
-    
     var interactor: OnBoardingBusinessLogic?
     var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)?
     
     private lazy var collectionView: UICollectionView = {
-      //  let sm = customCollectionView()
         let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5))
-
         sm.delegate = self
         sm.dataSource = self
         return sm
@@ -55,7 +52,7 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
     let pageControll: UIPageControl = {
         let mypageControl = UIPageControl()
         mypageControl.pageIndicatorTintColor = .darkGray
-        mypageControl.currentPageIndicatorTintColor = .lightGray
+        mypageControl.currentPageIndicatorTintColor = .tintColor
         mypageControl.numberOfPages = 3
         mypageControl.contentHorizontalAlignment = .left
         mypageControl.addTarget(self, action: #selector(pageControllerAction(_:collectionView:)), for: .touchUpInside)
@@ -130,7 +127,6 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
     @objc func nextPage() {
         changePage(on: self.collectionView)
     }
-    
 }
 
 extension OnBoardingViewController : UICollectionViewDataSource {

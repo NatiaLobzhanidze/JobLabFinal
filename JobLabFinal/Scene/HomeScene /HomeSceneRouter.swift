@@ -17,6 +17,7 @@ import UIKit
     func navigateToAllTipsListScene()
     func navigateToDetailsScene()
     func navigateToAllJobsScene()
+    func navigateToJobDetailsScene()
 }
 
 protocol HomeSceneDataPassing
@@ -26,9 +27,6 @@ protocol HomeSceneDataPassing
 
 class HomeSceneRouter:  HomeSceneDataPassing
 {
-  
-    
-    
     weak var viewController: HomeSceneViewController?
     private(set) var dataStore: HomeSceneDataStore
     
@@ -39,15 +37,20 @@ class HomeSceneRouter:  HomeSceneDataPassing
     }
 }
 
+// MARK: Navigation
+
 extension HomeSceneRouter : HomeSceneRoutingLogic {
-    // MARK: Navigation
+    
+    func navigateToJobDetailsScene() {
+        guard let selectedJob = dataStore.selectedJob else { return }
+        let destVc = JobDetailsViewControllerConfiguration.configure(with: selectedJob)
+        viewController?.navigationController?.pushViewController(destVc, animated: true)
+    }
+    
     func navigateToDetailsScene() {
-        print("router")
         guard let selectedTip = dataStore.selectedTip else { return }
         let destVc = TipsDetailsSceneConfiguration.configure(with: selectedTip)
-        print("esaa",selectedTip)
         viewController?.navigationController?.pushViewController(destVc, animated: true)
-        
     }
     
     func navigateToAllTipsListScene() {

@@ -30,4 +30,31 @@ enum AllJobsListScene
         var data: [JobModel]
     }
   }
+    enum FilterJobs  {
+        struct Request
+        {
+            var keyword: String
+        }
+        struct Response
+        {
+            var data: [JobModel]
+        }
+        struct ViewModel
+        {
+            var data: [JobModel]
+        }
+    }
+    enum SeeJobDetails {
+        struct Request
+        {
+            var data: JobModel
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
+        }
+    }
+
 }
