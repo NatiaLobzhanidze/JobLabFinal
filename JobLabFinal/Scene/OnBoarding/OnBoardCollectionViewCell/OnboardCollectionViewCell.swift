@@ -8,34 +8,33 @@
 import Foundation
 import UIKit
 
-
-class OnBoardingCollectionViewCell: UICollectionViewCell {
+final class OnBoardingCollectionViewCell: UICollectionViewCell {
     
-    //MARK: View
+    //MARK: UI
     
     let welcomeImage = UIImageView ()
+    
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = .blue
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.systemFont(ofSize: 20)
-//        titleLabel.isUserInteractionEnabled = true
         titleLabel.clipsToBounds = true
         return titleLabel
     }()
     
     //MARK: Object lifeCycle
     
-     override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-         setUpView()
+        setUpView()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
-     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-         setUpView()
-    }
+    //MARK: set up UI
     
     private func setUpView() {
         self.contentView.addSubview(self.welcomeImage)
@@ -55,7 +54,7 @@ class OnBoardingCollectionViewCell: UICollectionViewCell {
                           height: 50)
     }
     
-    //MARK: Configuration meThods
+    //MARK: Configuration method
     
     func configure(with item: OnBoardingModel){
         self.welcomeImage.image = item.image

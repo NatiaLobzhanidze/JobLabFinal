@@ -152,7 +152,6 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
                 cell.layer.borderColor =  cell.layer.borderColor == current ? blue : current
             }
             if cell.layer.borderColor ==  blue {
-                print("moinishna")
                 self.favoriteCategories.append(allCategoryList[indexPath.row])
             } else {
                 print("deselect")

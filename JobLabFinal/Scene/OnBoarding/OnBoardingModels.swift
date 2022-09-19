@@ -30,18 +30,16 @@ enum OnBoarding
         let tableData: [OnBoardingModel]
     }
   }
-    enum GoToLogInSccen
+    enum GoToLogInScecen
     {
       struct Request
       {
       }
       struct Response
       {
-         
       }
       struct ViewModel
       {
-         
       }
     }
 }

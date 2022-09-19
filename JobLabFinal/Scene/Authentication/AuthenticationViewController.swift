@@ -13,24 +13,36 @@
 import UIKit
 
 
-protocol AuthenticationDisplayLogic: AnyObject
-{
+protocol AuthenticationDisplayLogic: AnyObject {
     func displayLogIngSuccess()
     func displayLogInFailure(message: String)
     func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel)
-   
-   // func tryLogIn(viewModel: Authentication.GoRegisterScene.ViewModel)
 }
 
-class AuthenticationViewController: UIViewController
-{
+final class AuthenticationViewController:  UIViewController {
+    
     //MARK: Clean Components
     
   var interactor: AuthenticationBusinessLogic?
   var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)?
     
     //MARK: UI
-
+    lazy var blurView: UIView = {
+        let v = UIView(frame: CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.width), height:  Int(UIScreen.main.bounds.height)))
+        v.backgroundColor = .white
+        
+        return v
+    }()
+   lazy var indicator: UIActivityIndicatorView = {
+        let i = UIActivityIndicatorView()
+       blurView.addSubview(i)
+        i.centerX(inView: blurView)
+        i.centerY(inView: blurView)
+        i.style = .large
+       i.tintColor = .tintColor
+       return i
+    }()
+    
     let logoImage : UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "logo")
@@ -126,6 +138,7 @@ class AuthenticationViewController: UIViewController
         btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
+       
 
         return btn
     }()
@@ -137,40 +150,37 @@ class AuthenticationViewController: UIViewController
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-
-  
-  required init?(coder aDecoder: NSCoder)
-  {
+    
+  required init?(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
   }
     
     // MARK: View lifecycle
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
       super.viewDidLoad()
-        view.backgroundColor = .white
-        setUpView()
-    
+        addSpiner()
     }
   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+    }
   // MARK: @objc Methods
   
     @objc func goToRegistration() {
+     
         interactor?.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
     }
-  
-
-  
-  // MARK: Do something
-  
+    @objc func tryLogin() {
+         interactor?.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
+     }
     
-//    @objc func logInButtonAction() {
-//     
-//        interactor?.tryLogIn(request: Authentication.LoginAction.Request(email: emailTxFld, password: passwordTxFld))
-//        
-//    }
+  // MARK: set up UI
+    
     private func setUpView() {
+        view.backgroundColor = .white
+        self.navigationItem.setHidesBackButton(true, animated: true)
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
         let btnArr: [UIButton] = [signInBtn,fbBtn, googleBtn, signUp]
@@ -183,32 +193,19 @@ class AuthenticationViewController: UIViewController
         self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }
     
-    
- @objc func tryLogin()
-  {
-//      guard let email = emailTxFld.text, let password = passwordTxFld.text else { return }
-//      let request = Authentication.LoginAction.Request(email: email, password: password)
-      interactor?.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
-//      print(email, password)
-    //  filterSheetCall()
-    
-  }
-    
-    func filterSheetCall() {
-        let filterVC = BottomSheetViewController()
-        filterVC.modalPresentationStyle = .custom
-      
-        filterVC.transitioningDelegate = self
-    //    router?.navigateToSomewhere(destination: filterVC)
-      
+    private func addSpiner() {
+        view.addSubview(blurView)
+        indicator.startAnimating()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.indicator.stopAnimating()
+            self?.setUpView()
+        }
     }
- 
 }
+
 //MARK: DisplayLogic Methods
 
 extension AuthenticationViewController :   AuthenticationDisplayLogic {
-//    func displayCategoriesScene() {
-//    }
     
     func displayLogIngSuccess() {
         router?.navigateToCategoriesScene()
@@ -217,13 +214,10 @@ extension AuthenticationViewController :   AuthenticationDisplayLogic {
     func displayLogInFailure(message: String) {
         self.showAlert(alertText: "Eroor while log in", alertMessage: message, addActionTitle: "Ok")
     }
-    
 
     func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel) {
         router?.navigationToRegistration()
     }
-    
-   
 }
 
 extension AuthenticationViewController :  UIViewControllerTransitioningDelegate {

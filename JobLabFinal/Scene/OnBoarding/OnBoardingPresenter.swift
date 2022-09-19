@@ -12,16 +12,13 @@
 
 import UIKit
 
-protocol OnBoardingPresentationLogic
-{
+protocol OnBoardingPresentationLogic {
     func presentBanners(response: OnBoarding.GetOnBoardingData.Response)
-    func presentLogInScene(response: OnBoarding.GoToLogInSccen.Response)
+    func presentLogInScene(response: OnBoarding.GoToLogInScecen.Response)
 }
 
-class OnBoardingPresenter: OnBoardingPresentationLogic
-{
+final class OnBoardingPresenter {
    
-    
   weak var viewController: OnBoardingDisplayLogic?
   
   // MARK: Privare Methods
@@ -32,16 +29,18 @@ class OnBoardingPresenter: OnBoardingPresentationLogic
             OnBoardingModel(image: $0.image, title: $0.title)
         })
         return tableModel
-    }
-    
-    //MARK: PresentationLogic Methods
+    } 
+}
 
+//MARK: PresentationLogic Methods
+
+extension OnBoardingPresenter : OnBoardingPresentationLogic {
+    
     func presentBanners(response: OnBoarding.GetOnBoardingData.Response) {
         let viewModel =  configureTableModel(from: response.data)
         viewController?.displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel(tableData: viewModel))
     }
-    func presentLogInScene(response: OnBoarding.GoToLogInSccen.Response) {
-        viewController?.displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel())
+    func presentLogInScene(response: OnBoarding.GoToLogInScecen.Response) {
+        viewController?.displayLogInScene(viewModel: OnBoarding.GoToLogInScecen.ViewModel())
     }
 }
-

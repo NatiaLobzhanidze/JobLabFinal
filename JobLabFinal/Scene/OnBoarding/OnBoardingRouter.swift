@@ -12,30 +12,29 @@
 
 import UIKit
 
-@objc protocol OnBoardingRoutingLogic
-{
-  func navigateToAuthentication()
+protocol OnBoardingRoutingLogic {
+    func navigateToAuthentication()
 }
 
-protocol OnBoardingDataPassing
-{
-  var dataStore: OnBoardingDataStore? { get }
+protocol OnBoardingDataPassing {
+    var dataStore: OnBoardingDataStore? { get }
 }
 
-class OnBoardingRouter: NSObject, OnBoardingRoutingLogic, OnBoardingDataPassing
-{
-    //MARK: Clean components
+final class OnBoardingRouter: OnBoardingRoutingLogic, OnBoardingDataPassing {
     
-  weak var viewController: OnBoardingViewController?
-  private(set) var dataStore: OnBoardingDataStore?
-  
+    //MARK: Clean components
+
+    weak var viewController: OnBoardingViewController?
+    private(set) var dataStore: OnBoardingDataStore?
+    
     //MARK: Object LifeCycle
     
     init(dataStore: OnBoardingDataStore ) {
         self.dataStore = dataStore
     }
     
-  // MARK: Routing
+    // MARK: Navigation
+    
     func navigateToAuthentication() {
         let destVc = AuthenticationConfiguration.configure()
         viewController?.navigationController?.pushViewController(destVc, animated: true)

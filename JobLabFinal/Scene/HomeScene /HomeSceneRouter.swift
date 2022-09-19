@@ -29,7 +29,6 @@ final class HomeSceneRouter:  HomeSceneDataPassing {
     weak var viewController: HomeSceneViewController?
     private(set) var dataStore: HomeSceneDataStore
     
-    
     // MARK: Object Lifecycle
     
     init(dataStore: HomeSceneDataStore) {
@@ -54,11 +53,11 @@ extension HomeSceneRouter : HomeSceneRoutingLogic {
     }
     
     func navigateToAllTipsListScene() {
-        
         let passingData = dataStore.passingData
         let destVc = AllTipsListSceneConfiguration.configure(with: passingData)
         viewController?.navigationController?.pushViewController(destVc, animated: true)
     }
+    
     func navigateToAllJobsScene() {
         let destVc = AlljobsListControllerConfiguration.configure(with: dataStore.passingJob)
         viewController?.navigationController?.pushViewController(destVc, animated: true)

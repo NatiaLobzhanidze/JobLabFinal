@@ -12,31 +12,29 @@
 
 import UIKit
 
-protocol OnBoardingDisplayLogic: AnyObject
-{
+protocol OnBoardingDisplayLogic: AnyObject {
     func displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel)
-    func displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel)
+    func displayLogInScene(viewModel: OnBoarding.GoToLogInScecen.ViewModel)
 }
 
-final class OnBoardingViewController: UIViewController
-{
+final class OnBoardingViewController: UIViewController {
     //MARK: Clean components
     
     var interactor: OnBoardingBusinessLogic?
     var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)?
     
-    //MARK: View
+    //MARK: UI
     
     private lazy var collectionView: UICollectionView = {
-        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5))
-        sm.delegate = self
-        sm.dataSource = self
-        return sm
+        let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5))
+        cv.delegate = self
+        cv.dataSource = self
+        return cv
     }()
     
     let skipButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Skip", for: .normal)
+        btn.setTitle(OnBorderingBtnTitles.skip.rawValue.uppercased(), for: .normal)
         btn.setTitleColor(.blue, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14)
         btn.addTarget(self, action: #selector(skipBtn), for: .touchUpInside)
@@ -46,7 +44,7 @@ final class OnBoardingViewController: UIViewController
     
     let nextButtom: UIButton = {
         let btn = UIButton()
-        btn.setTitle("Next", for: .normal)
+        btn.setTitle(OnBorderingBtnTitles.next.rawValue.uppercased(), for: .normal)
         btn.setTitleColor(.blue, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14)
         btn.addTarget(self,
@@ -67,13 +65,14 @@ final class OnBoardingViewController: UIViewController
     //MARK: Properties
     
     private(set) var dataSource = [OnBoardingModel]()
-    var currentPage: Int = 0 {
+    
+    private var currentPage: Int = 0 {
         didSet {
             pageControll.currentPage = currentPage
             if currentPage == dataSource.count - 1 {
-                nextButtom.setTitle("Get Start", for: .normal)
+                nextButtom.setTitle(OnBorderingBtnTitles.start.rawValue.uppercased(), for: .normal)
             } else {
-                nextButtom.setTitle("Next", for: .normal)
+                nextButtom.setTitle(OnBorderingBtnTitles.next.rawValue.uppercased(), for: .normal)
             }
         }
     }
@@ -86,25 +85,22 @@ final class OnBoardingViewController: UIViewController
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder)
-    {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     // MARK: View lifecycle
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         interactor?.getBanners(request: OnBoarding.GetOnBoardingData.Request())
-        setUpCView()
+        setUpView()
     }
     
-    // MARK: SetupView
+    // MARK: Setup  UI
     
-    private func setUpCView() {
-        
+    private func setUpView() {
+        view.backgroundColor = .white
         view.addSubview(skipButton)
         skipButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 10, paddingLeft: 20,  width: 70, height: 50)
         view.addSubview(nextButtom)
@@ -124,7 +120,7 @@ final class OnBoardingViewController: UIViewController
     }
     private func changePage (on collectionView: UICollectionView){
         if currentPage == dataSource.count - 1  {
-            interactor?.getLogInScene(reequest: OnBoarding.GoToLogInSccen.Request())
+            interactor?.getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request())
         } else {
             collectionView.isPagingEnabled = false
             currentPage += 1
@@ -138,7 +134,7 @@ final class OnBoardingViewController: UIViewController
     //MARK: @objc Methods
     
     @objc func skipBtn() {
-        interactor?.getLogInScene(reequest: OnBoarding.GoToLogInSccen.Request())
+        self.interactor?.getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request())
     }
     @objc func nextPage() {
         changePage(on: self.collectionView)
@@ -154,7 +150,7 @@ final class OnBoardingViewController: UIViewController
 //MARK: DisplayLogic Methods
 
 extension OnBoardingViewController: OnBoardingDisplayLogic {
-    func displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel) {
+    func displayLogInScene(viewModel: OnBoarding.GoToLogInScecen.ViewModel) {
         router?.navigateToAuthentication()
     }
     
@@ -166,6 +162,7 @@ extension OnBoardingViewController: OnBoardingDisplayLogic {
 //MARK: COllectionView DataSource Methods
 
 extension OnBoardingViewController : UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         dataSource.count
     }
@@ -175,9 +172,11 @@ extension OnBoardingViewController : UICollectionViewDataSource {
         return cell
     }
 }
-//MARK: Collectionview Delegate/FlowLayout Methods
+
+//MARK: CollectionView Delegate/FlowLayout Methods
 
 extension OnBoardingViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 100)
     }

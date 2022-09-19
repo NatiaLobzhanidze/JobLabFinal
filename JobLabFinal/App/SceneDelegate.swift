@@ -50,13 +50,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
 
 extension SceneDelegate {
     private func setupInitialViewController(with scene: UIWindowScene) {
-        let initialController = CategoriesSceneConfiguration.configure()
+        let initialController = OnBoardingConfiguration.configure()
         let navigationController = UINavigationController(rootViewController: initialController)
         
         window = UIWindow(windowScene: scene)

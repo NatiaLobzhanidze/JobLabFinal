@@ -11,16 +11,22 @@
 //
 
 import UIKit
+
 protocol OnboardingWorkerLogic {
+    
     func getModelArray() -> [OnBoardingModel]
 }
-class OnBoardingWorker: OnboardingWorkerLogic
-{
+
+final class OnBoardingWorker: OnboardingWorkerLogic {
+    
+    private let onBoardingTitles = onBanner.jobBanners
+    
     func getModelArray() -> [OnBoardingModel] {
         
-        return [OnBoardingModel(image: UIImage(named: "job1"), title: "Find job offers from the most popular job listing sites"),
-        OnBoardingModel(image: UIImage(named: "job2"), title: "Track all your job applicatons and don’t get lost in the process"),
-        OnBoardingModel(image: UIImage(named: "job3"), title: "Start appliying and get a Job Now!")]
-        
+        var conteiner = [OnBoardingModel]()
+        for (key, value) in onBoardingTitles {
+            conteiner.append( OnBoardingModel(image: UIImage(named: key), title: value))
+        }
+        return conteiner
     }
 }
