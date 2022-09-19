@@ -21,6 +21,7 @@ class JobsTableViewCell: UITableViewCell {
     }()
     
     //MARK:  properties
+    
     var jobsConteiner = [JobModel]() {
         didSet {
             self.collectionView.reloadData()
@@ -45,13 +46,13 @@ class JobsTableViewCell: UITableViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        setUpViews()
+       // setUpViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        setUpViews()
+       // setUpViews()
     }
     
     // MARK: Private Methods
@@ -72,9 +73,11 @@ extension JobsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(AllJobsListCollectionViewCell.self, for: indexPath)
         cell.configureCell(with: jobsConteiner[indexPath.row])
-        cell.layer.borderWidth = 0.5
-        cell.layer.borderColor = UIColor.tintColor.cgColor
+        //cell.layer.borderWidth = 0.5
+       // cell.layer.borderColor = UIColor.tintColor.cgColor
         cell.layer.cornerRadius = 20
+        cell.backgroundColor = .white
+        cell.shadowedtoView()
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

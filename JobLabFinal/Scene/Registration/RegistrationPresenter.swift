@@ -14,18 +14,22 @@ import UIKit
 
 protocol RegistrationPresentationLogic
 {
-  func presentSomething(response: Registration.Something.Response)
+    func presentSuccess(with message: String)
+    func presentFailure(with message: String)
 }
 
 class RegistrationPresenter: RegistrationPresentationLogic
 {
+    
   weak var viewController: RegistrationDisplayLogic?
   
-  // MARK: Do something
-  
-  func presentSomething(response: Registration.Something.Response)
-  {
-    let viewModel = Registration.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+  // MARK: PresentationLogic Methods
+    func presentSuccess(with message: String) {
+        self.viewController?.displayCreatingSuccess(message: message)
+    }
+    
+    func presentFailure(with message: String) {
+        self.viewController?.displayCreatingFailure(message: message)
+    }
+
 }

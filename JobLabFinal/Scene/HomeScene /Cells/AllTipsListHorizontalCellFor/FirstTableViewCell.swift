@@ -7,19 +7,15 @@
 
 import UIKit
 protocol OpenAllTipsScene {
-    func passData()
+    func seeAllTipsTap()
 }
 class FirstTableViewCell: UITableViewCell {
     
     
     var delegate: OpenAllTipsScene!
     
-    var forPassData = [TipsModel]() {
-        didSet {
-        }
-    }
+    //    MARK: UI
     
-//    MARK: UI Elements
     var textlb: UILabel = {
        let lb = UILabel()
         lb.text = "Tips for you"
@@ -37,11 +33,7 @@ class FirstTableViewCell: UITableViewCell {
         return btn
         
     }()
-    //MARK: @objC methods
-      
-      @objc func seeAllTipsTapped() {
-          self.delegate.passData()
-      }
+ 
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier) }
@@ -60,7 +52,8 @@ class FirstTableViewCell: UITableViewCell {
         setUpViews()
        
     }
-
+    
+    //MARK: SetUp UI
     private func setUpViews() {
         self.contentView.addSubview(textlb)
         textlb.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingTop: 0, paddingLeft: 30, paddingBottom: 0,  width: 200)
@@ -69,5 +62,11 @@ class FirstTableViewCell: UITableViewCell {
         seeAllBtn.centerY(inView: textlb)
         
     }
+    
+    //MARK: @objC methods
+      
+      @objc func seeAllTipsTapped() {
+          self.delegate.seeAllTipsTap()
+      }
     
 }

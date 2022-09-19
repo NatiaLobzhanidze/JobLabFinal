@@ -15,35 +15,28 @@ import UIKit
 
 protocol AuthenticationDisplayLogic: AnyObject
 {
-    func displaySavedUser(viewModel: Authentication.LoginAction.ViewModel)
+    func displayLogIngSuccess()
+    func displayLogInFailure(message: String)
+    func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel)
+   
+   // func tryLogIn(viewModel: Authentication.GoRegisterScene.ViewModel)
 }
 
 class AuthenticationViewController: UIViewController
 {
+    //MARK: Clean Components
+    
   var interactor: AuthenticationBusinessLogic?
   var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)?
     
- 
-    
-    
- //scrollView_ contentview
-    
-    let scrollView : UIScrollView  = {
-        let view = UIScrollView()
-        view.isScrollEnabled = true
-        return view
-    }()
-    let contentView = UIView()
-    
-    // imageView
+    //MARK: UI
+
     let logoImage : UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "logo")
         
         return img
     }()
-    
-    //signin label
     
     let headLineLb: UILabel = {
         let lb = UILabel()
@@ -54,7 +47,6 @@ class AuthenticationViewController: UIViewController
         return lb
     }()
   
-    ///            2(label+textfields) )
     let emailLb: UILabel = {
         let lb = UILabel()
         lb.addRequiredAsterisk(text: "   Email *")
@@ -64,14 +56,13 @@ class AuthenticationViewController: UIViewController
     }()
     let emailTxFld: UITextField = {
         let txt = UITextField()
-       // txt.placeholder = "  Email"
+        txt.placeholder = "  Email"
         txt.format()
         txt.shadowedField()
         txt.addPaddingToTextField()
         return txt
     }()
     
-    //MARK:  passwords
     let passwordLb: UILabel = {
         let lb = UILabel()
         lb.addRequiredAsterisk(text: "   Password *")
@@ -87,15 +78,14 @@ class AuthenticationViewController: UIViewController
         txt.addPaddingToTextField()
         return txt
     }()
-    
-    ///+ signInbutton
+
     let signInBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("Sing in", for: .normal)
         btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
         btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
         btn.layer.cornerRadius = 20
-        btn.addTarget(self, action: #selector(createUser), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
 
         return btn
     }()
@@ -108,20 +98,18 @@ class AuthenticationViewController: UIViewController
         
         return lb
     }()
+    
     let fbBtn: UIButton = {
-        
         let btn = UIButton(type: .custom)
         btn.configureBtn(with: "  FaceBook", image: "fb")
         return btn
-        
     }()
     let googleBtn: UIButton = {
-        
         let btn = UIButton()
         btn.configureBtn(with: "  Google", image: "32")
         return btn
-        
     }()
+    
     let donthaveAn: UILabel = {
         let lb = UILabel()
         lb.text = "Don't have an account?"
@@ -130,19 +118,17 @@ class AuthenticationViewController: UIViewController
         
         return lb
     }()
+    
     let signUp: UIButton = {
         
         let btn = UIButton()
-        btn.addTarget(self, action: #selector(navigateToRegistration), for: .touchUpInside)
         btn.setTitle("SignUp", for: .normal)
         btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
-  
-        
+        btn.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
+
         return btn
-        
     }()
-    
     
   // MARK: Object lifecycle
     
@@ -156,61 +142,55 @@ class AuthenticationViewController: UIViewController
   required init?(coder aDecoder: NSCoder)
   {
       fatalError("init(coder:) has not been implemented")
-
-
   }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-  }
-  
-  // MARK: Routing
-  
-    @objc func navigateToRegistration() {
-        router?.navigationToRegistration()
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad()
+    {
+      super.viewDidLoad()
+        view.backgroundColor = .white
+        setUpView()
+    
     }
   
-  // MARK: View lifecycle
+  // MARK: @objc Methods
   
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-     // view.frame.size.height = 900
-      view.backgroundColor = .white
-      setUpView()
+    @objc func goToRegistration() {
+        interactor?.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
+    }
   
-  }
+
   
   // MARK: Do something
   
-  //@IBOutlet weak var nameTextField: UITextField!
-    @objc func logInButtonAction() {
-       guard let email = emailTxFld.text,
-             let password = passwordTxFld.text else { return }
-        print(password, email)
-        
-    }
+    
+//    @objc func logInButtonAction() {
+//     
+//        interactor?.tryLogIn(request: Authentication.LoginAction.Request(email: emailTxFld, password: passwordTxFld))
+//        
+//    }
     private func setUpView() {
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
         let btnArr: [UIButton] = [signInBtn,fbBtn, googleBtn, signUp]
-
-        self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
-        self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
-        self.addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
-        self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
-      
-     
+        let scrollView = UIScrollView()
+            scrollView.isScrollEnabled = true
+        let contentView = UIView()
+        self.addConstreintsToScrollView(scrollView: scrollView, contentView: contentView)
+        self.addConstraintsToImage(contentView: contentView, logoImage: self.logoImage)
+        self.addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
+        self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }
- @objc func createUser()
+    
+    
+ @objc func tryLogin()
   {
-      guard let email = emailTxFld.text, let password = passwordTxFld.text else { return }
-      let request = Authentication.LoginAction.Request(email: email, password: password)
-    interactor?.doSomething(request: request)
-      print(email, password)
-      filterSheetCall()
+//      guard let email = emailTxFld.text, let password = passwordTxFld.text else { return }
+//      let request = Authentication.LoginAction.Request(email: email, password: password)
+      interactor?.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
+//      print(email, password)
+    //  filterSheetCall()
     
   }
     
@@ -219,17 +199,31 @@ class AuthenticationViewController: UIViewController
         filterVC.modalPresentationStyle = .custom
       
         filterVC.transitioningDelegate = self
-        router?.navigateToSomewhere(destination: filterVC)
-      //  self.navigationController?.pushViewController(filterVC, animated: true)
-       // self.present(filterVC, animated: true, completion: nil)
+    //    router?.navigateToSomewhere(destination: filterVC)
+      
     }
  
 }
+//MARK: DisplayLogic Methods
 
-extension AuthenticationViewController : UITextFieldDelegate,  AuthenticationDisplayLogic {
-    func displaySavedUser(viewModel: Authentication.LoginAction.ViewModel) {
-        print(viewModel.email)
+extension AuthenticationViewController :   AuthenticationDisplayLogic {
+//    func displayCategoriesScene() {
+//    }
+    
+    func displayLogIngSuccess() {
+        router?.navigateToCategoriesScene()
     }
+    
+    func displayLogInFailure(message: String) {
+        self.showAlert(alertText: "Eroor while log in", alertMessage: message, addActionTitle: "Ok")
+    }
+    
+
+    func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel) {
+        router?.navigationToRegistration()
+    }
+    
+   
 }
 
 extension AuthenticationViewController :  UIViewControllerTransitioningDelegate {

@@ -16,10 +16,11 @@ enum Categories
 {
   // MARK: Use cases
   
-  enum Something
+  enum FavoriteCategory
   {
     struct Request
     {
+        let favoriteCategory: [String]
     }
     struct Response
     {
@@ -28,7 +29,6 @@ enum Categories
     {
     }
   }
-    
     enum CategoriesField {
         static let categoriesFields = ["All", "Art & Design", "Programming", "Marketing", "Sales", "Healthycare", "Content Writer", "Finance", "Food & Restourant", "Construction"]
     }

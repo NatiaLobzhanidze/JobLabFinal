@@ -22,7 +22,7 @@ protocol RegistrationDataPassing
   var dataStore: RegistrationDataStore? { get }
 }
 
-class RegistrationRouter: NSObject, RegistrationRoutingLogic, RegistrationDataPassing
+class RegistrationRouter: RegistrationRoutingLogic, RegistrationDataPassing
 {
   weak var viewController: RegistrationViewController?
   var dataStore: RegistrationDataStore?

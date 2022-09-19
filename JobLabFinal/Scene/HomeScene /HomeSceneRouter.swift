@@ -12,8 +12,7 @@
 
 import UIKit
 
-@objc protocol HomeSceneRoutingLogic
-{
+ protocol HomeSceneRoutingLogic {
     func navigateToAllTipsListScene()
     func navigateToDetailsScene()
     func navigateToAllJobsScene()
@@ -25,10 +24,11 @@ protocol HomeSceneDataPassing
     var dataStore: HomeSceneDataStore { get }
 }
 
-class HomeSceneRouter:  HomeSceneDataPassing
-{
+final class HomeSceneRouter:  HomeSceneDataPassing {
+    //MARK: Clean components
     weak var viewController: HomeSceneViewController?
     private(set) var dataStore: HomeSceneDataStore
+    
     
     // MARK: Object Lifecycle
     

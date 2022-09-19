@@ -16,10 +16,13 @@ enum Registration
 {
   // MARK: Use cases
   
-  enum Something
+  enum CreateUser
   {
     struct Request
     {
+        let mailTextField: UITextField
+        let passwordTexfield: UITextField
+        let checkPassword: UITextField
     }
     struct Response
     {
@@ -28,4 +31,19 @@ enum Registration
     {
     }
   }
+    enum CheckTextFields {
+        
+          struct Request
+          {
+              let mailTextField: UITextField
+              let passwordTexfield: UITextField
+              let checkPassword: UITextField
+          }
+          struct Response
+          {
+          }
+          struct ViewModel
+          {
+          }
+    }
 }

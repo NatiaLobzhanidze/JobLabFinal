@@ -12,33 +12,38 @@
 
 import UIKit
 
-protocol HomeSceneDisplayLogic: AnyObject
-{
+protocol HomeSceneDisplayLogic: AnyObject {
+    
     func displayTips(viewModel: HomeScene.GetTips.ViewModel)
-    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel)
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel)
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel)
+    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel)
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel)
-    func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel)
+    func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel)
 }
 
-class HomeSceneViewController: UIViewController
-{
-  
+final class HomeSceneViewController: UIViewController {
+    
+    //MARK: Clean components
+    
     var interactor: HomeSceneBusinessLogic?
     var router: (HomeSceneRoutingLogic & HomeSceneDataPassing)?
+    
+    //MARK: dataSources
     
     private var dataSource = [TipsModel]()
     private var jobsDataSource = [JobModel]()
     private var selectedtip: TipsModel!
     
-   //MARK: View
-
-    let mySearchBar: UISearchBar = {
+    //MARK: UI
+    
+    //Searchbar & title from  base Class
+    
+    lazy var mySearchBar: UISearchBar = {
         let sr = UISearchBar()
-   
+        
         sr.searchBarStyle = .minimal
         sr.backgroundColor = .clear
         sr.searchTextField.backgroundColor = .clear
@@ -46,13 +51,16 @@ class HomeSceneViewController: UIViewController
         sr.placeholder = " Search job ..."
         sr.returnKeyType = .search
         sr.sizeToFit()
-    
+        sr.delegate = self
+        
         return sr
     }()
     
-    let tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let v = UITableView()
         v.separatorStyle = .none
+        v.delegate = self
+        v.dataSource = self
         return v
     }()
     
@@ -68,28 +76,29 @@ class HomeSceneViewController: UIViewController
         fatalError("init(coder:) has not been implemented")
     }
     
-  // MARK: View lifecycle
-  
-    override func viewDidLoad() 
-  {
-      super.viewDidLoad()
-      view.backgroundColor = .white
-      title = "Hello, Natia"
-      
-      mySearchBar.delegate = self
-      setUpTableView()
-      interactor?.getTips(request: HomeScene.GetTips.Request())
-      getdt()
-     
+    // MARK: View lifecycle
     
-  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //!
+        setUpViews()
+        registerCells()
+        interactor?.getTips(request: HomeScene.GetTips.Request())
+        getdt()
+    }
+    
+    //MARK:  Tasks
+    //ininteractor
     func getdt() {
         Task {
             await interactor?.getJobs(request: HomeScene.Getjobs.Request())
         }
     }
-  // MARK: Private methods
-  
+    // MARK: Private methods
+    
+    
+    //???? optimization
+    
     private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
         tableView.reloadData()
@@ -100,29 +109,34 @@ class HomeSceneViewController: UIViewController
         tableView.reloadData()
     }
     
-    // MARK: Setup
+    // MARK: SetupUI
     
-    private func setUpTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
+    private func registerCells() {
+        
         tableView.registerClass(class: FirstTableViewCell.self)
         tableView.registerClass(class: TipsTableViewCell.self)
         tableView.registerClass(class: SeeAllJobsTableViewCell.self)
         tableView.registerClass(class: JobsTableViewCell.self)
         tableView.registerClass(class: FilterTableViewCell.self)
-        setUpViews()
-        tableView.reloadData()
+       
     }
     
-   private func setUpViews() {
-       view.addSubview(mySearchBar)
-       mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          left: view.leftAnchor,
-                         
-                          right: view.rightAnchor,
-                          paddingTop: 0, paddingLeft: 20,  paddingRight: 20,height: 40)
+    private func setUpViews() {
+        view.backgroundColor = .white
+       
+        view.addSubview(mySearchBar)
+        mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                           left: view.leftAnchor,
+                           right: view.rightAnchor,
+                           paddingTop: 0, paddingLeft: 20,
+                           paddingRight: 20,height: 40)
         view.addSubview(tableView)
-        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10)
+        tableView.anchor(top: mySearchBar.bottomAnchor,
+                         left: view.leftAnchor,
+                         bottom: view.bottomAnchor,
+                         right: view.rightAnchor,
+                         paddingTop: 10, paddingLeft: 10,
+                         paddingBottom: 0, paddingRight: 10)
     }
 }
 
@@ -130,13 +144,14 @@ class HomeSceneViewController: UIViewController
 
 extension HomeSceneViewController: OpenAllTipsScene {
     
-    func passData() {
+    func seeAllTipsTap() {
         self.interactor?.didTapSeeAllTips(request: HomeScene.ShowAllTips.Request(data: dataSource))
     }
 }
 extension HomeSceneViewController: SendDelegatTovc {
-  
-    func passDataToVc(with title: String) {
+    
+    func passDataToVc(of title: String) {
+        //???m interaactor
         guard let tipObject =  self.dataSource.filter({$0.title == title }).first else { return }
         self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tip: tipObject))
     }
@@ -162,10 +177,10 @@ extension HomeSceneViewController: FilterByCategoryDelegate {
 extension HomeSceneViewController : UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            searchBar.showsCancelButton = true
-      }
+        searchBar.showsCancelButton = true
+    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       
+        
         guard let text = searchBar.text else { return }
         self.interactor?.getFilteredJobs(request: HomeScene.FilterJobs.Request(keyword: text))
     }
@@ -174,6 +189,8 @@ extension HomeSceneViewController : UISearchBarDelegate {
         searchBar.text = nil
         searchBar.showsCancelButton = false
         searchBar.endEditing(true)
+        
+        //????
         self.getdt()
     }
 }
@@ -184,7 +201,6 @@ extension HomeSceneViewController : UISearchBarDelegate {
 extension HomeSceneViewController: HomeSceneDisplayLogic {
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
         self.setJobsTableData(data: viewModel.data)
-        self.tableView.reloadData()
     }
     
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel) {
@@ -193,14 +209,11 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     
     func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel) {
         self.setJobsTableData(data: viewModel.data)
-        self.tableView.reloadData()
     }
     
-    
     func displayJobs(viewModel: HomeScene.Getjobs.ViewModel) {
-        DispatchQueue.main.async {[weak self] in
-            self?.setJobsTableData(data: viewModel.data)
-        }
+ 
+            self.setJobsTableData(data: viewModel.data)
     }
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
         router?.navigateToAllJobsScene()
@@ -219,7 +232,7 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
         router?.navigateToDetailsScene()
-       
+        
     }
 }
 
@@ -228,24 +241,25 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
 extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
+            /// make enum for
         case 0, 2:
-             return 30
+            return 30
         case 1:
-             return 170
+            return 170
         case 3:
             return 60
         default:
-          return 350
+            return 350
         }
-       
+        
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         5
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return 1
+        1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
@@ -259,6 +273,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
             cell.delegate = self
             cell.tipsArray = dataSource
+            cell.shadowedtoView()
             print("indexpath is ", indexPath)
             return cell
         case 2:
@@ -272,8 +287,9 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             return cell
         case 4:
+            
             let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
-                cell.jobsConteiner = jobsDataSource
+            cell.jobsConteiner = jobsDataSource
             cell.delegate = self
             return cell
         default:

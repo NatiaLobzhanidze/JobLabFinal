@@ -14,25 +14,22 @@ import UIKit
 
 protocol CategoriesDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: Categories.Something.ViewModel)
+    func displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel)
 }
 
-class CategoriesViewController: UIViewController, CategoriesDisplayLogic
+class CategoriesViewController: UIViewController
 {
+    //MARK: CLean components
+    
   var interactor: CategoriesBusinessLogic?
   var router: (CategoriesRoutingLogic & CategoriesDataPassing)?
-  //MARK: UI ELements
-    let backButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("<", for: .normal)
-        btn.setTitleColor(hexStringToUIColor(hex: "#5583F7"), for: .normal)
-        btn.backgroundColor = hexStringToUIColor(hex: "#EBF1FD")
-        btn.layer.cornerRadius = 6
-        btn.addTarget(self, action: #selector(backBSheet), for: .touchUpInside)
-        return btn
-    }()
     
-    let headlineLb: UILabel = {
+    //MARK: passingDataContainer
+    private(set) var favoriteCategories = [String]()
+    private let allCategoryList = ["All", "Finance", "Administration", "HR", "sales", "Delivery"]
+  //MARK: UI
+    
+   private let headlineLb: UILabel = {
         let lb = UILabel()
         lb.text = "What job you want?"
         lb.font = .systemFont(ofSize: 20)
@@ -40,7 +37,7 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         return lb
     }()
     
-    let subTitleLb : UILabel = {
+  private  let subTitleLb : UILabel = {
         let lb = UILabel()
         lb.text = "Choose 3-5 job categories and we'll optimize the job vacancy for you"
         lb.font = .systemFont(ofSize: 15)
@@ -48,19 +45,10 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         return lb
     }()
     
-    let collectionView: UICollectionView = {
-     
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.width/2.5)
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 0
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.isScrollEnabled = true
-        view.showsVerticalScrollIndicator = false
-        view.backgroundColor = .white
-        view.contentInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20)
-        view.registerClass(class: SquareCollectionViewCell.self)
-        return view
+   private let collectionView: UICollectionView = {
+        let  cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize:  CGSize(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.width/2.5))
+           cv.registerClass(class: SquareCollectionViewCell.self)
+        return cv
     }()
     
     let saveButton: UIButton = {
@@ -72,96 +60,63 @@ class CategoriesViewController: UIViewController, CategoriesDisplayLogic
         btn.layer.borderWidth = 1
         btn.layer.borderColor = hexStringToUIColor(hex: "#5583F7").cgColor
         btn.layer.cornerRadius = 20
-        btn.addTarget(self, action: #selector(goToEditProfile), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(goToHomeScene), for: .touchUpInside)
         
         return btn
     }()
+    
   // MARK: Object lifecycle
-  
-  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
-  {
-    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    setup()
-  }
-  
+    init(interactor: CategoriesBusinessLogic, router: (CategoriesRoutingLogic & CategoriesDataPassing)) {
+        self.interactor = interactor
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+ 
   required init?(coder aDecoder: NSCoder)
   {
     super.init(coder: aDecoder)
-    setup()
   }
-  
-  // MARK: Setup
-  
-  private func setup()
-  {
-    let viewController = self
-    let interactor = CategoriesInteractor()
-    let presenter = CategoriesPresenter()
-    let router = CategoriesRouter()
-    viewController.interactor = interactor
-    viewController.router = router
-    interactor.presenter = presenter
-    presenter.viewController = viewController
-    router.viewController = viewController
-    router.dataStore = interactor
-  }
-  
-  // MARK: Routing
 
-  
   // MARK: View lifecycle
   
   override func viewDidLoad()
   {
     view.backgroundColor = .white
     super.viewDidLoad()
-      let myVC = UIViewController()
-      _ = UINavigationController(rootViewController: myVC)
-    doSomething()
-      setUpViewElemets()
-      collectionView.delegate = self
+    setUpViewElemets()
       collectionView.dataSource = self
-      
+      collectionView.delegate = self
   }
   
   // MARK: Do something
     func setUpViewElemets() {
-        view.addSubview(backButton)
-        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20, width: 30, height: 30)
+        
         view.addSubview(headlineLb)
-        headlineLb.anchor( left: backButton.rightAnchor, paddingLeft: 20,width: 200,  height: 35)
-        headlineLb.centerY(inView: backButton)
+        headlineLb.anchor( top: view.safeAreaLayoutGuide.topAnchor,  height: 45)
+        headlineLb.centerX(inView: view)
         view.addSubview(subTitleLb)
-        subTitleLb.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20, height: 50)
+        subTitleLb.anchor(top: headlineLb.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20, height: 50)
         view.addSubview(collectionView)
         collectionView.anchor(top: subTitleLb.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingRight: 0)
         view.addSubview(saveButton)
         saveButton.anchor(top: collectionView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 30, paddingRight: 40,  height: 40)
     }
   
-  
-  func doSomething()
-  {
-    let request = Categories.Something.Request()
-    interactor?.doSomething(request: request)
-  }
-    
-    @objc func goToEditProfile() {
-        let vc = EditProfileViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-        print()
+ 
+     @objc func goToHomeScene() {
+        interactor?.passCategory(request: Categories.FavoriteCategory.Request(favoriteCategory: favoriteCategories))
     }
-    
-    @objc func backBSheet() {
-        let vc = BottomSheetViewController()
-        //self.navigationController?.popToViewController(vc, animated: true)
+
+}
+//MARK: DisplayLogic Methods
+extension CategoriesViewController: CategoriesDisplayLogic {
+    func displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel) {
+        router?.navigateToHomeScene()
     }
-  func displaySomething(viewModel: Categories.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
 }
 
+
+//MARK: CollectionView dataSourse & delegate
 extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -170,34 +125,44 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        Categories.CategoriesField.categoriesFields.count
-        
+        allCategoryList.count
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(SquareCollectionViewCell.self, for: indexPath)
-        let model = Categories.CategoriesField.categoriesFields[indexPath.row]
-        cell.titleLabel.text = model
+        cell.titleLabel.text = allCategoryList[indexPath.row]
         cell.layer.cornerRadius = cell.frame.size.height/4
         cell.backgroundColor = .white
         cell.layer.borderWidth = 2
         cell.layer.borderColor = hexStringToUIColor(hex: "#ECEEF2").cgColor
         cell.shadowedtoView()
-        cell.addview(with: model)
-        
-        
+        cell.addview(with: allCategoryList[indexPath.row])
+    
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let blue = UIColor.blue.cgColor
+        let current = hexStringToUIColor(hex: "#ECEEF2").cgColor
+        
         if let cell = collectionView.cellForItem(at: indexPath) as? SquareCollectionViewCell {
             UIView.animate(withDuration: 0.7) {
-                let blue = UIColor.blue.cgColor
-                let current = hexStringToUIColor(hex: "#ECEEF2").cgColor
+                
                 cell.layer.borderColor =  cell.layer.borderColor == current ? blue : current
             }
-            
+            if cell.layer.borderColor ==  blue {
+                print("moinishna")
+                self.favoriteCategories.append(allCategoryList[indexPath.row])
+            } else {
+                print("deselect")
+                let deselected = allCategoryList[indexPath.row]
+                 if favoriteCategories.contains(deselected) {
+                    guard let index = favoriteCategories.firstIndex(of: deselected) else { return }
+                    favoriteCategories.remove(at: index)
+                }
+            }
     }
     }
+    
 }

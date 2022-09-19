@@ -12,12 +12,15 @@
 
 import UIKit
 
+
 protocol RegistrationDisplayLogic: AnyObject
 {
-  func displaySomething(viewModel: Registration.Something.ViewModel)
+    func displayCreatingSuccess(message: String)
+    func displayCreatingFailure(message: String)
+    func tryCreateUser(viewModel: Registration.CreateUser.ViewModel)
 }
 
-class RegistrationViewController: UIViewController, RegistrationDisplayLogic
+class RegistrationViewController: UIViewController
 {
   var interactor: RegistrationBusinessLogic?
   var router: (RegistrationRoutingLogic & RegistrationDataPassing)?
@@ -39,8 +42,6 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
            return img
        }()
        
-       //signin label
-       
        let headLineLb: UILabel = {
            let lb = UILabel()
            lb.text = "Sing in to you account"
@@ -50,7 +51,6 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
            return lb
        }()
      
-       ///            2(label+textfields) )
        let emailLb: UILabel = {
            let lb = UILabel()
            lb.addRequiredAsterisk(text: "   Email *")
@@ -58,6 +58,7 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
            
            return lb
        }()
+    
        let emailTxFld: UITextField = {
            let txt = UITextField()
            txt.placeholder = "  Email"
@@ -99,14 +100,14 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
         txt.addPaddingToTextField()
         return txt
     }()
-       ///+ signInbutton
-       let signInBtn: UIButton = {
+
+       let signUpBtn: UIButton = {
            let btn = UIButton()
            btn.setTitle("Sing up", for: .normal)
            btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
            btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
            btn.layer.cornerRadius = 20
-   //        btn.widthAnchor.constraint(equalToConstant: 150).isActive = true
+           btn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
            return btn
        }()
      
@@ -154,8 +155,6 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
            
        }()
        
-       
-       
      // MARK: Object lifecycle
     
     init(interactor: RegistrationBusinessLogic, router: (RegistrationRoutingLogic & RegistrationDataPassing ) ){
@@ -187,7 +186,6 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
         // view.frame.size.height = 900
          view.backgroundColor = .white
          setUpView()
-       doSomething()
      }
      
      // MARK: Do something
@@ -202,7 +200,7 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
                                     orContinueLb,
                                     donthaveAn,
                                     repeatePasswordLb]
-        let btnArr: [UIButton] = [signInBtn,fbBtn, googleBtn, signIn]
+        let btnArr: [UIButton] = [signUpBtn,fbBtn, googleBtn, signIn]
 
         self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
@@ -211,18 +209,31 @@ class RegistrationViewController: UIViewController, RegistrationDisplayLogic
     
      
     }
-  // MARK: Do something
+  // MARK: @objc Methods
+    
+    @objc func createAccount() {
+//        guard let mail = emailTxFld.text, let password =  passwordTxFld.text, let rePassword = repeatePasswordtxFld.text  else { return }
+        
+        self.interactor?.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
+    }
   
-  //@IBOutlet weak var nameTextField: UITextField!
+}
+
+//MARK: DipslayLogics
+
+extension RegistrationViewController : RegistrationDisplayLogic {
+    func displayCreatingSuccess(message: String) {
+        self.showAlert(alertText: "", alertMessage: message, addActionTitle: "Ok")
+    }
+    
+    func displayCreatingFailure(message: String) {
+        self.showAlert(alertText: "", alertMessage: message, addActionTitle: "Ok")
+    }
+    
+    func tryCreateUser(viewModel: Registration.CreateUser.ViewModel) {
+        
+    }
+    
   
-  func doSomething()
-  {
-    let request = Registration.Something.Request()
-   // interactor?.doSomething(request: request)
-  }
-  
-  func displaySomething(viewModel: Registration.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
-  }
+    
 }

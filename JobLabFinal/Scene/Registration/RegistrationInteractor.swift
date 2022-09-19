@@ -14,7 +14,8 @@ import UIKit
 
 protocol RegistrationBusinessLogic
 {
-  func doSomething(request: Registration.Something.Request)
+    func createAccount(request: Registration.CreateUser.Request)
+  //  func checkValidity(request: Registration.CheckTextFields.Request)
 }
 
 protocol RegistrationDataStore
@@ -22,20 +23,58 @@ protocol RegistrationDataStore
   //var name: String { get set }
 }
 
-class RegistrationInteractor: RegistrationBusinessLogic, RegistrationDataStore
+class RegistrationInteractor:  RegistrationDataStore
 {
   var presenter: RegistrationPresentationLogic?
   var worker: RegistrationWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: Registration.Something.Request)
-  {
-    worker = RegistrationWorker()
-    worker?.doSomeWork()
     
-    let response = Registration.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+    private(set) var isPasswordValid: Bool?
+  
+  // MARK: Objcet LifeCycle
+    
+    init(presenter: RegistrationPresentationLogic, worker: RegistrationWorker ) {
+        self.presenter = presenter
+        self.worker = worker
+    }
+  //MARK: Private Methods
+    
+ 
+
 }
+ //MARK: BusinessLogics Methods
+
+extension RegistrationInteractor : RegistrationBusinessLogic {
+  
+    
+  
+    
+    func createAccount(request: Registration.CreateUser.Request) {
+        
+        guard let mail = request.mailTextField.text,
+                let password = request.passwordTexfield.text,
+              let repassword = request.checkPassword.text else {
+                  presenter?.presentFailure(with: "please, be sure that all fields are filled")
+                  return }
+        let checkfeldsResult =  worker?.checkValidity(email: request.mailTextField, password: request.passwordTexfield, rePassword: request.checkPassword)
+        
+        var message: String = String()
+  
+        guard let  validation = checkfeldsResult else {
+            
+            worker?.createUser(email: mail, password: password, completionBlock: { success in
+                          if (success) {
+                              message = "User was sucessfully created."
+                              self.presenter?.presentSuccess(with: message)
+                          } else {
+                              message = "There was an error."
+                              self.presenter?.presentFailure(with: message)
+                          }
+            })
+            
+            return }
+        self.presenter?.presentFailure(with: "\(validation)")
+    
+    }
+    }
+
+

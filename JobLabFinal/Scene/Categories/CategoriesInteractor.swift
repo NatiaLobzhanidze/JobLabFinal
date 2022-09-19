@@ -14,28 +14,35 @@ import UIKit
 
 protocol CategoriesBusinessLogic
 {
-  func doSomething(request: Categories.Something.Request)
+    func passCategory(request: Categories.FavoriteCategory.Request)
 }
 
 protocol CategoriesDataStore
 {
-  //var name: String { get set }
+    var passingCategories: [String] { get }
 }
 
-class CategoriesInteractor: CategoriesBusinessLogic, CategoriesDataStore
+class CategoriesInteractor:  CategoriesDataStore
 {
+    // MARK: Clean components
   var presenter: CategoriesPresentationLogic?
-  var worker: CategoriesWorker?
-  //var name: String = ""
-  
-  // MARK: Do something
-  
-  func doSomething(request: Categories.Something.Request)
-  {
-    worker = CategoriesWorker()
-    worker?.doSomeWork()
+
+    //MARK: passing data conteiner
     
-    let response = Categories.Something.Response()
-    presenter?.presentSomething(response: response)
-  }
+  var passingCategories: [String] = []
+ 
+    // MARK: Object Lifecycle
+    
+    init(presenter: CategoriesPresentationLogic ) {
+        self.presenter = presenter
+    }
+}
+
+//MARK: BusinessLogic methods
+
+extension CategoriesInteractor: CategoriesBusinessLogic {
+    func passCategory(request: Categories.FavoriteCategory.Request) {
+        self.passingCategories = request.favoriteCategory
+        presenter?.presentHomeScene(response: Categories.FavoriteCategory.Response())
+    }
 }

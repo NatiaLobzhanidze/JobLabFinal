@@ -15,25 +15,24 @@ protocol HomeSceneWorkerLogic {
     func fetchTips() async throws -> [TipsModel]
     func fetchAllJobs()async throws -> [JobModel]
 }
-class HomeSceneWorker
-{
+
+final class HomeSceneWorker {
     private var api: APIManager
     private let tipsUrl = ApiUrls.tips.rawValue
     private let jobsUrl = ApiUrls.jobs.rawValue
+    
     init(api: APIManager) {
         self.api = api
     }
 }
+  
 extension HomeSceneWorker: HomeSceneWorkerLogic {
     
     func fetchTips() async throws -> [TipsModel] {
         try await api.fetchData(urlString: tipsUrl, decodingType: [TipsModel].self)
-        
     }
+    
     func fetchAllJobs() async throws -> [JobModel] {
         try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
-        
     }
-
-    
 }

@@ -21,13 +21,7 @@ protocol AllJobsListScenePresentationLogic
 
 class AllJobsListScenePresenter: AllJobsListScenePresentationLogic
 {
-   
-   
-    
-  
-    
   weak var viewController: AllJobsListSceneDisplayLogic?
-  
 
     // MARK: PresentationLogic Protocol Methods
     

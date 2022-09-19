@@ -48,8 +48,8 @@ class EditProfileRouter: NSObject, EditProfileRoutingLogic, EditProfileDataPassi
   // MARK: Navigation
   
     func navigateToHomeScene() {
-        let vc =  HomeSceneConfiguration.configure()
-        self.viewController?.navigationController?.pushViewController(vc, animated: true)
+//        let vc =  HomeSceneConfiguration.configure()
+//        self.viewController?.navigationController?.pushViewController(vc, animated: true)
     }
   
   // MARK: Passing data

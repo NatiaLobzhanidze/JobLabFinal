@@ -13,7 +13,7 @@ class SeeAllJobsTableViewCell: UITableViewCell {
   
     var delegate: SeeAllJobsDelegate!
     
-    //MARK: View
+    //MARK: UI
     
     var textlb: UILabel = {
        let lb = UILabel()

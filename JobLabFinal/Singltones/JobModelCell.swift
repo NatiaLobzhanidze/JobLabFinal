@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class JobModelStackview {
+final class JobModelStackview {
     
     static var shared = JobModelStackview()
     private init() { }

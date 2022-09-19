@@ -11,10 +11,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 @objc protocol CategoriesRoutingLogic
 {
-    func navigateToDetailsEditor(vc: UIViewController)
+   // func navigateToDetailsEditor(vc: UIViewController)
+   func navigateToHomeScene()
 }
 
 protocol CategoriesDataPassing
@@ -22,27 +24,33 @@ protocol CategoriesDataPassing
   var dataStore: CategoriesDataStore? { get }
 }
 
-class CategoriesRouter: NSObject, CategoriesRoutingLogic, CategoriesDataPassing
+class CategoriesRouter:  CategoriesDataPassing
 {
+    //MARK: Clean components
   weak var viewController: CategoriesViewController?
   var dataStore: CategoriesDataStore?
   
-  // MARK: Routing
-  
-
-
-  // MARK: Navigation
+    // MARK: Object Lifecycle
+    
+    init(dataStore: CategoriesDataStore) {
+        self.dataStore = dataStore
+    }
   
     func  navigateToDetailsEditor(vc: UIViewController) {
         self.viewController?.present(vc, animated: true)
     }
-  //  source.show(destination, sender: nil)
-  //}
-  
-  // MARK: Passing data
-  
-  //func passDataToSomewhere(source: CategoriesDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+}
+//MARK: Routing Logic methods/ Navigation
+
+extension CategoriesRouter: CategoriesRoutingLogic {
+    func navigateToHomeScene() {
+        guard let selectedCategory  = dataStore?.passingCategories else { return }
+        let tabbarVc = TabBarViewController()
+        tabbarVc.passingData = selectedCategory
+        //let destVc = HomeSceneConfiguration.configure(with: selectedCategory)
+        viewController?.navigationController?.pushViewController(tabbarVc, animated: true )
+    }
+    
+    
+    
 }

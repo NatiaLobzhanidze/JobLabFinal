@@ -26,22 +26,24 @@ protocol HomeSceneBusinessLogic
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
 }
 
-protocol HomeSceneDataStore
-{
+protocol HomeSceneDataStore {
     var passingData: [TipsModel] { get }
     var selectedTip: TipsModel? { get }
     var passingJob: [JobModel] { get }
     var selectedJob: JobModel? { get }
+    var slectedCategories: [String] { get }
 }
 
-class HomeSceneInteractor: HomeSceneDataStore
-{
-    // MARK: Clean components
+final class HomeSceneInteractor: HomeSceneDataStore {
+   
+    
+   
+    //MARK: Clean components
     
     var presenter: HomeScenePresentationLogic?
     var worker: HomeSceneWorker
     
-    //MARK: Models Array
+    //MARK: Fields
     
     var tips = [TipsModel]()
     var currentData: [TipsModel]?
@@ -52,12 +54,14 @@ class HomeSceneInteractor: HomeSceneDataStore
     
     var passingData = [TipsModel]()
     var passingJob = [JobModel]()
+    var slectedCategories: [String]
     
     // MARK: Object Lifecycle
     
-    init(presenter: HomeScenePresentationLogic, worker: HomeSceneWorker ) {
+    init(presenter: HomeScenePresentationLogic, worker: HomeSceneWorker, slectedCategories: [String] ) {
         self.presenter = presenter
         self.worker  = worker
+        self.slectedCategories = slectedCategories
     }
 }
 
@@ -74,7 +78,6 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
         
     }
     
-  
     
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request) {
         self.selectedJob = request.job
@@ -85,12 +88,8 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
         let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword) })
-        if keyword != "" {
-            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: filteredJobs))
-        } else {
-            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: passingJob))
-        }
-        
+        let data = keyword.isEmpty ? passingJob : filteredJobs
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
     }
     
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request) {
@@ -110,14 +109,23 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
      //MARK: NetworkCall
     
     func getJobs(request: HomeScene.Getjobs.Request) async {
+        let category = slectedCategories
         do {
+        
         let jobResponse = try await worker.fetchAllJobs()
+            let filteredResponse = jobResponse.filter {category.contains($0.category)}
         DispatchQueue.main.async { [weak self] in
             self?.passingJob = jobResponse
-            self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: jobResponse))
-    
-        
-        } } catch {
+            //ternary!!
+            if category.contains("All") {
+                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: jobResponse))
+            } else {
+                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: filteredResponse))
+            }
+        }
+            
+        } catch {
+            //Error handling
             print(error)
         }
         
@@ -131,6 +139,7 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
                     self?.presenter?.presentTipsData(response: HomeScene.GetTips.Response(data: tipsResponse))
                 }
             } catch {
+                //Error handling
                 print(error.localizedDescription)
             }
         }

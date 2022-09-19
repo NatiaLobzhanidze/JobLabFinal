@@ -15,12 +15,17 @@ import UIKit
 protocol OnBoardingDisplayLogic: AnyObject
 {
     func displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel)
+    func displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel)
 }
 
-class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
+final class OnBoardingViewController: UIViewController
 {
+    //MARK: Clean components
+    
     var interactor: OnBoardingBusinessLogic?
     var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)?
+    
+    //MARK: View
     
     private lazy var collectionView: UICollectionView = {
         let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5))
@@ -29,7 +34,7 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         return sm
     }()
     
-    lazy var skipButton: UIButton = {
+    let skipButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Skip", for: .normal)
         btn.setTitleColor(.blue, for: .normal)
@@ -39,7 +44,7 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         return btn
     }()
     
-    lazy var nextButtom: UIButton = {
+    let nextButtom: UIButton = {
         let btn = UIButton()
         btn.setTitle("Next", for: .normal)
         btn.setTitleColor(.blue, for: .normal)
@@ -59,8 +64,19 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         return mypageControl
     }()
     
+    //MARK: Properties
     
     private(set) var dataSource = [OnBoardingModel]()
+    var currentPage: Int = 0 {
+        didSet {
+            pageControll.currentPage = currentPage
+            if currentPage == dataSource.count - 1 {
+                nextButtom.setTitle("Get Start", for: .normal)
+            } else {
+                nextButtom.setTitle("Next", for: .normal)
+            }
+        }
+    }
     
     // MARK: Object lifecycle
     
@@ -68,26 +84,13 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        
     }
     
-    var currentPage: Int = 0 {
-        didSet {
-            pageControll.currentPage = currentPage
-            if pageControll.currentPage == dataSource.count - 1 {
-                nextButtom.setTitle("Get Start", for: .normal)
-            } else if  pageControll.currentPage < dataSource.count - 1 {
-                nextButtom.setTitle("Next", for: .normal)
-                print(currentPage, pageControll.currentPage )
-            }
-        }
-    }
     // MARK: View lifecycle
     
     override func viewDidLoad()
@@ -97,9 +100,9 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         interactor?.getBanners(request: OnBoarding.GetOnBoardingData.Request())
         setUpCView()
     }
- 
-
+    
     // MARK: SetupView
+    
     private func setUpCView() {
         
         view.addSubview(skipButton)
@@ -109,46 +112,78 @@ class OnBoardingViewController: UIViewController, OnBoardingDisplayLogic
         view.addSubview(self.collectionView)
         collectionView.anchor(top: skipButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingRight: 0, height: 450)
         collectionView.registerClass(class: OnBoardingCollectionViewCell.self)
-        
         view.addSubview(pageControll)
         pageControll.anchor(top: collectionView.bottomAnchor, bottom: view.bottomAnchor, paddingTop: 30,  paddingBottom: 20,  width: 120, height: 45)
         pageControll.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
     }
+    
+    //MARK: Private Methods
     private func setTableData(data: [OnBoardingModel]) {
         self.dataSource = data
         collectionView.reloadData()
     }
-    func displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel) {
-        setTableData(data: viewModel.tableData)
+    private func changePage (on collectionView: UICollectionView){
+        if currentPage == dataSource.count - 1  {
+            interactor?.getLogInScene(reequest: OnBoarding.GoToLogInSccen.Request())
+        } else {
+            collectionView.isPagingEnabled = false
+            currentPage += 1
+            let indexPath = IndexPath(item: currentPage, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            collectionView.reloadData()
+            collectionView.isPagingEnabled = true
+        }
     }
+    
+    //MARK: @objc Methods
+    
     @objc func skipBtn() {
-        router?.navigateToAuthentication()
+        interactor?.getLogInScene(reequest: OnBoarding.GoToLogInSccen.Request())
     }
     @objc func nextPage() {
         changePage(on: self.collectionView)
     }
+    @objc func pageControllerAction(_ sender: UIPageControl, collectionView: UICollectionView) {
+        let page: Int = sender.currentPage
+        print(page)
+        collectionView.scrollToItem(at: IndexPath(row: page, section: 0), at: .centeredHorizontally, animated: true)
+        changePage(on: collectionView)
+    }
 }
+
+//MARK: DisplayLogic Methods
+
+extension OnBoardingViewController: OnBoardingDisplayLogic {
+    func displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel) {
+        router?.navigateToAuthentication()
+    }
+    
+    func displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel) {
+        setTableData(data: viewModel.tableData)
+    }
+}
+
+//MARK: COllectionView DataSource Methods
 
 extension OnBoardingViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         dataSource.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(OnBoardingCollectionViewCell.self, for: indexPath)
         cell.configure(with: dataSource[indexPath.row])
         return cell
     }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        _ = scrollView.frame.width
-        pageControll.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-    }
 }
+//MARK: Collectionview Delegate/FlowLayout Methods
 
 extension OnBoardingViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
     private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 100)
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let width = scrollView.frame.width
+        currentPage = Int(scrollView.contentOffset.x) / Int(width)
+        pageControll.currentPage = currentPage
     }
 }

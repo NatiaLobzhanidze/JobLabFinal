@@ -14,18 +14,18 @@ import UIKit
 
 protocol CategoriesPresentationLogic
 {
-  func presentSomething(response: Categories.Something.Response)
+    func presentHomeScene(response: Categories.FavoriteCategory.Response)
 }
 
 class CategoriesPresenter: CategoriesPresentationLogic
 {
+   
   weak var viewController: CategoriesDisplayLogic?
   
-  // MARK: Do something
-  
-  func presentSomething(response: Categories.Something.Response)
-  {
-    let viewModel = Categories.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
+  // MARK: resentationLogic methods
+    
+    func presentHomeScene(response: Categories.FavoriteCategory.Response) {
+        viewController?.displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel())
+    }
+    
 }

@@ -78,10 +78,12 @@ enum HomeScene
     enum Getjobs {
         struct Request
         {
+            
         }
         struct Response
         {
             let data: [JobModel]
+        
         }
         struct ViewModel
         {

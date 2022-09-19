@@ -14,7 +14,8 @@ import UIKit
 
 protocol AuthenticationBusinessLogic
 {
-    func doSomething(request: Authentication.LoginAction.Request)
+    func tryLogIn(request: Authentication.LoginAction.Request)
+    func getRegistrationScene(request: Authentication.GoRegisterScene.Request)
 }
 
 protocol AuthenticationDataStore
@@ -22,24 +23,45 @@ protocol AuthenticationDataStore
   //var name: String { get set }
 }
 
-class AuthenticationInteractor: AuthenticationBusinessLogic, AuthenticationDataStore
+class AuthenticationInteractor:  AuthenticationDataStore
 {
   var presenter: AuthenticationPresentationLogic?
   var worker: AuthenticationWorker?
-  //var name: String = ""
-  
+ 
+    init(presenter: AuthenticationPresentationLogic, worker: AuthenticationWorker ) {
+        self.presenter = presenter
+        self.worker = worker
+    }
   // MARK: Do something
   
     func doSomething(request: Authentication.LoginAction.Request)
   {
     worker = AuthenticationWorker()
-    worker?.doSomeWork()
-    
-      //let response = Authentication.LoginAction.Response(user: <#T##User#>)
-    //presenter?.presentSomething(response: response)
+ 
   }
-    
     private func checkEmail(from mail: String) -> Bool {
       mail.contains( "@" )
     }
+}
+extension AuthenticationInteractor: AuthenticationBusinessLogic {
+    
+   func tryLogIn(request: Authentication.LoginAction.Request) {
+       guard let mail = request.mailTextField.text,
+             let password = request.passwordTexfield.text else
+             { return }
+        worker?.tryLogIn(email: mail, pass: password, completionBlock: { [weak self] successResult in
+            if (successResult) {
+                self?.presenter?.presentSuccess()
+            } else {
+                self?.presenter?.presentFailure(message: "Something went wrong, try again")
+            }
+        })
+    }
+    
+    
+    func getRegistrationScene(request: Authentication.GoRegisterScene.Request) {
+        presenter?.presentRegisterScene(response: Authentication.GoRegisterScene.Response())
+    }
+    
+    
 }

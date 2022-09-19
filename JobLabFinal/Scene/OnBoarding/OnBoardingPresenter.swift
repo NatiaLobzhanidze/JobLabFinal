@@ -15,13 +15,16 @@ import UIKit
 protocol OnBoardingPresentationLogic
 {
     func presentBanners(response: OnBoarding.GetOnBoardingData.Response)
+    func presentLogInScene(response: OnBoarding.GoToLogInSccen.Response)
 }
 
 class OnBoardingPresenter: OnBoardingPresentationLogic
 {
+   
+    
   weak var viewController: OnBoardingDisplayLogic?
   
-  // MARK: Do something
+  // MARK: Privare Methods
     
     private func configureTableModel(from data: [OnBoardingModel]) -> [OnBoardingModel] {
         var tableModel = [OnBoardingModel]()
@@ -30,9 +33,15 @@ class OnBoardingPresenter: OnBoardingPresentationLogic
         })
         return tableModel
     }
+    
+    //MARK: PresentationLogic Methods
 
     func presentBanners(response: OnBoarding.GetOnBoardingData.Response) {
         let viewModel =  configureTableModel(from: response.data)
         viewController?.displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel(tableData: viewModel))
     }
+    func presentLogInScene(response: OnBoarding.GoToLogInSccen.Response) {
+        viewController?.displayLogInScene(viewModel: OnBoarding.GoToLogInSccen.ViewModel())
+    }
 }
+

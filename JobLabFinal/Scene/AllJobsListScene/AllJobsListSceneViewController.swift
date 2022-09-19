@@ -104,7 +104,7 @@ class AllJobsListSceneViewController: UIViewController
         collectionView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
 }
-//MARK: Searchbar meThods
+//MARK: Searchbar methods
 extension AllJobsListSceneViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else {

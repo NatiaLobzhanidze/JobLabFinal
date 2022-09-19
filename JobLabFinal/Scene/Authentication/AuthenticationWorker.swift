@@ -11,10 +11,23 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
-class AuthenticationWorker
+protocol AuthenticationWorkerLogic {
+    func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void)
+}
+
+class AuthenticationWorker: AuthenticationWorkerLogic
 {
-  func doSomeWork()
-  {
-  }
+    func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
+            if let error = error {
+                print(error)
+                completionBlock(false)
+            } else {
+                completionBlock(true)
+              }
+        }
+    }
 }

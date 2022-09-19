@@ -116,7 +116,7 @@ class BottomSheetViewController: UIViewController, BottomSheetDisplayLogic
     
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
         print("its ok tap")
-        let vc = CategoriesViewController()
+        let vc = CategoriesSceneConfiguration.configure()
         let navc2 = UINavigationController(rootViewController: vc)
         view.window?.rootViewController = navc2
         view.window?.makeKeyAndVisible()

@@ -20,11 +20,13 @@ enum Authentication
   {
     struct Request
     {
-        let email, password: String
+        let mailTextField: UITextField
+        let passwordTexfield: UITextField
     }
     struct Response
     {
         let user: User
+        
     }
     struct ViewModel
     {
@@ -33,4 +35,16 @@ enum Authentication
         let isVAlid: Bool
     }
   }
+    enum GoRegisterScene
+    {
+      struct Request
+      {
+      }
+      struct Response
+      {
+      }
+      struct ViewModel
+      {
+      }
+    }
 }

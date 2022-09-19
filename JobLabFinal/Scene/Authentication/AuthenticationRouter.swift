@@ -15,7 +15,7 @@ import UIKit
 @objc protocol AuthenticationRoutingLogic
 {
     func navigationToRegistration()
-    func navigateToSomewhere(destination: UIViewController)
+    func navigateToCategoriesScene()
 }
 
 protocol AuthenticationDataPassing
@@ -23,49 +23,25 @@ protocol AuthenticationDataPassing
   var dataStore: AuthenticationDataStore? { get }
 }
 
-class AuthenticationRouter: NSObject, AuthenticationRoutingLogic, AuthenticationDataPassing
+class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassing
 {
-    func navigationToRegistration() {
-        let vc = RegistrationConfiguration.configure()
-        self.viewController?.navigationController?.pushViewController(vc, animated: true)
-    }
-    
   weak var viewController: AuthenticationViewController?
   var dataStore: AuthenticationDataStore?
     init(dataStore: AuthenticationDataStore ) {
    
         self.dataStore = dataStore
     }
-  // MARK: Routing
-  
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
 
-  // MARK: Navigation
-  
-  func navigateToSomewhere( destination: UIViewController)
-  {
-//    source.show(destination, sender: nil)
-      self.viewController?.present(destination, animated: true)
-      
-  }
-  }
-  
-  // MARK: Passing data
-  
-  //func passDataToSomewhere(source: AuthenticationDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+  // MARK: RoutingLogic Methods
+    
+    func navigationToRegistration() {
+        let vc = RegistrationConfiguration.configure()
+        viewController?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func navigateToCategoriesScene() {
+        let desttVc = CategoriesSceneConfiguration.configure()
+        viewController?.navigationController?.pushViewController(desttVc, animated: true)
+    }
+    
+}

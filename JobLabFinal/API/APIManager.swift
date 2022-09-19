@@ -9,6 +9,7 @@ import Foundation
 
 
 final class APIManager {
+    
     static var shared = APIManager()
     func fetchData<T: Decodable>(urlString: String, decodingType: T.Type) async throws -> T {
         let session = URLSession.shared

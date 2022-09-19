@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import CoreData
+
+
 
 class AllJobsListCollectionViewCell: UICollectionViewCell {
+    
+    var favoriteJobs: JobModel?
     
     //MARK: View
     
@@ -49,6 +54,7 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
     let favoriteButton: UIButton = {
         let btn = UIButton()
         btn.setDimensions(height: 60, width: 60)
+        btn.addTarget(self, action: #selector(addToFavoritesList), for: .touchUpInside)
         return btn
     }()
     let sallery: UILabel = {
@@ -83,10 +89,22 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
     private func setUpView() {
         JobModelStackview.shared.setUpViews(location: self.location, jobTimeType: self.jobTimeType, jobName: self.jobName, employerName: self.employerName, favoriteButton: self.favoriteButton, sallery: self.sallery, logoImage: self.logoImage, view: self.contentView )
     }
+    
+    @objc func addToFavoritesList() {
+        guard let favoriteJobs = favoriteJobs else { return }
+        let jobDictionary: [String : Any] = ["image" : favoriteJobs.logoImage,
+                                             "employer" : favoriteJobs.brand,
+                                             "isFavorite" : true,
+                                             "jobTitle" : favoriteJobs.jobTitle,
+                ]
+        CoreDataManaager.shared.create(from: jobDictionary, toEntity: "Favorites")
+        favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        print("saved?")
+    }
     //MARK: Configure Cell
     
     func configureCell(with model: JobModel) {
-        
+        self.favoriteJobs = model
         self.logoImage.load(url: URL(string: model.logoImage)!)
         self.employerName.text = model.brand
         self.jobName.text = model.jobTitle

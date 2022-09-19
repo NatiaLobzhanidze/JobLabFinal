@@ -12,8 +12,7 @@
 
 import UIKit
 
-protocol HomeScenePresentationLogic
-{
+protocol HomeScenePresentationLogic {
   func presentTipsData(response: HomeScene.GetTips.Response)
   func presentAllTips(response: HomeScene.ShowAllTips.Response)
   func presnetTipsDetails(response: HomeScene.SeeDetails.Response)
@@ -24,11 +23,8 @@ protocol HomeScenePresentationLogic
   func presentjobsByCategory(response: HomeScene.FilterJobs.Response)
 }
 
-class HomeScenePresenter
-{
+final class HomeScenePresenter {
   weak var viewController: HomeSceneDisplayLogic?
-  
-  // MARK: Private Methods
   
 }
 
@@ -63,8 +59,7 @@ extension HomeScenePresenter: HomeScenePresentationLogic {
         viewController?.displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel())
     }
     
-    func presentTipsData(response: HomeScene.GetTips.Response)
-    {
+    func presentTipsData(response: HomeScene.GetTips.Response) {
         let viewModel = response.data
         viewController?.displayTips(viewModel: HomeScene.GetTips.ViewModel(data: viewModel))
     }
