@@ -12,15 +12,21 @@
 
 import UIKit
 
-protocol AuthenticationPresentationLogic
-{
+protocol AuthenticationPresentationLogic {
     func presentSuccess()
     func presentFailure( message: String)
     func presentRegisterScene(response: Authentication.GoRegisterScene.Response)
 }
 
-class AuthenticationPresenter: AuthenticationPresentationLogic
-{
+final class AuthenticationPresenter {
+ 
+  weak var viewController: AuthenticationDisplayLogic?
+  
+}
+
+// MARK: Do something
+
+extension AuthenticationPresenter: AuthenticationPresentationLogic  {
     func presentSuccess() {
         viewController?.displayLogIngSuccess()
     }
@@ -29,12 +35,7 @@ class AuthenticationPresenter: AuthenticationPresentationLogic
         viewController?.displayLogInFailure(message: message)
     }
     
-  weak var viewController: AuthenticationDisplayLogic?
-  
-  // MARK: Do something
-  
-    func presentRegisterScene(response: Authentication.GoRegisterScene.Response)
-  {
+    func presentRegisterScene(response: Authentication.GoRegisterScene.Response) {
       viewController?.displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel())
-  }
+  }    
 }

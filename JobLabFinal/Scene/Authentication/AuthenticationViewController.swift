@@ -19,130 +19,14 @@ protocol AuthenticationDisplayLogic: AnyObject {
     func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel)
 }
 
-final class AuthenticationViewController:  UIViewController {
+final class AuthenticationViewController:  BaseViewController {
     
     //MARK: Clean Components
     
   var interactor: AuthenticationBusinessLogic?
   var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)?
     
-    //MARK: UI
-    lazy var blurView: UIView = {
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: Int(UIScreen.main.bounds.width), height:  Int(UIScreen.main.bounds.height)))
-        v.backgroundColor = .white
-        
-        return v
-    }()
-   lazy var indicator: UIActivityIndicatorView = {
-        let i = UIActivityIndicatorView()
-       blurView.addSubview(i)
-        i.centerX(inView: blurView)
-        i.centerY(inView: blurView)
-        i.style = .large
-       i.tintColor = .tintColor
-       return i
-    }()
-    
-    let logoImage : UIImageView = {
-        let img = UIImageView()
-        img.image = UIImage(named: "logo")
-        
-        return img
-    }()
-    
-    let headLineLb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Sing in to you account"
-        lb.font = .systemFont(ofSize: 20, weight: .semibold)
-        lb.textAlignment = .center
-        
-        return lb
-    }()
-  
-    let emailLb: UILabel = {
-        let lb = UILabel()
-        lb.addRequiredAsterisk(text: "   Email *")
-        lb.font = .systemFont(ofSize: 14, weight: .semibold)
-        
-        return lb
-    }()
-    let emailTxFld: UITextField = {
-        let txt = UITextField()
-        txt.placeholder = "  Email"
-        txt.format()
-        txt.shadowedField()
-        txt.addPaddingToTextField()
-        return txt
-    }()
-    
-    let passwordLb: UILabel = {
-        let lb = UILabel()
-        lb.addRequiredAsterisk(text: "   Password *")
-        lb.font = .systemFont(ofSize: 14, weight: .semibold)
-        return lb
-    }()
-    
-    let passwordTxFld: UITextField = {
-        let txt = UITextField()
-        txt.placeholder = " Password"
-        txt.format()
-        txt.shadowedField()
-        txt.addPaddingToTextField()
-        return txt
-    }()
 
-    let signInBtn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Sing in", for: .normal)
-        btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
-        btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
-        btn.layer.cornerRadius = 20
-        btn.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
-
-        return btn
-    }()
-  
-    let orContinueLb: UILabel = {
-        let lb = UILabel()
-        lb.text = "or continue with"
-        lb.textAlignment = .center
-        lb.font = .systemFont(ofSize: 15)
-        
-        return lb
-    }()
-    
-    let fbBtn: UIButton = {
-        let btn = UIButton(type: .custom)
-        btn.configureBtn(with: "  FaceBook", image: "fb")
-        return btn
-    }()
-    let googleBtn: UIButton = {
-        let btn = UIButton()
-        btn.configureBtn(with: "  Google", image: "32")
-        return btn
-    }()
-    
-    let donthaveAn: UILabel = {
-        let lb = UILabel()
-        lb.text = "Don't have an account?"
-        lb.textAlignment = .right
-        lb.font = .systemFont(ofSize: 15)
-        
-        return lb
-    }()
-    
-    let signUp: UIButton = {
-        
-        let btn = UIButton()
-        btn.setTitle("SignUp", for: .normal)
-        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 15)
-        btn.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
-       
-
-        return btn
-    }()
-    
   // MARK: Object lifecycle
     
     init(interactor: AuthenticationBusinessLogic, router: (AuthenticationRoutingLogic & AuthenticationDataPassing)) {
@@ -159,13 +43,10 @@ final class AuthenticationViewController:  UIViewController {
     
     override func viewDidLoad() {
       super.viewDidLoad()
-        addSpiner()
+        setUpView()
     }
-  
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
 
-    }
+
   // MARK: @objc Methods
   
     @objc func goToRegistration() {
@@ -179,11 +60,12 @@ final class AuthenticationViewController:  UIViewController {
   // MARK: set up UI
     
     private func setUpView() {
+        setUpBaseVcUI()
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
-        let btnArr: [UIButton] = [signInBtn,fbBtn, googleBtn, signUp]
+        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, signUp]
         let scrollView = UIScrollView()
             scrollView.isScrollEnabled = true
         let contentView = UIView()
@@ -192,14 +74,10 @@ final class AuthenticationViewController:  UIViewController {
         self.addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
         self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }
-    
-    private func addSpiner() {
-        view.addSubview(blurView)
-        indicator.startAnimating()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.indicator.stopAnimating()
-            self?.setUpView()
-        }
+    private func setUpBaseVcUI() {
+        mainBtn.setTitle("Log in", for: .normal)
+        signUp.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
+        mainBtn.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
     }
 }
 

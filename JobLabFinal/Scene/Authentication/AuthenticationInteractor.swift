@@ -12,19 +12,15 @@
 
 import UIKit
 
-protocol AuthenticationBusinessLogic
-{
+protocol AuthenticationBusinessLogic {
     func tryLogIn(request: Authentication.LoginAction.Request)
     func getRegistrationScene(request: Authentication.GoRegisterScene.Request)
 }
 
-protocol AuthenticationDataStore
-{
-  //var name: String { get set }
+protocol AuthenticationDataStore {
 }
 
-class AuthenticationInteractor:  AuthenticationDataStore
-{
+final class AuthenticationInteractor:  AuthenticationDataStore {
   var presenter: AuthenticationPresentationLogic?
   var worker: AuthenticationWorker?
  
@@ -32,36 +28,25 @@ class AuthenticationInteractor:  AuthenticationDataStore
         self.presenter = presenter
         self.worker = worker
     }
-  // MARK: Do something
-  
-    func doSomething(request: Authentication.LoginAction.Request)
-  {
-    worker = AuthenticationWorker()
- 
-  }
-    private func checkEmail(from mail: String) -> Bool {
-      mail.contains( "@" )
-    }
 }
+
+//MARK: BusinessLogic
+
 extension AuthenticationInteractor: AuthenticationBusinessLogic {
     
    func tryLogIn(request: Authentication.LoginAction.Request) {
        guard let mail = request.mailTextField.text,
-             let password = request.passwordTexfield.text else
-             { return }
+             let password = request.passwordTexfield.text else { return }
         worker?.tryLogIn(email: mail, pass: password, completionBlock: { [weak self] successResult in
             if (successResult) {
                 self?.presenter?.presentSuccess()
             } else {
-                self?.presenter?.presentFailure(message: "Something went wrong, try again")
+                self?.presenter?.presentFailure(message: AlertMessage.wrong.rawValue)
             }
         })
     }
     
-    
     func getRegistrationScene(request: Authentication.GoRegisterScene.Request) {
         presenter?.presentRegisterScene(response: Authentication.GoRegisterScene.Response())
     }
-    
-    
 }

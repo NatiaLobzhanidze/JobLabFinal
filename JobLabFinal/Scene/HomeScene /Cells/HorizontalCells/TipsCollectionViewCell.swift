@@ -74,9 +74,9 @@ class TipsCollectionViewCell: UICollectionViewCell {
    private func setUpView() {
        contentView.addSubview(coverImage)
         coverImage.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 5)
-        myview.addSubview(tipTitle)
+       contentView.addSubview(tipTitle)
         tipTitle.anchor(top: contentView.topAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingRight: 20 , width: 120)
-        myview.addSubview(seeMoreBtn)
+       contentView.addSubview(seeMoreBtn)
        seeMoreBtn.anchor( top: tipTitle.bottomAnchor, bottom: contentView.bottomAnchor, right: coverImage.rightAnchor, paddingTop: 15, paddingBottom: 30, paddingRight: 5 , width: 100, height: 40)
     }
    

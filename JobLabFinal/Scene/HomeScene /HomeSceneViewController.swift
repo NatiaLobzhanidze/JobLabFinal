@@ -109,21 +109,19 @@ final class HomeSceneViewController: UIViewController {
         tableView.reloadData()
     }
     
+    
     // MARK: SetupUI
     
     private func registerCells() {
-        
         tableView.registerClass(class: FirstTableViewCell.self)
         tableView.registerClass(class: TipsTableViewCell.self)
         tableView.registerClass(class: SeeAllJobsTableViewCell.self)
         tableView.registerClass(class: JobsTableViewCell.self)
         tableView.registerClass(class: FilterTableViewCell.self)
-       
     }
     
     private func setUpViews() {
         view.backgroundColor = .white
-       
         view.addSubview(mySearchBar)
         mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
@@ -215,6 +213,7 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
  
             self.setJobsTableData(data: viewModel.data)
     }
+    
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
         router?.navigateToAllJobsScene()
     }
@@ -245,7 +244,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         case 0, 2:
             return 30
         case 1:
-            return 170
+            return 200
         case 3:
             return 60
         default:
@@ -287,7 +286,6 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             return cell
         case 4:
-            
             let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
             cell.jobsConteiner = jobsDataSource
             cell.delegate = self

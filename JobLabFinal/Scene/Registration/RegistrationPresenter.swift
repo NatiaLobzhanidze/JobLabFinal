@@ -12,18 +12,17 @@
 
 import UIKit
 
-protocol RegistrationPresentationLogic
-{
+protocol RegistrationPresentationLogic {
     func presentSuccess(with message: String)
     func presentFailure(with message: String)
 }
 
-class RegistrationPresenter: RegistrationPresentationLogic
-{
+final class RegistrationPresenter: RegistrationPresentationLogic {
     
   weak var viewController: RegistrationDisplayLogic?
   
   // MARK: PresentationLogic Methods
+    
     func presentSuccess(with message: String) {
         self.viewController?.displayCreatingSuccess(message: message)
     }
@@ -31,5 +30,4 @@ class RegistrationPresenter: RegistrationPresentationLogic
     func presentFailure(with message: String) {
         self.viewController?.displayCreatingFailure(message: message)
     }
-
 }

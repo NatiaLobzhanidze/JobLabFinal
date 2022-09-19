@@ -18,8 +18,7 @@ protocol AuthenticationWorkerLogic {
     func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void)
 }
 
-class AuthenticationWorker: AuthenticationWorkerLogic
-{
+class AuthenticationWorker: AuthenticationWorkerLogic {
     func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
             if let error = error {

@@ -32,17 +32,6 @@ class TipsTableViewCell: UITableViewCell {
     
     lazy var collectionView: UICollectionView = {
         let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: 290, height: 160))
-//        let layout = UICollectionViewFlowLayout()
-//        layout.itemSize = CGSize(width: 290, height: 160)
-//        layout.scrollDirection = .horizontal
-//        layout.minimumInteritemSpacing = 10
-//        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        view.isScrollEnabled = true
-//        view.isPagingEnabled = true
-//        view.isPrefetchingEnabled = true
-//        view.showsHorizontalScrollIndicator = false
-//        view.backgroundColor = .white
-//        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         cv.delegate = self
         cv.dataSource = self
         
@@ -67,6 +56,7 @@ class TipsTableViewCell: UITableViewCell {
     }
     
     //MARK: setUp UI
+    
     private func setUpViews() {
         self.contentView.addSubview(collectionView)
         collectionView.anchor(top: contentView.topAnchor,

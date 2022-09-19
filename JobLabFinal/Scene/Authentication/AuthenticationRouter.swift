@@ -12,23 +12,19 @@
 
 import UIKit
 
-@objc protocol AuthenticationRoutingLogic
-{
+protocol AuthenticationRoutingLogic {
     func navigationToRegistration()
     func navigateToCategoriesScene()
 }
 
-protocol AuthenticationDataPassing
-{
+protocol AuthenticationDataPassing {
   var dataStore: AuthenticationDataStore? { get }
 }
 
-class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassing
-{
+class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassing {
   weak var viewController: AuthenticationViewController?
   var dataStore: AuthenticationDataStore?
     init(dataStore: AuthenticationDataStore ) {
-   
         self.dataStore = dataStore
     }
 
@@ -43,5 +39,4 @@ class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassin
         let desttVc = CategoriesSceneConfiguration.configure()
         viewController?.navigationController?.pushViewController(desttVc, animated: true)
     }
-    
 }

@@ -19,6 +19,9 @@
 		605E9F4C28D7539F00956B07 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F4B28D7539F00956B07 /* CoreDataManager.swift */; };
 		605E9F4E28D7969400956B07 /* FavoritesSceneConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F4D28D7969400956B07 /* FavoritesSceneConfiguration.swift */; };
 		605E9F5228D898E500956B07 /* BaseClassForIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F5128D898E500956B07 /* BaseClassForIndicator.swift */; };
+		605E9F5428D8BB5300956B07 /* VcSpinnerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F5328D8BB5300956B07 /* VcSpinnerExtension.swift */; };
+		605E9F5728D8D67D00956B07 /* AllertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F5628D8D67D00956B07 /* AllertMessages.swift */; };
+		605E9F5A28D8DBDA00956B07 /* TextFldsLabelInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605E9F5928D8DBDA00956B07 /* TextFldsLabelInput.swift */; };
 		6075AC0528BF911C00FD823A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC0428BF911C00FD823A /* AppDelegate.swift */; };
 		6075AC0728BF911C00FD823A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC0628BF911C00FD823A /* SceneDelegate.swift */; };
 		6075AC0F28BF911C00FD823A /* JobLabFinal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6075AC0D28BF911C00FD823A /* JobLabFinal.xcdatamodeld */; };
@@ -152,6 +155,9 @@
 		605E9F4B28D7539F00956B07 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		605E9F4D28D7969400956B07 /* FavoritesSceneConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSceneConfiguration.swift; sourceTree = "<group>"; };
 		605E9F5128D898E500956B07 /* BaseClassForIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseClassForIndicator.swift; sourceTree = "<group>"; };
+		605E9F5328D8BB5300956B07 /* VcSpinnerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VcSpinnerExtension.swift; sourceTree = "<group>"; };
+		605E9F5628D8D67D00956B07 /* AllertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllertMessages.swift; sourceTree = "<group>"; };
+		605E9F5928D8DBDA00956B07 /* TextFldsLabelInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFldsLabelInput.swift; sourceTree = "<group>"; };
 		6075AC0128BF911C00FD823A /* JobLabFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JobLabFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6075AC0428BF911C00FD823A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6075AC0628BF911C00FD823A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -348,6 +354,22 @@
 			path = BaseClassForAuth;
 			sourceTree = "<group>";
 		};
+		605E9F5528D8D66800956B07 /* AleertMessages */ = {
+			isa = PBXGroup;
+			children = (
+				605E9F5628D8D67D00956B07 /* AllertMessages.swift */,
+			);
+			path = AleertMessages;
+			sourceTree = "<group>";
+		};
+		605E9F5828D8DBC000956B07 /* TextFieldsLabelsInput */ = {
+			isa = PBXGroup;
+			children = (
+				605E9F5928D8DBDA00956B07 /* TextFldsLabelInput.swift */,
+			);
+			path = TextFieldsLabelsInput;
+			sourceTree = "<group>";
+		};
 		6075ABF828BF911C00FD823A = {
 			isa = PBXGroup;
 			children = (
@@ -436,6 +458,8 @@
 		6075AC2D28BF951F00FD823A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				605E9F5828D8DBC000956B07 /* TextFieldsLabelsInput */,
+				605E9F5528D8D66800956B07 /* AleertMessages */,
 				60D07F3728CB34A800D8562B /* TipsModel */,
 				6075AC2E28BF953300FD823A /* OnBoarding */,
 				6075AC7D28C3FA8100FD823A /* UserModel */,
@@ -474,6 +498,7 @@
 				60D07F3528CB33FE00D8562B /* ImageViewExtension.swift */,
 				60D07F9A28D345CD00D8562B /* AddBorderLinesToView.swift */,
 				6075AC6E28C3755400FD823A /* ButtonsExtensions.swift */,
+				605E9F5328D8BB5300956B07 /* VcSpinnerExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -878,6 +903,7 @@
 				6075ACA728C6B67200FD823A /* EditProfileViewController.swift in Sources */,
 				6075AC9428C6496300FD823A /* CategoriesModels.swift in Sources */,
 				60D07F7928CF34FD00D8562B /* AllJobsListSceneInteractor.swift in Sources */,
+				605E9F5728D8D67D00956B07 /* AllertMessages.swift in Sources */,
 				6075AC9C28C6AF1400FD823A /* LayoutInformation.swift in Sources */,
 				6075AC4228C0A3E200FD823A /* CollectionViewExtensions.swift in Sources */,
 				60D07F6428CDCBCE00D8562B /* TipsDetailsSceneRouter.swift in Sources */,
@@ -902,6 +928,7 @@
 				60D07F6628CDCBCE00D8562B /* TipsDetailsSceneViewController.swift in Sources */,
 				60D07F2C28CA789900D8562B /* JobModel.swift in Sources */,
 				60D07F5128CD298A00D8562B /* AllTipsListSceneConfiguration.swift in Sources */,
+				605E9F5A28D8DBDA00956B07 /* TextFldsLabelInput.swift in Sources */,
 				60D07F4A28CD296600D8562B /* AllTipsListScenePresenter.swift in Sources */,
 				605E9F4828D718C600956B07 /* FavoritesSceneInteractor.swift in Sources */,
 				6075AC3B28C09F3E00FD823A /* ConstraintsExtensions.swift in Sources */,
@@ -959,6 +986,7 @@
 				6075AC2828BF922E00FD823A /* OnBoardingModels.swift in Sources */,
 				60D07F1A28C8E3FC00D8562B /* HomeSceneRouter.swift in Sources */,
 				60D07F1C28C8E3FC00D8562B /* HomeSceneViewController.swift in Sources */,
+				605E9F5428D8BB5300956B07 /* VcSpinnerExtension.swift in Sources */,
 				60D07F2628C92A3E00D8562B /* TipsCollectionViewCell.swift in Sources */,
 				605E9F3828D60C6100956B07 /* CategoriesSceneConfiguration.swift in Sources */,
 				6075ACA628C6B67200FD823A /* EditProfileModels.swift in Sources */,

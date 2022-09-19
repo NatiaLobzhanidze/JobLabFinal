@@ -12,19 +12,14 @@
 
 import UIKit
 
-protocol RegistrationBusinessLogic
-{
+protocol RegistrationBusinessLogic {
     func createAccount(request: Registration.CreateUser.Request)
-  //  func checkValidity(request: Registration.CheckTextFields.Request)
 }
 
-protocol RegistrationDataStore
-{
-  //var name: String { get set }
+protocol RegistrationDataStore {
 }
 
-class RegistrationInteractor:  RegistrationDataStore
-{
+final class RegistrationInteractor:  RegistrationDataStore {
   var presenter: RegistrationPresentationLogic?
   var worker: RegistrationWorker?
     
@@ -36,45 +31,29 @@ class RegistrationInteractor:  RegistrationDataStore
         self.presenter = presenter
         self.worker = worker
     }
-  //MARK: Private Methods
-    
- 
-
 }
  //MARK: BusinessLogics Methods
 
 extension RegistrationInteractor : RegistrationBusinessLogic {
-  
-    
-  
-    
+
     func createAccount(request: Registration.CreateUser.Request) {
         
-        guard let mail = request.mailTextField.text,
-                let password = request.passwordTexfield.text,
-              let repassword = request.checkPassword.text else {
-                  presenter?.presentFailure(with: "please, be sure that all fields are filled")
+      guard let mail = request.mailTextField.text, let password = request.passwordTexfield.text else {
+          presenter?.presentFailure(with: AlertMessage.fillFields.rawValue)
                   return }
-        let checkfeldsResult =  worker?.checkValidity(email: request.mailTextField, password: request.passwordTexfield, rePassword: request.checkPassword)
         
-        var message: String = String()
-  
-        guard let  validation = checkfeldsResult else {
-            
+        if  let checkfeldsResult =  worker?.checkValidity(email: request.mailTextField, password: request.passwordTexfield, rePassword: request.checkPassword) {
+            self.presenter?.presentFailure(with: "\(checkfeldsResult)")
+        } else {
             worker?.createUser(email: mail, password: password, completionBlock: { success in
                           if (success) {
-                              message = "User was sucessfully created."
-                              self.presenter?.presentSuccess(with: message)
+                              self.presenter?.presentSuccess(with: AlertMessage.success.rawValue)
                           } else {
-                              message = "There was an error."
-                              self.presenter?.presentFailure(with: message)
+                              self.presenter?.presentFailure(with: AlertMessage.problemCreating.rawValue )
                           }
             })
-            
-            return }
-        self.presenter?.presentFailure(with: "\(validation)")
-    
+        }
     }
-    }
+}
 
 

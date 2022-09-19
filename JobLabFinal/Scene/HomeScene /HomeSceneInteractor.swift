@@ -16,13 +16,11 @@ protocol HomeSceneBusinessLogic
 {
     func getTips(request: HomeScene.GetTips.Request)
     func getJobs(request: HomeScene.Getjobs.Request) async
-    
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request)
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request)
     func getFilteredJobs(request: HomeScene.FilterJobs.Request)
-    
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
 }
 
@@ -35,8 +33,6 @@ protocol HomeSceneDataStore {
 }
 
 final class HomeSceneInteractor: HomeSceneDataStore {
-   
-    
    
     //MARK: Clean components
     
@@ -68,22 +64,15 @@ final class HomeSceneInteractor: HomeSceneDataStore {
 extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
-        if keyword == "all jobs" {
-            presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: passingJob))
-        } else {
-            
-            let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
-            presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: filteredJobs))
-        }
-        
+        let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
+        let data = keyword == "all jobs" ? passingJob : filteredJobs
+        presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: data))
     }
-    
     
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request) {
         self.selectedJob = request.job
         presenter?.presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response())
     }
-    
     
     func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
@@ -99,8 +88,8 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     func seeTipsDetails(request: HomeScene.SeeDetails.Request) {
         self.selectedTip = request.tip
         presenter?.presnetTipsDetails(response: HomeScene.SeeDetails.Response())
-
     }
+    
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request) {
         self.passingData = tips
         presenter?.presentAllTips(response: HomeScene.ShowAllTips.Response())
@@ -111,25 +100,20 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     func getJobs(request: HomeScene.Getjobs.Request) async {
         let category = slectedCategories
         do {
-        
-        let jobResponse = try await worker.fetchAllJobs()
+            let jobResponse = try await worker.fetchAllJobs()
             let filteredResponse = jobResponse.filter {category.contains($0.category)}
-        DispatchQueue.main.async { [weak self] in
-            self?.passingJob = jobResponse
-            //ternary!!
-            if category.contains("All") {
-                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: jobResponse))
-            } else {
-                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: filteredResponse))
+            DispatchQueue.main.async { [weak self] in
+                self?.passingJob = jobResponse
+                //ternary!!
+                let data = category.contains("All") ? jobResponse : filteredResponse
+                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: data))
             }
-        }
-            
         } catch {
             //Error handling
             print(error)
         }
-        
     }
+    
     func getTips(request: HomeScene.GetTips.Request) {
         Task {
             do {
@@ -144,6 +128,4 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
             }
         }
     }
-    
- 
 }

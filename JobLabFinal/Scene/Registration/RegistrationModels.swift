@@ -12,38 +12,31 @@
 
 import UIKit
 
-enum Registration
-{
-  // MARK: Use cases
-  
-  enum CreateUser
-  {
-    struct Request
-    {
-        let mailTextField: UITextField
-        let passwordTexfield: UITextField
-        let checkPassword: UITextField
+enum Registration {
+    
+    // MARK: Use cases
+    
+    enum CreateUser {
+        struct Request {
+            let mailTextField: UITextField
+            let passwordTexfield: UITextField
+            let checkPassword: UITextField
+        }
+        struct Response {
+        }
+        struct ViewModel {
+        }
     }
-    struct Response
-    {
-    }
-    struct ViewModel
-    {
-    }
-  }
     enum CheckTextFields {
         
-          struct Request
-          {
-              let mailTextField: UITextField
-              let passwordTexfield: UITextField
-              let checkPassword: UITextField
-          }
-          struct Response
-          {
-          }
-          struct ViewModel
-          {
-          }
+        struct Request {
+            let mailTextField: UITextField
+            let passwordTexfield: UITextField
+            let checkPassword: UITextField
+        }
+        struct Response {
+        }
+        struct ViewModel {
+        }
     }
 }

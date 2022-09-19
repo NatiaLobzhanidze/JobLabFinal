@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 enum Authentication
 {

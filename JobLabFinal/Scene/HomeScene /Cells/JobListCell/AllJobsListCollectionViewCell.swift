@@ -66,13 +66,13 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        setUpView()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -81,7 +81,7 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        setUpView()
+    
     }
     
     //MARK: Private Methods

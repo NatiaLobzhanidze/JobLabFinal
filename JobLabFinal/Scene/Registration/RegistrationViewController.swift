@@ -12,211 +12,110 @@
 
 import UIKit
 
-
-protocol RegistrationDisplayLogic: AnyObject
-{
+protocol RegistrationDisplayLogic: AnyObject {
     func displayCreatingSuccess(message: String)
     func displayCreatingFailure(message: String)
     func tryCreateUser(viewModel: Registration.CreateUser.ViewModel)
 }
 
-class RegistrationViewController: UIViewController
-{
-  var interactor: RegistrationBusinessLogic?
-  var router: (RegistrationRoutingLogic & RegistrationDataPassing)?
-
-  // MARK: Object lifecycle
-    //scrollView_ contentview
-       let scrollView : UIScrollView  = {
-           let view = UIScrollView()
-           view.isScrollEnabled = true
-           return view
-       }()
-       let contentView = UIView()
-       
-       // imageView
-       let logoImage : UIImageView = {
-           let img = UIImageView()
-           img.image = UIImage(named: "logo")
-           
-           return img
-       }()
-       
-       let headLineLb: UILabel = {
-           let lb = UILabel()
-           lb.text = "Sing in to you account"
-           lb.font = .systemFont(ofSize: 20, weight: .semibold)
-           lb.textAlignment = .center
-           
-           return lb
-       }()
-     
-       let emailLb: UILabel = {
-           let lb = UILabel()
-           lb.addRequiredAsterisk(text: "   Email *")
-           lb.font = .systemFont(ofSize: 14, weight: .semibold)
-           
-           return lb
-       }()
+final class RegistrationViewController: BaseViewController {
     
-       let emailTxFld: UITextField = {
-           let txt = UITextField()
-           txt.placeholder = "  Email"
-           txt.format()
-           txt.shadowedField()
-           txt.addPaddingToTextField()
-           return txt
-       }()
-       
-       //MARK:  passwords
-       let passwordLb: UILabel = {
-           let lb = UILabel()
-           lb.addRequiredAsterisk(text: "   Password *")
-           lb.font = .systemFont(ofSize: 14, weight: .semibold)
-           return lb
-       }()
-       
-       let passwordTxFld: UITextField = {
-           let txt = UITextField()
-           txt.placeholder = "  Password"
-           txt.format()
-           txt.shadowedField()
-           txt.addPaddingToTextField()
-           return txt
-       }()
-       
-    let repeatePasswordLb: UILabel = {
+    //MARK: Clean Components
+    
+    var interactor: RegistrationBusinessLogic?
+    var router: (RegistrationRoutingLogic & RegistrationDataPassing)?
+    
+    // MARK: UI
+    
+    let scrollView : UIScrollView  = {
+        let view = UIScrollView()
+        view.isScrollEnabled = true
+        return view
+    }()
+    
+    let contentView = UIView()
+    
+    let confirmePasswordLb: UILabel = {
         let lb = UILabel()
-        lb.addRequiredAsterisk(text: "   Repeat Password *")
+        lb.addRequiredAsterisk(text: TextFieldsTitles.confirmPasswordAsterisk.rawValue)
         lb.font = .systemFont(ofSize: 14, weight: .semibold)
         return lb
     }()
     
     let repeatePasswordtxFld: UITextField = {
         let txt = UITextField()
-        txt.placeholder = "  Repeat Password"
+        txt.placeholder = TextFieldsTitles.confirmPassword.rawValue
         txt.format()
         txt.shadowedField()
         txt.addPaddingToTextField()
+        txt.isSecureTextEntry = true
+        
         return txt
     }()
-
-       let signUpBtn: UIButton = {
-           let btn = UIButton()
-           btn.setTitle("Sing up", for: .normal)
-           btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
-           btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
-           btn.layer.cornerRadius = 20
-           btn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
-           return btn
-       }()
-     
-       let orContinueLb: UILabel = {
-           let lb = UILabel()
-           lb.text = "or continue with"
-           lb.textAlignment = .center
-           lb.font = .systemFont(ofSize: 15)
-           
-           return lb
-       }()
-       let fbBtn: UIButton = {
-           
-           let btn = UIButton(type: .custom)
-           btn.configureBtn(with: "  FaceBook", image: "fb")
-           return btn
-           
-       }()
-       let googleBtn: UIButton = {
-           
-           let btn = UIButton()
-           btn.configureBtn(with: "  Google", image: "32")
-           return btn
-           
-       }()
-       let donthaveAn: UILabel = {
-           let lb = UILabel()
-           lb.text = "Already have an account?"
-           lb.textAlignment = .right
-           lb.font = .systemFont(ofSize: 15)
-         //  lb.widthAnchor.constraint(equalToConstant: 150).isActive = true
-           
-           return lb
-       }()
-       let signIn: UIButton = {
-           
-           let btn = UIButton()
-         
-           btn.setTitle("Sign in", for: .normal)
-           btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
-           btn.titleLabel?.font = .systemFont(ofSize: 15)
-           btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
-           
-           return btn
-           
-       }()
-       
-     // MARK: Object lifecycle
+    
+//    let signUpBtn: UIButton = {
+//        let btn = UIButton()
+//        btn.setTitle("Sing up", for: .normal)
+//        btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
+//        btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
+//        btn.layer.cornerRadius = 20
+//        btn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
+//        return btn
+//    }()
+    
+    let signIn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Sign in", for: .normal)
+        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 15)
+        btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        return btn
+        
+    }()
+    
+    // MARK: Object lifecycle
     
     init(interactor: RegistrationBusinessLogic, router: (RegistrationRoutingLogic & RegistrationDataPassing ) ){
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-     
-     required init?(coder aDecoder: NSCoder)
-     {
-         fatalError("init(coder:) has not been implemented")
-         
-     }
-     
-     // MARK: Setup
-     
-     private func setup()
-     {
-   
-     }
-     
-     // MARK: Routing
-     
-     // MARK: View lifecycle
-     
-     override func viewDidLoad()
-     {
-       super.viewDidLoad()
-        // view.frame.size.height = 900
-         view.backgroundColor = .white
-         setUpView()
-     }
-     
-     // MARK: Do something
-     
-     //@IBOutlet weak var nameTextField: UITextField!
-     
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpView()
+    }
+    private func setUpBaseVcUI() {
+        mainBtn.setTitle("Sign up", for: .normal)
+    }
     private func setUpView() {
+        view.backgroundColor = .white
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld, repeatePasswordtxFld]
         let labelarr: [UILabel]  = [emailLb,
                                     passwordLb,
                                     headLineLb,
                                     orContinueLb,
                                     donthaveAn,
-                                    repeatePasswordLb]
-        let btnArr: [UIButton] = [signUpBtn,fbBtn, googleBtn, signIn]
-
+                                    confirmePasswordLb]
+        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, signIn]
+        
         self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
         self.addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
         self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
-    
-     
     }
-  // MARK: @objc Methods
+    // MARK: @objc Methods
     
     @objc func createAccount() {
-//        guard let mail = emailTxFld.text, let password =  passwordTxFld.text, let rePassword = repeatePasswordtxFld.text  else { return }
-        
         self.interactor?.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
     }
-  
 }
 
 //MARK: DipslayLogics
@@ -233,7 +132,4 @@ extension RegistrationViewController : RegistrationDisplayLogic {
     func tryCreateUser(viewModel: Registration.CreateUser.ViewModel) {
         
     }
-    
-  
-    
 }

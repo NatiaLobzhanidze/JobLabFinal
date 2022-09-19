@@ -54,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     private func setupInitialViewController(with scene: UIWindowScene) {
-        let initialController = OnBoardingConfiguration.configure()
+        let initialController = CategoriesSceneConfiguration.configure()
         let navigationController = UINavigationController(rootViewController: initialController)
         
         window = UIWindow(windowScene: scene)

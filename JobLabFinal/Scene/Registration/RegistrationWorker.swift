@@ -17,13 +17,10 @@ import FirebaseAuth
 protocol RegistrationWorkerLogic {
     func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void)
     func checkValidity(email: UITextField, password: UITextField, rePassword: UITextField) -> String?
-  
 }
 
-class RegistrationWorker: RegistrationWorkerLogic
-{
+final class RegistrationWorker: RegistrationWorkerLogic {
     
-   
     //MARK: RegistrationWorkerLogic Methods
     
     func checkValidity(email: UITextField, password: UITextField, rePassword: UITextField) -> String? {
@@ -33,14 +30,13 @@ class RegistrationWorker: RegistrationWorkerLogic
     func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) {(result, error) in
             if error != nil {
-                print("worker - line 36" )
                 completionBlock(false)
             }  else {
                 let db = Firestore.firestore()
                 db.collection("users").addDocument(data: ["mail" : email,
                                                           "password": password]) { error in
                     if error != nil {
-                        print("worker, line 42")
+                        completionBlock(false)
                     }
                 }
                 completionBlock(true)
