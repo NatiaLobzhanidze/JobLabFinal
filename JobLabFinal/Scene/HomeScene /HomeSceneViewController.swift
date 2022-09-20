@@ -12,6 +12,7 @@
 
 import UIKit
 
+
 protocol HomeSceneDisplayLogic: AnyObject {
     
     func displayTips(viewModel: HomeScene.GetTips.ViewModel)
@@ -22,6 +23,7 @@ protocol HomeSceneDisplayLogic: AnyObject {
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel)
     func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel)
+    func logOut(viewModel: HomeScene.LogOut.ViewModel)
 }
 
 final class HomeSceneViewController: UIViewController {
@@ -38,11 +40,11 @@ final class HomeSceneViewController: UIViewController {
     private var selectedtip: TipsModel!
     
     private var savedJobs = [JobModel]()
-    private(set)
     
     //MARK: UI
     
     //Searchbar & title from  base Class
+  
     
     lazy var mySearchBar: UISearchBar = {
         let sr = UISearchBar()
@@ -125,6 +127,8 @@ final class HomeSceneViewController: UIViewController {
     private func setUpViews() {
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
+    
+  
         view.addSubview(mySearchBar)
         mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
@@ -193,6 +197,10 @@ extension HomeSceneViewController : UISearchBarDelegate {
 //MARK: display logic methods
 
 extension HomeSceneViewController: HomeSceneDisplayLogic {
+    func logOut(viewModel: HomeScene.LogOut.ViewModel) {
+        router?.logOut()
+    }
+    
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
         self.setJobsTableData(data: viewModel.data)
     }

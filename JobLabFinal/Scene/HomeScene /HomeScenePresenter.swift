@@ -21,6 +21,7 @@ protocol HomeScenePresentationLogic {
   func presentFetchedJobs(response: HomeScene.Getjobs.Response)
   func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
   func presentjobsByCategory(response: HomeScene.FilterJobs.Response)
+  func logOutScene(response: HomeScene.LogOut.Response)
 }
 
 final class HomeScenePresenter {
@@ -29,6 +30,10 @@ final class HomeScenePresenter {
 }
 
 extension HomeScenePresenter: HomeScenePresentationLogic {
+    func logOutScene(response: HomeScene.LogOut.Response) {
+        viewController?.logOut(viewModel: HomeScene.LogOut.ViewModel())
+    }
+    
     func presentjobsByCategory(response: HomeScene.FilterJobs.Response) {
         let viewModel  = response.data
         viewController?.displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))

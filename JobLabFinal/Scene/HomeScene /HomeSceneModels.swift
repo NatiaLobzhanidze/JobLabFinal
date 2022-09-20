@@ -122,4 +122,16 @@ enum HomeScene
       
         }
     }
+    enum LogOut {
+        
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
+        }
+    }
 }

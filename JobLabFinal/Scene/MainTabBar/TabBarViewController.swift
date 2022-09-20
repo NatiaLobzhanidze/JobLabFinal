@@ -7,9 +7,10 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController {
+final class TabBarViewController: UIViewController {
     
     //MARK: UI
+    
     lazy var blurView: UIView = {
         let v = UIView(frame:
                         CGRect(x: 0, y: 0,
@@ -53,7 +54,9 @@ class TabBarViewController: UIViewController {
         firtsVc.tabBarItem = UITabBarItem.init(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
         let secondVc = FavoritesSceneConfiguration.configure()
         secondVc.tabBarItem = UITabBarItem.init(title: "Favorites", image: UIImage(systemName: "bookmark.fill"), tag: 1)
-        let controllersArray = [firtsVc, secondVc]
+        let thirdVc = SettingsSceneConfiguration.configure()
+        thirdVc.tabBarItem = UITabBarItem.init(title: "Settings", image: UIImage(systemName: "gearshape.fill"), tag: 2)
+        let controllersArray = [firtsVc, secondVc, thirdVc]
         tabBarVc.viewControllers = controllersArray.map{UINavigationController.init(rootViewController: $0)}
         tabBarVc.tabBar.backgroundColor = .white
         tabBarVc.tabBar.shadowedtoView()

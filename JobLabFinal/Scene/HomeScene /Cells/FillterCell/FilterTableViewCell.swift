@@ -8,16 +8,17 @@
 import UIKit
 
 protocol FilterByCategoryDelegate {
+    
     func filterByCategory(with title : String)
 }
 
-class FilterTableViewCell: UITableViewCell {
+final class FilterTableViewCell: UITableViewCell {
     
     //MARK: Properites
+    
     var delegate: FilterByCategoryDelegate!
     
     var allCategories = [String]() {
-        
         didSet {
             self.collectionView.reloadData()
         }
@@ -74,6 +75,7 @@ class FilterTableViewCell: UITableViewCell {
 extension FilterTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
                 self.delegate?.filterByCategory(with: allCategories[indexPath.row])
     }
     

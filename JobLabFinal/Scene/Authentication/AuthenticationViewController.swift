@@ -98,9 +98,9 @@ extension AuthenticationViewController :   AuthenticationDisplayLogic {
     }
 }
 
-extension AuthenticationViewController :  UIViewControllerTransitioningDelegate {
-  
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        FilterPresentationController(presentedViewController: presented, presenting: presenting)
-    }
-}
+//extension AuthenticationViewController :  UIViewControllerTransitioningDelegate {
+//
+//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+//        FilterPresentationController(presentedViewController: presented, presenting: presenting)
+//    }
+//}

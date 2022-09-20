@@ -47,8 +47,8 @@ extension CategoriesRouter: CategoriesRoutingLogic {
         guard let selectedCategory  = dataStore?.passingCategories else { return }
         let tabbarVc = TabBarViewController()
         tabbarVc.passingData = selectedCategory
-        //let destVc = HomeSceneConfiguration.configure(with: selectedCategory)
-        viewController?.navigationController?.pushViewController(tabbarVc, animated: true )
+        viewController?.view.window?.rootViewController = tabbarVc
+        viewController?.view.window?.makeKeyAndVisible()
     }
     
     

@@ -22,6 +22,7 @@ protocol HomeSceneBusinessLogic
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request)
     func getFilteredJobs(request: HomeScene.FilterJobs.Request)
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
+    func logOut(request: HomeScene.LogOut.Request)
 }
 
 protocol HomeSceneDataStore {
@@ -62,6 +63,13 @@ final class HomeSceneInteractor: HomeSceneDataStore {
 }
 
 extension HomeSceneInteractor:  HomeSceneBusinessLogic {
+    func logOut(request: HomeScene.LogOut.Request) {
+        worker.logOutUser()
+        UserDefaults.standard.set(false , forKey: "USERLOGGEDIN")
+        presenter?.logOutScene(response: HomeScene.LogOut.Response())
+    }
+
+    
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
         let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}

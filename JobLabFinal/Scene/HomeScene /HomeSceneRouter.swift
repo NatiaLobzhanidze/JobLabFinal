@@ -17,6 +17,7 @@ import UIKit
     func navigateToDetailsScene()
     func navigateToAllJobsScene()
     func navigateToJobDetailsScene()
+    func logOut()
 }
 
 protocol HomeSceneDataPassing
@@ -62,5 +63,13 @@ extension HomeSceneRouter : HomeSceneRoutingLogic {
         let destVc = AlljobsListControllerConfiguration.configure(with: dataStore.passingJob)
         viewController?.navigationController?.pushViewController(destVc, animated: true)
     }
-    
+    func logOut() {
+        let destVc = AuthenticationConfiguration.configure()
+        viewController?.view.window?.rootViewController = destVc
+        viewController?.view.window?.makeKeyAndVisible()
+       
+    }
 }
+
+
+

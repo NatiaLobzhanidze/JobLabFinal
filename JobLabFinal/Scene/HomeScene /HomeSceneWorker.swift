@@ -11,9 +11,13 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+
 protocol HomeSceneWorkerLogic {
     func fetchTips() async throws -> [TipsModel]
     func fetchAllJobs()async throws -> [JobModel]
+    func logOutUser()
 }
 
 final class HomeSceneWorker {
@@ -27,6 +31,19 @@ final class HomeSceneWorker {
 }
   
 extension HomeSceneWorker: HomeSceneWorkerLogic {
+
+    
+    func logOutUser()  {
+                do {
+                    try Auth.auth().signOut()
+               
+                } catch let signOutError as NSError {
+                   
+                    print ("Error signing out: %@", signOutError)
+                }
+            
+            }
+    
     
     func fetchTips() async throws -> [TipsModel] {
         try await api.fetchData(urlString: tipsUrl, decodingType: [TipsModel].self)

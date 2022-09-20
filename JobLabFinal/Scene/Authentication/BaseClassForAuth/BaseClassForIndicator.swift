@@ -35,6 +35,7 @@ class BaseViewController: UIViewController {
         
         return lb
     }()
+    
     let emailTxFld: UITextField = {
         let txt = UITextField()
         txt.placeholder =  TextFieldsTitles.email.rawValue

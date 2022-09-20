@@ -54,9 +54,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 extension SceneDelegate {
     private func setupInitialViewController(with scene: UIWindowScene) {
-        let initialController = CategoriesSceneConfiguration.configure()
-        let navigationController = UINavigationController(rootViewController: initialController)
+        //let initialController = CategoriesSceneConfiguration.configure()
+       
         
+        let isUserLoggedIn = UserDefaults.standard.bool(forKey: "ISUSERLOGGEDIN")
+        let initialController = isUserLoggedIn ? TabBarViewController() : AuthenticationConfiguration.configure()
+        let navigationController = UINavigationController(rootViewController: CategoriesSceneConfiguration.configure())
         window = UIWindow(windowScene: scene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
