@@ -9,14 +9,16 @@ import UIKit
 
 protocol SendDelegatTovc {
     
-    func passDataToVc(of: String)
+    func passDataToVc(of selectedTip: String)
 }
 
-class TipsTableViewCell: UITableViewCell {
+final class TipsTableViewCell: UITableViewCell {
     
     //MARK: properties
+    
     var delegate : SendDelegatTovc!
-    var conteiner: String = "" {
+    
+    var conteiner = String() {
         didSet {
             self.delegate.passDataToVc(of: conteiner)
         }
@@ -31,7 +33,7 @@ class TipsTableViewCell: UITableViewCell {
     //MARK: UI
     
     lazy var collectionView: UICollectionView = {
-        let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: 290, height: 160))
+        let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .horizontal, itemSize: CGSize(width: 290, height: 170))
         cv.delegate = self
         cv.dataSource = self
         
@@ -68,22 +70,33 @@ class TipsTableViewCell: UITableViewCell {
     }
 }
 
-extension TipsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
+    //MARK: UICollectionViewDataSource
+
+extension TipsTableViewCell: UICollectionViewDataSource  {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return tipsArray.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TipsCollectionViewCell.identifier, for: indexPath) as! TipsCollectionViewCell
+        let cell = collectionView.deque(TipsCollectionViewCell.self, for: indexPath)
         cell.configure(with: tipsArray[indexPath.row])
+        cell.shadowedtoView()
         cell.delegate = self
         return cell
     }
 }
 
+extension TipsTableViewCell: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 250, height: 200)
+    }
+}
+
 //MARK: SeeDetailsDelegate  method
 extension TipsTableViewCell : SeeDetailsDelegate {
-    func seeTipDetailsTap(of: String) {
-        self.conteiner = of
+    func seeTipDetailsTap(of selectedTip: String) {
+        self.conteiner = selectedTip
     }
 }
 

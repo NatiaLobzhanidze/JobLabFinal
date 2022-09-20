@@ -11,32 +11,45 @@ protocol SelsectJobDelegateProtocol {
     func selectJob(data: JobModel)
 }
 
-class JobsTableViewCell: UITableViewCell {
+final class JobsTableViewCell: UITableViewCell {
     
-    //MARK: View
+    //MARK: Fieleds
     
-    let collectionView: UICollectionView = {
-        let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width  - 40, height: 120))
-        return cv
+    var favoriteJobs: JobModel?
+    var delegate: SelsectJobDelegateProtocol!
+     
+    //MARK: UI
+    
+    private let backView = UIView()
+    
+    let logoImage = UIImageView()
+    
+    let jobName: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .black
+        lb.font = .systemFont(ofSize: 16, weight: .semibold)
+        lb.numberOfLines = 0
+        return lb
     }()
     
-    //MARK:  properties
+    let employerName: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .black
+        lb.font = .systemFont(ofSize: 16)
+        return lb
+    }()
     
-    var jobsConteiner = [JobModel]() {
-        didSet {
-            self.collectionView.reloadData()
-        }
-    }
-    var delegate: SelsectJobDelegateProtocol!
-    
+    let favoriteButton: UIButton = {
+        let btn = UIButton()
+        btn.setDimensions(height: 60, width: 60)
+        btn.addTarget(self, action: #selector(addToFavoritesList), for: .touchUpInside)
+        return btn
+    }()
     
     //MARK: View lifeCycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        collectionView.registerClass(class: AllJobsListCollectionViewCell.self)
         setUpViews()
         selectionStyle = .none
     }
@@ -46,44 +59,41 @@ class JobsTableViewCell: UITableViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-       // setUpViews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-       // setUpViews()
+    }
+    
+    //MARK: @objc methods
+    
+    @objc func addToFavoritesList() {
+        guard let favoriteJobs = favoriteJobs else { return }
+        let jobDictionary: [String : Any] = ["image" : favoriteJobs.logoImage,
+                                             "employer" : favoriteJobs.brand,
+                                             "isFavorite" : true,
+                                             "jobTitle" : favoriteJobs.jobTitle]
+        CoreDataManaager.shared.create(from: jobDictionary, toEntity: "Favorites")
+        favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        print("saved?")
     }
     
     // MARK: Private Methods
     
     private func setUpViews() {
-        self.contentView.addSubview(collectionView)
-        collectionView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
-    }
-}
-
-//MARK: Collectionview dataSoruce, delegate protocols
-
-extension JobsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        jobsConteiner.count
+        contentView.addSubview(backView)
+        backView.fillSuperview()
+        JobModelStackview.shared.setUpViews(jobName, employerName: employerName, favoriteButton: favoriteButton, logoImage: logoImage, view: backView)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.deque(AllJobsListCollectionViewCell.self, for: indexPath)
-        cell.configureCell(with: jobsConteiner[indexPath.row])
-        //cell.layer.borderWidth = 0.5
-       // cell.layer.borderColor = UIColor.tintColor.cgColor
-        cell.layer.cornerRadius = 20
-        cell.backgroundColor = .white
-        cell.shadowedtoView()
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 30, height: 90)
-        }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.selectJob(data: jobsConteiner[indexPath.row])
+    //MARK: Configure Cell
+    
+    func configureCell(with model: JobModel) {
+        self.favoriteJobs = model
+        self.logoImage.load(url: URL(string: model.logoImage)!)
+        self.employerName.text = model.brand
+        self.jobName.text = model.jobTitle
+        self.favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
     }
 }
+

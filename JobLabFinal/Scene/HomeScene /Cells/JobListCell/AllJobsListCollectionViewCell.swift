@@ -37,19 +37,19 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
         return lb
     }()
     
-    let location: UILabel = {
-        let lb = UILabel()
-        lb.font = .systemFont(ofSize: 12)
-        lb.numberOfLines = 0
-        return lb
-    }()
+//    let location: UILabel = {
+//        let lb = UILabel()
+//        lb.font = .systemFont(ofSize: 12)
+//        lb.numberOfLines = 0
+//        return lb
+//    }()
     
-    let jobTimeType: UILabel = {
-        let lb = UILabel()
-        lb.textColor = .black
-        lb.font = .systemFont(ofSize: 14)
-        return lb
-    }()
+//    let jobTimeType: UILabel = {
+//        let lb = UILabel()
+//        lb.textColor = .black
+//        lb.font = .systemFont(ofSize: 14)
+//        return lb
+//    }()
     
     let favoriteButton: UIButton = {
         let btn = UIButton()
@@ -57,37 +57,32 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
         btn.addTarget(self, action: #selector(addToFavoritesList), for: .touchUpInside)
         return btn
     }()
-    let sallery: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-    
+//    let sallery: UILabel = {
+//        let lb = UILabel()
+//        return lb
+//    }()
+//
     //MARK: Object LifeCycle
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+   
     
     //MARK: View lifeCycle
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    
-    }
-    
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//
+//    }
+//
     //MARK: Private Methods
     
     private func setUpView() {
-        JobModelStackview.shared.setUpViews(location: self.location, jobTimeType: self.jobTimeType, jobName: self.jobName, employerName: self.employerName, favoriteButton: self.favoriteButton, sallery: self.sallery, logoImage: self.logoImage, view: self.contentView )
+//        JobModelStackview.shared.setUpViews( jobName: self.jobName, employerName: self.employerName, favoriteButton: self.favoriteButton, logoImage: self.logoImage, view: self.contentView )
+//    }
     }
     
     @objc func addToFavoritesList() {
@@ -101,6 +96,7 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
         favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         print("saved?")
     }
+    
     //MARK: Configure Cell
     
     func configureCell(with model: JobModel) {
@@ -108,8 +104,10 @@ class AllJobsListCollectionViewCell: UICollectionViewCell {
         self.logoImage.load(url: URL(string: model.logoImage)!)
         self.employerName.text = model.brand
         self.jobName.text = model.jobTitle
-        self.location.text = model.location
-        self.sallery.text = String(model.sallary)
         self.favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

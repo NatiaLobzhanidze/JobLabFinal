@@ -8,16 +8,17 @@
 import Foundation
 import UIKit
 
-class RequirementsTableViewCell: UITableViewCell {
+final class RequirementsTableViewCell: UITableViewCell {
     
-    //MARK: View
+    //MARK: UI
+    private let backView = UIView()
+    
    lazy var checkMarkImage : UIImageView = {
         let img = UIImageView()
         img.image = UIImage(systemName: "checkmark.circle")
         img.setDimensions(height: 20, width: 20)
         return img
     }()
-    
     
     lazy var requirementsText: UILabel = {
        let lb = UILabel()
@@ -32,30 +33,19 @@ class RequirementsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpViews()
-       
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setUpViews()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        //set the values for top,left,bottom,right margins
-//           let margins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
-//           contentView.frame = contentView.frame.inset(by: margins)
-//           contentView.layer.cornerRadius = 8
-//    }
-
+    
     //MARK: Private Methods
     
     private func setUpViews() {
-       
         contentView.addSubview(checkMarkImage)
         checkMarkImage.anchor(left: contentView.leftAnchor,  paddingLeft: 10, width: 35 )
         contentView.addSubview(requirementsText)
@@ -66,5 +56,6 @@ class RequirementsTableViewCell: UITableViewCell {
                                 right: contentView.rightAnchor, paddingTop: 5,paddingLeft: 5, paddingBottom: 5, paddingRight: 10)
     }
     
+   
 }
 

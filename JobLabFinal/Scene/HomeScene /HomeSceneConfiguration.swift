@@ -6,9 +6,10 @@
 //
 
 import Foundation
+
 enum HomeSceneConfiguration {
     static func configure(with jobCategory: [String]) -> HomeSceneViewController {
-        let apiManager = APIManager()
+        let apiManager = APIManager.shared
         let worker = HomeSceneWorker(api: apiManager)
         let presenter = HomeScenePresenter()
         let interactor = HomeSceneInteractor(presenter: presenter, worker: worker, slectedCategories: jobCategory)

@@ -13,71 +13,70 @@
 import UIKit
 import CoreData
 
-protocol FavoritesSceneDisplayLogic: AnyObject
-{
+protocol FavoritesSceneDisplayLogic: AnyObject {
     func displayFavoriteJobs(viewModel: FavoritesScene.GetFavoriteJobs.ViewModel)
-    
 }
 
-class FavoritesSceneViewController: UIViewController
-{
+final class FavoritesSceneViewController: UIViewController {
+    
     //MARK: Clean Components
     
-  var interactor: FavoritesSceneBusinessLogic?
-  var router: (FavoritesSceneRoutingLogic & FavoritesSceneDataPassing)?
-
+    var interactor: FavoritesSceneBusinessLogic?
+    var router: (FavoritesSceneRoutingLogic & FavoritesSceneDataPassing)?
+    
     var dataSource = [JobModel]()
     
     //MARK: UI
     
-    private let collectionView: UICollectionView = {
-        let cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width - 20, height: UIScreen.main.bounds.height - 50))
-        cv.registerClass(class: AllJobsListCollectionViewCell.self)
-        return cv
+    lazy var tableView: UITableView = {
+        let v = UITableView()
+        v.dataSource = self
+        v.delegate = self
+        v.registerClass(class: JobsTableViewCell.self)
         
+        return v
     }()
     
-  // MARK: Object lifecycle
+    // MARK: Object lifecycle
+    
     init(interactor: FavoritesSceneBusinessLogic, router: (FavoritesSceneRoutingLogic & FavoritesSceneDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-  
-  required init?(coder aDecoder: NSCoder)
-  {
-    super.init(coder: aDecoder)
-
-  }
-  
-  // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-      view.backgroundColor = .white
-      interactor?.getFavorites(request: FavoritesScene.GetFavoriteJobs.Request())
-      collectionView.delegate = self
-      collectionView.dataSource = self
-      setUpUi()
-  }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    // MARK: View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        interactor?.getFavorites(request: FavoritesScene.GetFavoriteJobs.Request())
+        setUpUi()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.getFavorites(request: FavoritesScene.GetFavoriteJobs.Request())
     }
+    
     //MARK: Private methods
+    
     private func setTipsTableData(data: [JobModel]) {
         self.dataSource = data
-        collectionView.reloadData()
+        self.tableView.reloadData()
     }
     
     // MARK: Setup UI
     
     private func setUpUi() {
-        view.addSubview(collectionView)
-        collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
+        view.addSubview(tableView)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 10, paddingRight: 10)
     }
-  
+    
 }
 //MARK: DisplayLogic Methods
 
@@ -88,22 +87,19 @@ extension FavoritesSceneViewController: FavoritesSceneDisplayLogic {
 }
 //MARK: CollectionViewDataSource
 
-extension FavoritesSceneViewController : UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension FavoritesSceneViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.deque(AllJobsListCollectionViewCell.self, for: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
         cell.configureCell(with: dataSource[indexPath.row])
+        cell.shadowedtoView()
         return cell
     }
 }
-//MARK: CollectionViewDelegate/FlowLayout
 
-extension FavoritesSceneViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 30, height: 100)
-    }
+extension FavoritesSceneViewController: UITableViewDelegate {
     
 }

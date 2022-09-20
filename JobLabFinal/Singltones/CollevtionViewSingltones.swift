@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CustomCollectionViewConfiguration {
+final class CustomCollectionViewConfiguration {
     static var shared = CustomCollectionViewConfiguration()
     private init() { }
     func customCollectionView(direction:  UICollectionView.ScrollDirection, itemSize: CGSize) -> UICollectionView {

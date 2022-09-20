@@ -29,9 +29,10 @@ class AllJobsListSceneViewController: UIViewController
     //MARK: Stored properties
     
     var allJobsContainer = [JobModel]()
+    
     var filteredJobs = [JobModel]() {
         didSet {
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
     }
     
@@ -53,11 +54,13 @@ class AllJobsListSceneViewController: UIViewController
         
         return btn
     }()
-    private lazy var collectionView: UICollectionView = {
-        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width - 40 , height: 100))
-        sm.delegate = self
-        sm.dataSource = self
-        return sm
+    
+    lazy var tableView: UITableView = {
+        let v = UITableView()
+        v.delegate = self
+        v.dataSource = self
+        
+        return v
     }()
     
     
@@ -79,7 +82,8 @@ class AllJobsListSceneViewController: UIViewController
         view.backgroundColor = .white
         mySearchBar.delegate = self
         interactor?.getAllJobs(request: AllJobsListScene.GetAllJobs.Request())
-        collectionView.registerClass(class: AllJobsListCollectionViewCell.self)
+        tableView.registerClass(class: FilterTableViewCell.self)
+        tableView.registerClass(class: JobsTableViewCell.self)
         setUpView()
     }
     
@@ -87,7 +91,7 @@ class AllJobsListSceneViewController: UIViewController
     
     private func setJobsTableData(data: [JobModel]) {
         self.allJobsContainer = data
-        collectionView.reloadData()
+        self.tableView.reloadData()
     }
     // MARK: Set up view
     
@@ -100,20 +104,21 @@ class AllJobsListSceneViewController: UIViewController
                           paddingTop: 0,
                           paddingLeft: 0, paddingBottom: 0,
                           paddingRight: 20 , width: 50)
-        view.addSubview(collectionView)
-        collectionView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        view.addSubview(tableView)
+        tableView.anchor(top: mySearchBar.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
     }
 }
 //MARK: Searchbar methods
+
 extension AllJobsListSceneViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else {
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
             return }
-        self.interactor?.getFilteredJobs(request: AllJobsListScene.FilterJobs.Request(keyword: text))
-        if searchText == "" {
+        self.interactor?.getFilteredJobs(request: AllJobsListScene.FilterJobs.Request(keyword: text, category: nil))
+        if searchText.isEmpty {
             self.filteredJobs = allJobsContainer
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
     }
 }
@@ -123,47 +128,64 @@ extension AllJobsListSceneViewController: UISearchBarDelegate {
 extension AllJobsListSceneViewController: AllJobsListSceneDisplayLogic {
     func displayJobDetailsScene(viewModel: AllJobsListScene.SeeJobDetails.ViewModel) {
         router?.navigateTpJobDetailsScene()
-        
     }
     
     func displayFilteredJobs(viewModel: AllJobsListScene.FilterJobs.ViewModel) {
         self.setJobsTableData(data: viewModel.data)
     }
     
-    
     func displayJobsList(viewModel: AllJobsListScene.GetAllJobs.ViewModel) {
         self.allJobsContainer = viewModel.data
-        
     }
 }
-//MARK: collectionview datasource
+//MARK: TableView datasource
 
-extension AllJobsListSceneViewController:  UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        interactor?.seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request(data: allJobsContainer[indexPath.row]))
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        allJobsContainer.count
+extension AllJobsListSceneViewController:  UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.deque(AllJobsListCollectionViewCell.self, for: indexPath)
-        cell.configureCell(with: allJobsContainer[indexPath.row])
-        cell.layer.borderWidth = 0.5
-        cell.layer.borderColor = UIColor.tintColor.cgColor
-        cell.layer.cornerRadius = 20
-        
-        return cell
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let numofRows = section == 0 ? 1 :  allJobsContainer.count
+        return numofRows
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0 :
+            let cell = tableView.deque(class: FilterTableViewCell.self, for: indexPath)
+            cell.fillCategories(from: allJobsContainer)
+            cell.delegate = self
+            return cell
+        case 1:
+            let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
+            cell.configureCell(with: allJobsContainer[indexPath.row])
+            cell.layer.borderWidth = 0.5
+            cell.layer.borderColor = UIColor.tintColor.cgColor
+            cell.layer.cornerRadius = 20
+            return cell
+        default:
+            fatalError("cant, find cells in allJobs")
+        }
     }
 }
 
-//MARK: collectionview Delegate
+//MARK: TableView Delegate
 
-extension AllJobsListSceneViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 30, height: 100)
+extension AllJobsListSceneViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = indexPath.section == 0 ? 70 : 120
+        return CGFloat(height)
     }
+}
+
+//MARK: Delegate/protocol methods
+
+extension AllJobsListSceneViewController : FilterByCategoryDelegate {
+    func filterByCategory(with title: String) {
+        interactor?.getFilteredJobs(request: AllJobsListScene.FilterJobs.Request(keyword: nil, category: title))
+    }
+    
+   
     
 }

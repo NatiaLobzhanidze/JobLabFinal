@@ -48,7 +48,8 @@ enum HomeScene
     enum SeeDetails {
         struct Request
         {
-            let tip: TipsModel
+            let tipTitle: String
+            let dataSource: [TipsModel]
            
         }
         struct Response

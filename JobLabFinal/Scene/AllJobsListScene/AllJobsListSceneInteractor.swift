@@ -12,59 +12,58 @@
 
 import UIKit
 
-protocol AllJobsListSceneBusinessLogic
-{
+protocol AllJobsListSceneBusinessLogic {
+    
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request)
     func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request)
     func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request)
 }
 
-protocol AllJobsListSceneDataStore
-{
-  var myJobModel: [JobModel] { get }
-  var selectedJob: JobModel? { get }
+protocol AllJobsListSceneDataStore {
+    var myJobModel: [JobModel] { get }
+    var selectedJob: JobModel? { get }
 }
 
-class AllJobsListSceneInteractor:  AllJobsListSceneDataStore
-{
+final class AllJobsListSceneInteractor:  AllJobsListSceneDataStore {
+    
     //MARK: Clean components
     
-  var presenter: AllJobsListScenePresentationLogic?
-
+    var presenter: AllJobsListScenePresentationLogic?
+    
     var myJobModel:  [JobModel]
     var selectedJob: JobModel?
-  // MARK: Object LifeCycle
+    
+    // MARK: Object LifeCycle
     
     init(presenter: AllJobsListScenePresentationLogic, myJobModel:  [JobModel]) {
         self.presenter = presenter
         self.myJobModel = myJobModel
     }
-  
-
 }
 
 extension AllJobsListSceneInteractor: AllJobsListSceneBusinessLogic {
+    
     func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request) {
         self.selectedJob = request.data
         presenter?.presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response())
     }
     
     func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request) {
-        let keyword = request.keyword.lowercased()
-        let filteredJobs = myJobModel.filter({$0.jobTitle.lowercased().contains(keyword) })
-        if keyword != "" {
-            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: filteredJobs))
-        } else {
-            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: myJobModel))
-        }
         
+        if let request = request.keyword {
+            let filteredJobs = myJobModel.filter({$0.jobTitle.lowercased().contains(request.lowercased()) })
+            let data = !request.isEmpty ? filteredJobs : myJobModel
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
+        }
+        if let category = request.category {
+            let  filteredJobs = myJobModel.filter({$0.category.lowercased().contains(category.lowercased()) })
+            let data = category == "All Jobs" ? myJobModel : filteredJobs
+            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
+        }
     }
     
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request) {
-   
         let response = AllJobsListScene.GetAllJobs.Response(data: self.myJobModel)
-         presenter?.presentAllJobs(response: response)
+        presenter?.presentAllJobs(response: response)
     }
-    
-    
 }

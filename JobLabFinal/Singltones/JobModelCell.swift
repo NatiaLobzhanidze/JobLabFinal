@@ -14,9 +14,10 @@ final class JobModelStackview {
     static var shared = JobModelStackview()
     private init() { }
     
-     func setUpViews(location: UILabel, jobTimeType: UILabel, jobName: UILabel, employerName: UILabel, favoriteButton: UIButton,sallery: UILabel, logoImage: UIImageView, view: UIView ) {
+     func setUpViews(_ jobName: UILabel, employerName: UILabel, favoriteButton: UIButton, logoImage: UIImageView, view: UIView ) {
+         
          view.addSubview(logoImage)
-         logoImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor,  paddingTop: 10, paddingLeft: 20, paddingBottom: 10)
+         logoImage.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor,  paddingTop: 10, paddingLeft: 20, paddingBottom: 10, width: 120)
 
           let stackview1 = UIStackView(arrangedSubviews: [jobName, employerName])
           stackview1.axis = .vertical
@@ -29,7 +30,7 @@ final class JobModelStackview {
           mainStackview.spacing = 10
           
           view.addSubview(mainStackview)
-          mainStackview.anchor(top: logoImage.topAnchor, left: logoImage.rightAnchor, bottom: logoImage.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 25, paddingBottom: 0, paddingRight: 20)
+          mainStackview.anchor(top: logoImage.topAnchor, left: logoImage.rightAnchor, bottom: logoImage.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
           
       }
 }

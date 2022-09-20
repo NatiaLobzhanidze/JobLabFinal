@@ -37,6 +37,9 @@ final class HomeSceneViewController: UIViewController {
     private var jobsDataSource = [JobModel]()
     private var selectedtip: TipsModel!
     
+    private var savedJobs = [JobModel]()
+    private(set)
+    
     //MARK: UI
     
     //Searchbar & title from  base Class
@@ -109,19 +112,19 @@ final class HomeSceneViewController: UIViewController {
         tableView.reloadData()
     }
     
-    
-    // MARK: SetupUI
+    // MARK: Setup UI
     
     private func registerCells() {
-        tableView.registerClass(class: FirstTableViewCell.self)
+        tableView.registerClass(class: TipsForYouTableViewCell.self)
         tableView.registerClass(class: TipsTableViewCell.self)
-        tableView.registerClass(class: SeeAllJobsTableViewCell.self)
+        tableView.registerClass(class: JobRecomendationsTableViewCell.self)
         tableView.registerClass(class: JobsTableViewCell.self)
         tableView.registerClass(class: FilterTableViewCell.self)
     }
     
     private func setUpViews() {
         view.backgroundColor = .white
+        self.navigationItem.setHidesBackButton(true, animated: true)
         view.addSubview(mySearchBar)
         mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
@@ -149,9 +152,7 @@ extension HomeSceneViewController: OpenAllTipsScene {
 extension HomeSceneViewController: SendDelegatTovc {
     
     func passDataToVc(of title: String) {
-        //???m interaactor
-        guard let tipObject =  self.dataSource.filter({$0.title == title }).first else { return }
-        self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tip: tipObject))
+        self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tipTitle: title, dataSource: dataSource))
     }
 }
 extension HomeSceneViewController: SeeAllJobsDelegate {
@@ -186,13 +187,8 @@ extension HomeSceneViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.showsCancelButton = false
-        searchBar.endEditing(true)
-        
-        //????
-        self.getdt()
-    }
+        searchBar.endEditing(true)    }
 }
-
 
 //MARK: display logic methods
 
@@ -210,28 +206,24 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     }
     
     func displayJobs(viewModel: HomeScene.Getjobs.ViewModel) {
- 
             self.setJobsTableData(data: viewModel.data)
+        self.savedJobs = viewModel.data
     }
     
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
         router?.navigateToAllJobsScene()
     }
-    
-    
+
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel) {
         router?.navigateToAllTipsListScene()
     }
     
     func displayTips(viewModel: HomeScene.GetTips.ViewModel) {
-        DispatchQueue.main.async {[weak self] in
-            self?.setTipsTableData(data: viewModel.data)
-        }
+       setTipsTableData(data: viewModel.data)
     }
     
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
         router?.navigateToDetailsScene()
-        
     }
 }
 
@@ -248,7 +240,7 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         case 3:
             return 60
         default:
-            return 350
+            return 100
         }
         
     }
@@ -256,29 +248,28 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         5
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        let cellnum = section == 4 ? jobsDataSource.count : 1
+        return cellnum
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case 0 :
-            let cell = tableView.deque(class: FirstTableViewCell.self, for: indexPath)
-            cell.textlb.text = "Tips for you"
+            let cell = tableView.deque(class: TipsForYouTableViewCell.self, for: indexPath)
+            cell.textlb.text = SeeAll.tip.rawValue
             cell.delegate = self
-            cell.selectionStyle = .none
             return cell
         case 1 :
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
             cell.delegate = self
             cell.tipsArray = dataSource
             cell.shadowedtoView()
-            print("indexpath is ", indexPath)
             return cell
         case 2:
-            let cell = tableView.deque(class: SeeAllJobsTableViewCell.self, for: indexPath)
+            let cell = tableView.deque(class: JobRecomendationsTableViewCell.self, for: indexPath)
+            cell.textlb.text = SeeAll.job.rawValue
             cell.delegate = self
-            cell.selectionStyle = .none
             return cell
         case 3:
             let cell = tableView.deque(class: FilterTableViewCell.self, for: indexPath)
@@ -287,8 +278,10 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 4:
             let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
-            cell.jobsConteiner = jobsDataSource
+            cell.configureCell(with: jobsDataSource[indexPath.row])
             cell.delegate = self
+            cell.shadowedtoView()
+
             return cell
         default:
             fatalError("error while cell return")

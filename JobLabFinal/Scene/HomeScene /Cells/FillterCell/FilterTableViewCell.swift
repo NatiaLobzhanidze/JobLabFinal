@@ -17,6 +17,7 @@ class FilterTableViewCell: UITableViewCell {
     var delegate: FilterByCategoryDelegate!
     
     var allCategories = [String]() {
+        
         didSet {
             self.collectionView.reloadData()
         }
@@ -73,7 +74,6 @@ class FilterTableViewCell: UITableViewCell {
 extension FilterTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
                 self.delegate?.filterByCategory(with: allCategories[indexPath.row])
     }
     
@@ -93,11 +93,9 @@ extension FilterTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         let label = UILabel(frame: CGRect.zero)
         label.text = allCategories[indexPath.row]
         label.sizeToFit()
-        if indexPath.row == 0 {
-            return CGSize(width: 80, height: 60)
-        } else {
+      
             return CGSize(width: label.frame.width + 35, height: 60)
-        }
+        
     }
     
 }

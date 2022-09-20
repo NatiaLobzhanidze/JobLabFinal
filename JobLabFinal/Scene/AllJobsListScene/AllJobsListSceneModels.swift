@@ -33,7 +33,8 @@ enum AllJobsListScene
     enum FilterJobs  {
         struct Request
         {
-            var keyword: String
+            var keyword: String?
+            var category: String?
         }
         struct Response
         {

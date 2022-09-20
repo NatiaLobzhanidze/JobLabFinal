@@ -65,7 +65,7 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
         let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
-        let data = keyword == "all jobs" ? passingJob : filteredJobs
+        let data = keyword == "all " ? passingJob : filteredJobs
         presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: data))
     }
     
@@ -86,7 +86,8 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     }
     
     func seeTipsDetails(request: HomeScene.SeeDetails.Request) {
-        self.selectedTip = request.tip
+        guard let tipObject =  request.dataSource.filter({$0.title == request.tipTitle }).first else { return }
+        self.selectedTip = tipObject
         presenter?.presnetTipsDetails(response: HomeScene.SeeDetails.Response())
     }
     
