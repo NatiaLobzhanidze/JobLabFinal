@@ -12,126 +12,65 @@
 
 import UIKit
 
-enum HomeScene
-{
+enum HomeScene {
+    
   // MARK: Use cases
   
-  enum GetTips
-  {
-    struct Request
-    {
-    }
-    struct Response
-    {
-        let data: [TipsModel]
-    }
-    struct ViewModel
-    {
-        let data: [TipsModel]
-  
-    }
-  }
     enum ShowAllTips {
-        struct Request
-        {
+        
+        struct Request {
             let data: [TipsModel]
         }
-        struct Response
-        {
-           
-        }
-        struct ViewModel
-        {
-      
-        }
+        struct Response {}
+        struct ViewModel {}
     }
     enum SeeDetails {
-        struct Request
-        {
+        
+        struct Request {
             let tipTitle: String
             let dataSource: [TipsModel]
-           
         }
-        struct Response
-        {
-           
-        }
-        struct ViewModel
-        {
-      
-        }
+        struct Response {}
+        struct ViewModel {}
     }
     enum ShowAllJobs {
-        struct Request
-        {
-           
-        }
-        struct Response
-        {
+        struct Request {}
+        struct Response {
             let data: [JobModel]
-           
         }
-        struct ViewModel
-        {
-      
-        }
-    }
-    enum Getjobs {
-        struct Request
-        {
-            
-        }
-        struct Response
-        {
-            let data: [JobModel]
-        
-        }
-        struct ViewModel
-        {
-            let data: [JobModel]
-      
-        }
+        struct ViewModel {}
     }
     enum FilterJobs {
-        struct Request
-        {
+        struct Request{
             let keyword: String
         }
-        struct Response
-        {
+        struct Response {
             let data: [JobModel]
         }
-        struct ViewModel
-        {
+        struct ViewModel {
             let data: [JobModel]
-      
         }
     }
     enum SeeJobDetails {
-        struct Request
-        {
+        struct Request {
             let job: JobModel
-           
         }
-        struct Response
-        {
-           
-        }
-        struct ViewModel
-        {
-      
-        }
+        struct Response {}
+        struct ViewModel {}
     }
     enum LogOut {
-        
-        struct Request
-        {
+        struct Request {}
+        struct Response {}
+        struct ViewModel {}
+    }
+    
+    enum GetCommonModel {
+        struct Request {}
+        struct Response {
+            let data: CommonModel
         }
-        struct Response
-        {
-        }
-        struct ViewModel
-        {
+        struct ViewModel {
+            let data: CommonModel
         }
     }
 }

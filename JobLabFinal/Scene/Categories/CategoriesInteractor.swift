@@ -12,18 +12,15 @@
 
 import UIKit
 
-protocol CategoriesBusinessLogic
-{
+protocol CategoriesBusinessLogic {
     func passCategory(request: Categories.FavoriteCategory.Request)
 }
 
-protocol CategoriesDataStore
-{
+protocol CategoriesDataStore {
     var passingCategories: [String] { get }
 }
 
-class CategoriesInteractor:  CategoriesDataStore
-{
+final class CategoriesInteractor:  CategoriesDataStore {
     // MARK: Clean components
   var presenter: CategoriesPresentationLogic?
 

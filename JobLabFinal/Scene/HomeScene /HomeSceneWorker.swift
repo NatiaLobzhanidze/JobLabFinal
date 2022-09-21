@@ -21,7 +21,7 @@ protocol HomeSceneWorkerLogic {
 }
 
 final class HomeSceneWorker {
-    private var api: APIManager
+    private let api: APIManager
     private let tipsUrl = ApiUrls.tips.rawValue
     private let jobsUrl = ApiUrls.jobs.rawValue
     
@@ -29,21 +29,18 @@ final class HomeSceneWorker {
         self.api = api
     }
 }
-  
+
+  //MARK: WorkerLogic methods
+
 extension HomeSceneWorker: HomeSceneWorkerLogic {
 
-    
-    func logOutUser()  {
-                do {
-                    try Auth.auth().signOut()
-               
-                } catch let signOutError as NSError {
-                   
-                    print ("Error signing out: %@", signOutError)
-                }
-            
-            }
-    
+    func logOutUser() {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError {
+            fatalError( signOutError.localizedDescription)
+        }
+    }
     
     func fetchTips() async throws -> [TipsModel] {
         try await api.fetchData(urlString: tipsUrl, decodingType: [TipsModel].self)

@@ -11,11 +11,8 @@
 //
 
 import UIKit
-import AVFoundation
 
-@objc protocol CategoriesRoutingLogic
-{
-   // func navigateToDetailsEditor(vc: UIViewController)
+protocol CategoriesRoutingLogic {
    func navigateToHomeScene()
 }
 
@@ -49,8 +46,5 @@ extension CategoriesRouter: CategoriesRoutingLogic {
         tabbarVc.passingData = selectedCategory
         viewController?.view.window?.rootViewController = tabbarVc
         viewController?.view.window?.makeKeyAndVisible()
-    }
-    
-    
-    
+    }  
 }

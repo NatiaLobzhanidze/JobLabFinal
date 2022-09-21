@@ -20,12 +20,12 @@ import UIKit
     func logOut()
 }
 
-protocol HomeSceneDataPassing
-{
+protocol HomeSceneDataPassing {
     var dataStore: HomeSceneDataStore { get }
 }
 
 final class HomeSceneRouter:  HomeSceneDataPassing {
+    
     //MARK: Clean components
     weak var viewController: HomeSceneViewController?
     private(set) var dataStore: HomeSceneDataStore
@@ -63,11 +63,11 @@ extension HomeSceneRouter : HomeSceneRoutingLogic {
         let destVc = AlljobsListControllerConfiguration.configure(with: dataStore.passingJob)
         viewController?.navigationController?.pushViewController(destVc, animated: true)
     }
+    
     func logOut() {
         let destVc = AuthenticationConfiguration.configure()
         viewController?.view.window?.rootViewController = destVc
         viewController?.view.window?.makeKeyAndVisible()
-       
     }
 }
 

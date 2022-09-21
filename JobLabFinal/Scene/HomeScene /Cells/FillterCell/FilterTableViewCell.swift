@@ -76,7 +76,7 @@ extension FilterTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-                self.delegate?.filterByCategory(with: allCategories[indexPath.row])
+        self.delegate?.filterByCategory(with: allCategories[indexPath.row].lowercased())
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

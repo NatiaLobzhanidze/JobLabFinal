@@ -12,18 +12,16 @@
 
 import UIKit
 
-
 protocol HomeSceneDisplayLogic: AnyObject {
     
-    func displayTips(viewModel: HomeScene.GetTips.ViewModel)
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel)
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel)
-    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel)
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel)
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel)
     func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel)
     func logOut(viewModel: HomeScene.LogOut.ViewModel)
+    func displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel)
 }
 
 final class HomeSceneViewController: UIViewController {
@@ -38,14 +36,10 @@ final class HomeSceneViewController: UIViewController {
     private var dataSource = [TipsModel]()
     private var jobsDataSource = [JobModel]()
     private var selectedtip: TipsModel!
-    
     private var savedJobs = [JobModel]()
     
     //MARK: UI
-    
-    //Searchbar & title from  base Class
   
-    
     lazy var mySearchBar: UISearchBar = {
         let sr = UISearchBar()
         
@@ -85,24 +79,12 @@ final class HomeSceneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //!
         setUpViews()
         registerCells()
-        interactor?.getTips(request: HomeScene.GetTips.Request())
-        getdt()
+        interactor?.getCommonModel(request: HomeScene.GetCommonModel.Request())
     }
     
-    //MARK:  Tasks
-    //ininteractor
-    func getdt() {
-        Task {
-            await interactor?.getJobs(request: HomeScene.Getjobs.Request())
-        }
-    }
     // MARK: Private methods
-    
-    
-    //???? optimization
     
     private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
@@ -127,8 +109,6 @@ final class HomeSceneViewController: UIViewController {
     private func setUpViews() {
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
-    
-  
         view.addSubview(mySearchBar)
         mySearchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
@@ -197,12 +177,19 @@ extension HomeSceneViewController : UISearchBarDelegate {
 //MARK: display logic methods
 
 extension HomeSceneViewController: HomeSceneDisplayLogic {
+    func displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel) {
+        let jobData = viewModel.data.jobs
+        let tipsData = viewModel.data.tips
+        self.setJobsTableData(data: jobData)
+        self.setTipsTableData(data: tipsData)
+    }
+    
     func logOut(viewModel: HomeScene.LogOut.ViewModel) {
         router?.logOut()
     }
     
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
-        self.setJobsTableData(data: viewModel.data)
+       self.setJobsTableData(data: viewModel.data)
     }
     
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel) {
@@ -213,21 +200,12 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
         self.setJobsTableData(data: viewModel.data)
     }
     
-    func displayJobs(viewModel: HomeScene.Getjobs.ViewModel) {
-            self.setJobsTableData(data: viewModel.data)
-        self.savedJobs = viewModel.data
-    }
-    
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
         router?.navigateToAllJobsScene()
     }
 
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel) {
         router?.navigateToAllTipsListScene()
-    }
-    
-    func displayTips(viewModel: HomeScene.GetTips.ViewModel) {
-       setTipsTableData(data: viewModel.data)
     }
     
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
@@ -240,15 +218,15 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
 extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-            /// make enum for
+            
         case 0, 2:
-            return 30
+            return CGFloat(HomeTableViewCellItems.seeAll.rawValue)
         case 1:
-            return 200
+            return  CGFloat(HomeTableViewCellItems.tips.rawValue)
         case 3:
-            return 60
+            return CGFloat(HomeTableViewCellItems.filters.rawValue)
         default:
-            return 100
+            return CGFloat(HomeTableViewCellItems.jobs.rawValue)
         }
         
     }

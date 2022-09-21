@@ -12,13 +12,11 @@
 
 import UIKit
 
-protocol CategoriesPresentationLogic
-{
+protocol CategoriesPresentationLogic {
     func presentHomeScene(response: Categories.FavoriteCategory.Response)
 }
 
-class CategoriesPresenter: CategoriesPresentationLogic
-{
+final class CategoriesPresenter: CategoriesPresentationLogic {
    
   weak var viewController: CategoriesDisplayLogic?
   

@@ -12,10 +12,7 @@
 
 import UIKit
 
-protocol HomeSceneBusinessLogic
-{
-    func getTips(request: HomeScene.GetTips.Request)
-    func getJobs(request: HomeScene.Getjobs.Request) async
+protocol HomeSceneBusinessLogic {
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request)
@@ -23,6 +20,7 @@ protocol HomeSceneBusinessLogic
     func getFilteredJobs(request: HomeScene.FilterJobs.Request)
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
     func logOut(request: HomeScene.LogOut.Request)
+    func getCommonModel(request: HomeScene.GetCommonModel.Request)
 }
 
 protocol HomeSceneDataStore {
@@ -34,7 +32,7 @@ protocol HomeSceneDataStore {
 }
 
 final class HomeSceneInteractor: HomeSceneDataStore {
-   
+    
     //MARK: Clean components
     
     var presenter: HomeScenePresentationLogic?
@@ -68,12 +66,12 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
         UserDefaults.standard.set(false , forKey: "USERLOGGEDIN")
         presenter?.logOutScene(response: HomeScene.LogOut.Response())
     }
-
+    
     
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
         let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
-        let data = keyword == "all " ? passingJob : filteredJobs
+        let data = keyword == "all jobs" ? passingJob : filteredJobs
         presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: data))
     }
     
@@ -84,9 +82,11 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     
     func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
+        
         let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword) })
+        
         let data = keyword.isEmpty ? passingJob : filteredJobs
-            presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
+        presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
     }
     
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request) {
@@ -104,37 +104,25 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
         presenter?.presentAllTips(response: HomeScene.ShowAllTips.Response())
     }
     
-     //MARK: NetworkCall
+    //MARK: NetworkCall
     
-    func getJobs(request: HomeScene.Getjobs.Request) async {
-        let category = slectedCategories
-        do {
-            let jobResponse = try await worker.fetchAllJobs()
-            let filteredResponse = jobResponse.filter {category.contains($0.category)}
-            DispatchQueue.main.async { [weak self] in
-                self?.passingJob = jobResponse
-                //ternary!!
-                let data = category.contains("All") ? jobResponse : filteredResponse
-                self?.presenter?.presentFetchedJobs(response: HomeScene.Getjobs.Response(data: data))
-            }
-        } catch {
-            //Error handling
-            print(error)
-        }
-    }
-    
-    func getTips(request: HomeScene.GetTips.Request) {
+    func getCommonModel(request: HomeScene.GetCommonModel.Request)  {
         Task {
+            let category = slectedCategories
             do {
+                let jobResponse = try await worker.fetchAllJobs()
                 let tipsResponse = try await worker.fetchTips()
+                let filteredResponse = jobResponse.filter {category.contains($0.category)}
                 DispatchQueue.main.async { [weak self] in
+                    self?.passingJob = jobResponse
                     self?.tips = tipsResponse
-                    self?.presenter?.presentTipsData(response: HomeScene.GetTips.Response(data: tipsResponse))
+                    self?.presenter?.presentCommomModel(response: HomeScene.GetCommonModel.Response(data: CommonModel(jobs: filteredResponse, tips: tipsResponse)))
                 }
             } catch {
-                //Error handling
-                print(error.localizedDescription)
+                fatalError(error.localizedDescription)
             }
         }
     }
 }
+
+

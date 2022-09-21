@@ -13,23 +13,27 @@
 import UIKit
 
 protocol HomeScenePresentationLogic {
-  func presentTipsData(response: HomeScene.GetTips.Response)
+    
   func presentAllTips(response: HomeScene.ShowAllTips.Response)
   func presnetTipsDetails(response: HomeScene.SeeDetails.Response)
   func presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response)
   func presentAllJobs(response: HomeScene.ShowAllJobs.Response)
-  func presentFetchedJobs(response: HomeScene.Getjobs.Response)
   func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
   func presentjobsByCategory(response: HomeScene.FilterJobs.Response)
   func logOutScene(response: HomeScene.LogOut.Response)
+  func presentCommomModel(response: HomeScene.GetCommonModel.Response)
 }
 
 final class HomeScenePresenter {
   weak var viewController: HomeSceneDisplayLogic?
-  
 }
 
 extension HomeScenePresenter: HomeScenePresentationLogic {
+    func presentCommomModel(response: HomeScene.GetCommonModel.Response) {
+        let viewModel = response.data
+        viewController?.displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel(data: viewModel))
+    }
+    
     func logOutScene(response: HomeScene.LogOut.Response) {
         viewController?.logOut(viewModel: HomeScene.LogOut.ViewModel())
     }
@@ -47,15 +51,11 @@ extension HomeScenePresenter: HomeScenePresentationLogic {
         let viewModel =  response.data
         viewController?.displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))
     }
-    
-    
-    func presentFetchedJobs(response: HomeScene.Getjobs.Response) {
-        let viewModel = response.data
-        self.viewController?.displayJobs(viewModel: HomeScene.Getjobs.ViewModel(data: viewModel))
-    }
+
     func presentAllJobs(response: HomeScene.ShowAllJobs.Response) {
         viewController?.displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel())
     }
+    
     func presnetTipsDetails(response: HomeScene.SeeDetails.Response) {
         viewController?.displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel())
     }
@@ -63,10 +63,4 @@ extension HomeScenePresenter: HomeScenePresentationLogic {
     func presentAllTips(response: HomeScene.ShowAllTips.Response) {
         viewController?.displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel())
     }
-    
-    func presentTipsData(response: HomeScene.GetTips.Response) {
-        let viewModel = response.data
-        viewController?.displayTips(viewModel: HomeScene.GetTips.ViewModel(data: viewModel))
-    }
-    
 }
