@@ -44,6 +44,7 @@ extension CategoriesRouter: CategoriesRoutingLogic {
         guard let selectedCategory  = dataStore?.passingCategories else { return }
         let tabbarVc = TabBarViewController()
         tabbarVc.passingData = selectedCategory
+        UserDefaults.standard.set(true, forKey: "ISUSERLOGGEDIN")
         viewController?.view.window?.rootViewController = tabbarVc
         viewController?.view.window?.makeKeyAndVisible()
     }  

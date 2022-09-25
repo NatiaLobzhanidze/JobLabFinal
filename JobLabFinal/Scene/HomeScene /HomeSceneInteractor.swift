@@ -13,14 +13,15 @@
 import UIKit
 
 protocol HomeSceneBusinessLogic {
+    
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request)
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request)
     func getFilteredJobs(request: HomeScene.FilterJobs.Request)
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request)
-    func logOut(request: HomeScene.LogOut.Request)
     func getCommonModel(request: HomeScene.GetCommonModel.Request)
+    func getFavorites(request: HomeScene.FavoriteCell.Request)
 }
 
 protocol HomeSceneDataStore {
@@ -50,6 +51,7 @@ final class HomeSceneInteractor: HomeSceneDataStore {
     var passingData = [TipsModel]()
     var passingJob = [JobModel]()
     var slectedCategories: [String]
+    var favoritsConteiner = [JobModel]()
     
     // MARK: Object Lifecycle
     
@@ -61,12 +63,13 @@ final class HomeSceneInteractor: HomeSceneDataStore {
 }
 
 extension HomeSceneInteractor:  HomeSceneBusinessLogic {
-    func logOut(request: HomeScene.LogOut.Request) {
-        worker.logOutUser()
-        UserDefaults.standard.set(false , forKey: "USERLOGGEDIN")
-        presenter?.logOutScene(response: HomeScene.LogOut.Response())
-    }
+  
     
+    func getFavorites(request: HomeScene.FavoriteCell.Request) {
+        let response =  worker.fetchFavorites()
+        let resResponse = response.compactMap({$0})
+        presenter?.presentFavorites(response: HomeScene.FavoriteCell.Response(data: resResponse))
+    }
     
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
@@ -82,9 +85,7 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     
     func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
-        
-        let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword) })
-        
+        let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword)})
         let data = keyword.isEmpty ? passingJob : filteredJobs
         presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
     }
@@ -106,7 +107,7 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
     
     //MARK: NetworkCall
     
-    func getCommonModel(request: HomeScene.GetCommonModel.Request)  {
+    func getCommonModel(request: HomeScene.GetCommonModel.Request) {
         Task {
             let category = slectedCategories
             do {

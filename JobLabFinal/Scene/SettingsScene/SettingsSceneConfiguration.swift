@@ -8,6 +8,7 @@
 import Foundation
 
 enum SettingsSceneConfiguration {
+    
     static func configure() -> SettingsSceneViewController {
         let presenter = SettingsScenePresenter()
         let interactor = SettingsSceneInteractor(presenter: presenter)

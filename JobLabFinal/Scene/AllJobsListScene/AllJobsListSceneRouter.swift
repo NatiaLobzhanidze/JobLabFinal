@@ -22,10 +22,8 @@ protocol AllJobsListSceneDataPassing
   var dataStore: AllJobsListSceneDataStore? { get }
 }
 
-class AllJobsListSceneRouter: AllJobsListSceneRoutingLogic, AllJobsListSceneDataPassing
-{
-    
-    
+final class AllJobsListSceneRouter: AllJobsListSceneRoutingLogic, AllJobsListSceneDataPassing {
+
   weak var viewController: AllJobsListSceneViewController?
   var dataStore: AllJobsListSceneDataStore?
   
@@ -35,7 +33,9 @@ class AllJobsListSceneRouter: AllJobsListSceneRoutingLogic, AllJobsListSceneData
     }
   // MARK: Routing
     func navigateTpJobDetailsScene() {
+        
         guard let selectedJob = dataStore?.selectedJob else { return }
+        
         let destVc = JobDetailsViewControllerConfiguration.configure(with: selectedJob)
         viewController?.navigationController?.pushViewController(destVc, animated: true )
                 

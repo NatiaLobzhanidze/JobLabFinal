@@ -13,17 +13,15 @@
 import UIKit
 
 protocol SettingsSceneBusinessLogic {
-    func doSomething(request: SettingsScene.Settings.Request)
+    func logOut(request: SettingsScene.Settings.Request)
 }
 
 protocol SettingsSceneDataStore {
-  //var name: String { get set }
 }
 
 final class SettingsSceneInteractor: SettingsSceneBusinessLogic, SettingsSceneDataStore {
+    
   var presenter: SettingsScenePresentationLogic?
-//  var worker: SettingsSceneWorker?
-
   
   // MARK: Object lifeCycle
     
@@ -31,11 +29,7 @@ final class SettingsSceneInteractor: SettingsSceneBusinessLogic, SettingsSceneDa
         self.presenter = presenter
     }
   
-  func doSomething(request: SettingsScene.Settings.Request)
-  {
-
-    
-    let response = SettingsScene.Settings.Response()
-    presenter?.presentSomething(response: response)
-  }
+    func logOut(request: SettingsScene.Settings.Request) {
+        presenter?.presentAuthScene(response: SettingsScene.Settings.Response())
+    }
 }

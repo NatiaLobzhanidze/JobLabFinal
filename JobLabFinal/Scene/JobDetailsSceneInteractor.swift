@@ -35,8 +35,6 @@ class JobDetailsSceneInteractor:  JobDetailsSceneDataStore
     }
   
   // MARK: Do something
-  
- 
 }
 
 extension JobDetailsSceneInteractor: JobDetailsSceneBusinessLogic {

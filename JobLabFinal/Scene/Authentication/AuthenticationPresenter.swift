@@ -24,7 +24,7 @@ final class AuthenticationPresenter {
   
 }
 
-// MARK: Do something
+// MARK: PresentationLogic
 
 extension AuthenticationPresenter: AuthenticationPresentationLogic  {
     func presentSuccess() {

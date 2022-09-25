@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+
 struct SettingsModel {
     let image: String
     let titleLb: String

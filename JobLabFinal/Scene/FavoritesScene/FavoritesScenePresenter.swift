@@ -15,16 +15,24 @@ import UIKit
 protocol FavoritesScenePresentationLogic
 {
     func presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response)
+    func presentDeleting(response: FavoritesScene.DeleteAll.Response)
 }
 
-class FavoritesScenePresenter: FavoritesScenePresentationLogic
-{
+final class FavoritesScenePresenter: FavoritesScenePresentationLogic {
+   
+    
+    func presentDeleting(response: FavoritesScene.DeleteAll.Response) {
+        viewController?.displayDeleting(viewModel: FavoritesScene.DeleteAll.ViewModel())
+    }
+    
+  
+    
   weak var viewController: FavoritesSceneDisplayLogic?
   
   // MARK: PresentationLogic Methods
     
     func presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response) {
-        
-        viewController?.displayFavoriteJobs(viewModel: FavoritesScene.GetFavoriteJobs.ViewModel(data: response.data))
+        let viewModel = response.data
+        viewController?.displayFavoriteJobs(viewModel: FavoritesScene.GetFavoriteJobs.ViewModel(data: viewModel))
     }
 }

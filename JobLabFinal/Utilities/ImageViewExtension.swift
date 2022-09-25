@@ -20,9 +20,7 @@ extension UIImageView {
             }
         }
     }
-}
-
-extension UIImageView {
+    
   func loadImageUsingCache(withUrl urlString : String) {
     let imageCache = NSCache<NSString, UIImage>()
     let url = URL(string: urlString)

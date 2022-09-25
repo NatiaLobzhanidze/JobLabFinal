@@ -127,7 +127,6 @@
 		60D07F7D28CF37CD00D8562B /* JobRecomendationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F7C28CF37CD00D8562B /* JobRecomendationsTableViewCell.swift */; };
 		60D07F7F28CF6C1F00D8562B /* AllJobsListConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F7E28CF6C1F00D8562B /* AllJobsListConfiguration.swift */; };
 		60D07F8228CF8D9100D8562B /* CollevtionViewSingltones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8128CF8D9100D8562B /* CollevtionViewSingltones.swift */; };
-		60D07F8528CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8428CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift */; };
 		60D07F8728CF9AA600D8562B /* JobModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8628CF9AA600D8562B /* JobModelCell.swift */; };
 		60D07F8928CFA19300D8562B /* JobsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8828CFA19300D8562B /* JobsTableViewCell.swift */; };
 		60D07F9228D28C3100D8562B /* JobDetailsScenePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D07F8C28D28C3100D8562B /* JobDetailsScenePresenter.swift */; };
@@ -261,7 +260,6 @@
 		60D07F7C28CF37CD00D8562B /* JobRecomendationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobRecomendationsTableViewCell.swift; sourceTree = "<group>"; };
 		60D07F7E28CF6C1F00D8562B /* AllJobsListConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListConfiguration.swift; sourceTree = "<group>"; };
 		60D07F8128CF8D9100D8562B /* CollevtionViewSingltones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollevtionViewSingltones.swift; sourceTree = "<group>"; };
-		60D07F8428CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllJobsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		60D07F8628CF9AA600D8562B /* JobModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobModelCell.swift; sourceTree = "<group>"; };
 		60D07F8828CFA19300D8562B /* JobsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsTableViewCell.swift; sourceTree = "<group>"; };
 		60D07F8C28D28C3100D8562B /* JobDetailsScenePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JobDetailsScenePresenter.swift; path = JobLabFinal/Scene/JobDetailsScenePresenter.swift; sourceTree = SOURCE_ROOT; };
@@ -346,13 +344,6 @@
 				6034C53228DA380100BA4617 /* SettingsModel.swift */,
 			);
 			path = SettingsModel;
-			sourceTree = "<group>";
-		};
-		605E9F3428D600AE00956B07 /* LoadingOveraly */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LoadingOveraly;
 			sourceTree = "<group>";
 		};
 		605E9F3928D713B400956B07 /* MainTabBar */ = {
@@ -455,8 +446,8 @@
 		6075AC0328BF911C00FD823A /* JobLabFinal */ = {
 			isa = PBXGroup;
 			children = (
-				605E9F4F28D8802400956B07 /* FireBase */,
 				6075AC1B28BF912B00FD823A /* App */,
+				605E9F4F28D8802400956B07 /* FireBase */,
 				605E9F4928D7454D00956B07 /* Persistence */,
 				60D07F8028CF8D7900D8562B /* Singltones */,
 				6075AC3928C09F2C00FD823A /* Utilities */,
@@ -555,7 +546,6 @@
 		6075AC3928C09F2C00FD823A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				605E9F3428D600AE00956B07 /* LoadingOveraly */,
 				6075AC3E28C09F7600FD823A /* AllertMessagesExtensions */,
 				6075AC3D28C09F5600FD823A /* TableViewExtensions */,
 				6075AC3C28C09F4C00FD823A /* CollectionViewExtensions */,
@@ -714,7 +704,6 @@
 		60D07F2D28CA7D7E00D8562B /* JobListCell */ = {
 			isa = PBXGroup;
 			children = (
-				60D07F8428CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift */,
 				60D07F8828CFA19300D8562B /* JobsTableViewCell.swift */,
 			);
 			path = JobListCell;
@@ -1031,7 +1020,6 @@
 				6075AC4028C09F8F00FD823A /* AllertMessageExt.swift in Sources */,
 				605E9F4328D718C600956B07 /* FavoritesScenePresenter.swift in Sources */,
 				6022BF1D28DA9BCC00E4B0E3 /* CommonModel.swift in Sources */,
-				60D07F8528CF8F6C00D8562B /* AllJobsListCollectionViewCell.swift in Sources */,
 				605E9F5228D898E500956B07 /* BaseClassForIndicator.swift in Sources */,
 				605E9F3B28D7145100956B07 /* TabBarViewController.swift in Sources */,
 				60D07F3628CB33FE00D8562B /* ImageViewExtension.swift in Sources */,

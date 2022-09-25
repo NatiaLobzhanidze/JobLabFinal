@@ -13,17 +13,23 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import CoreData
 
 protocol HomeSceneWorkerLogic {
     func fetchTips() async throws -> [TipsModel]
     func fetchAllJobs()async throws -> [JobModel]
-    func logOutUser()
+    func fetchFavorites() -> [String?]
+ 
 }
 
 final class HomeSceneWorker {
+    
+    //MARK: Fields
+    
     private let api: APIManager
     private let tipsUrl = ApiUrls.tips.rawValue
     private let jobsUrl = ApiUrls.jobs.rawValue
+    private let coreDataManager = CoreDataManaager.shared
     
     init(api: APIManager) {
         self.api = api
@@ -33,14 +39,18 @@ final class HomeSceneWorker {
   //MARK: WorkerLogic methods
 
 extension HomeSceneWorker: HomeSceneWorkerLogic {
-
-    func logOutUser() {
-        do {
-            try Auth.auth().signOut()
-        } catch let signOutError as NSError {
-            fatalError( signOutError.localizedDescription)
+    func fetchFavorites() -> [String?] {
+        var indetities = [String?]()
+        coreDataManager.featchFavorites(fromEntity: "Favorites", by: "isFavorite == true") { nsObject in
+            nsObject.forEach { object in
+                if let object = object as? Favorites {
+                    indetities.append(object.identity)
+                }
+            }
         }
+        return  indetities
     }
+    
     
     func fetchTips() async throws -> [TipsModel] {
         try await api.fetchData(urlString: tipsUrl, decodingType: [TipsModel].self)
@@ -49,4 +59,5 @@ extension HomeSceneWorker: HomeSceneWorkerLogic {
     func fetchAllJobs() async throws -> [JobModel] {
         try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
     }
+    
 }

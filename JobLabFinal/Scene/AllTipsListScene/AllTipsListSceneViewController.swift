@@ -71,6 +71,8 @@ class AllTipsListSceneViewController: UIViewController
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0)
     }
 }
+//MARK: DisplayLogic
+
 extension AllTipsListSceneViewController:
     AllTipsListSceneDisplayLogic {
     func displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel) {
@@ -83,6 +85,7 @@ extension AllTipsListSceneViewController:
         }
     }
 }
+
 
 extension AllTipsListSceneViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 enum JobDetailsViewControllerConfiguration {
+    
     static func configure(with selectedJob: JobModel) -> JobDetailsSceneViewController {
         let presenter = JobDetailsScenePresenter()
         

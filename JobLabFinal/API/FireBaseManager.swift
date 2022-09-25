@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class FireBaseManager {
+    
     static var shared = FireBaseManager()
     private init() {}
     
@@ -35,20 +36,4 @@ final class FireBaseManager {
         }
     }
 }
-    
-//    Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-//      // ...
-//    }
 }
-//    Future<String> signUp(String email, String password) async {
-//      AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
-//          email: email, password: password);
-//      FirebaseUser user = result.user;
-//      return user.uid;
-//    }
-//
-//    Future<void> signOut() async {
-//      _snapshotService.setWasteLessLifeUserObject({});
-//      return _firebaseAuth.signOut();
-//    }
-

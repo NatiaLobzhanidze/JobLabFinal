@@ -64,7 +64,6 @@ class BaseViewController: UIViewController {
 
     let mainBtn: UIButton = {
         let btn = UIButton()
-        //btn.setTitle("Sing in", for: .normal)
         btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
         btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
         btn.layer.cornerRadius = 20
@@ -83,7 +82,7 @@ class BaseViewController: UIViewController {
     
     let fbBtn: UIButton = {
         let btn = UIButton(type: .custom)
-        btn.configureBtn(with: "  FaceBook", image: "fb")
+        btn.configureBtn(with: "  FaceBook", image: "20")
         return btn
     }()
     let googleBtn: UIButton = {
@@ -101,7 +100,7 @@ class BaseViewController: UIViewController {
         return lb
     }()
     
-    let signUp: UIButton = {
+    let bottomBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("SignUp", for: .normal)
         btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)

@@ -13,16 +13,13 @@
 import UIKit
 
 protocol SettingsScenePresentationLogic {
-    func presentSomething(response: SettingsScene.Settings.Response)
+     func presentAuthScene(response: SettingsScene.Settings.Response)
 }
 
-class SettingsScenePresenter: SettingsScenePresentationLogic {
+final class SettingsScenePresenter: SettingsScenePresentationLogic {
+
   weak var viewController: SettingsSceneDisplayLogic?
-  
-  // MARK: Do something
-  
-    func presentSomething(response: SettingsScene.Settings.Response)
-  {
-   
-  }
+    func presentAuthScene(response: SettingsScene.Settings.Response) {
+        viewController?.displayAuthScene(viewModel: SettingsScene.Settings.ViewModel())
+    }
 }

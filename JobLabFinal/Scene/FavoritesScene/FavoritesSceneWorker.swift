@@ -12,19 +12,51 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
-protocol FavoritesSceneWorkerLogic {
-    func getFavorites() -> [Favorites]
+enum WrokerTitles: String {
+    case entityName = "Favorites"
+    case predicatebyFavorites = "isFavorite == true"
 }
 
-class FavoritesSceneWorker: FavoritesSceneWorkerLogic
-{
-    var coreDataManager: CoreDataManaager
+protocol FavoritesSceneWorkerLogic {
+    func fetchFavoriteJobs() async -> [JobModel]
+    func  deleteAll()
+}
+
+final class FavoritesSceneWorker {
+    
+    private var coreDataManager: CoreDataManaager
+    private var api = APIManager.shared
+    private let jobsUrl = ApiUrls.jobs.rawValue
+    
     init(coreDataManager: CoreDataManaager) {
         self.coreDataManager = coreDataManager
     }
+    func fetchFavorites() -> [String] {
+        var identities = [String]()
+        coreDataManager.featchFavorites(fromEntity: WrokerTitles.entityName.rawValue, by: WrokerTitles.predicatebyFavorites.rawValue) { nsObjects in
+            identities = nsObjects.compactMap{($0 as? Favorites)?.identity}
+        }
+        return identities
+    }
+}
+
+extension FavoritesSceneWorker : FavoritesSceneWorkerLogic {
     
-    func getFavorites() -> [Favorites] {
-        coreDataManager.featchFavorites(fromEntity: "Favorites", by: "isFavorite == true")
+    func fetchFavoriteJobs() async -> [JobModel] {
+        var favJobs = [JobModel]()
+        let identities = fetchFavorites()
+        do {
+            favJobs = try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return favJobs.filter({identities.contains($0.ident)})
+    }
+    
+    func deleteAll() {
+        coreDataManager.deleteAllData(entity: WrokerTitles.entityName.rawValue)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 final class CustomCollectionViewConfiguration {
     static var shared = CustomCollectionViewConfiguration()
     private init() { }

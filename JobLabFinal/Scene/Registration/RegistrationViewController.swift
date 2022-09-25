@@ -52,27 +52,17 @@ final class RegistrationViewController: BaseViewController {
         
         return txt
     }()
-    
-//    let signUpBtn: UIButton = {
+//
+//    let signIn: UIButton = {
 //        let btn = UIButton()
-//        btn.setTitle("Sing up", for: .normal)
-//        btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
-//        btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
-//        btn.layer.cornerRadius = 20
-//        btn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
+//        btn.setTitle("Sign in", for: .normal)
+//        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
+//        btn.titleLabel?.font = .systemFont(ofSize: 15)
+//        btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
+//
 //        return btn
+//
 //    }()
-    
-    let signIn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Sign in", for: .normal)
-        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 15)
-        btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        return btn
-        
-    }()
     
     // MARK: Object lifecycle
     
@@ -94,9 +84,11 @@ final class RegistrationViewController: BaseViewController {
     }
     private func setUpBaseVcUI() {
         mainBtn.setTitle("Sign up", for: .normal)
+        mainBtn.setTitleColor(.white, for: .normal)
     }
     private func setUpView() {
         view.backgroundColor = .white
+        setUpBaseVcUI()
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld, repeatePasswordtxFld]
         let labelarr: [UILabel]  = [emailLb,
                                     passwordLb,
@@ -104,7 +96,7 @@ final class RegistrationViewController: BaseViewController {
                                     orContinueLb,
                                     donthaveAn,
                                     confirmePasswordLb]
-        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, signIn]
+        let btnArr: [UIButton] = [mainBtn, googleBtn, bottomBtn]
         
         self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)

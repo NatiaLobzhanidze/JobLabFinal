@@ -14,47 +14,46 @@ import UIKit
 import CoreData
 
 
-protocol FavoritesSceneBusinessLogic
-{
+protocol FavoritesSceneBusinessLogic {
     func getFavorites(request: FavoritesScene.GetFavoriteJobs.Request)
+    func deleteAllDAta(request: FavoritesScene.DeleteAll.Request)
 }
 
-protocol FavoritesSceneDataStore
-{
-  //var name: String { get set }
+protocol FavoritesSceneDataStore {
 }
 
-class FavoritesSceneInteractor:  FavoritesSceneDataStore
-{
-    var container = [JobModel]()
+final class FavoritesSceneInteractor:  FavoritesSceneDataStore {
     
-    func doSomething(request: FavoritesScene.GetFavoriteJobs.Request) {
-    
-        }
-        
-    
-    
+    //MARK: Clean components
+
   var presenter: FavoritesScenePresentationLogic?
   var worker: FavoritesSceneWorker?
-  //var name: String = ""
+    
+    //MARK: Fields
+  var container = [JobModel]()
   
-  // MARK: Do something
+  // MARK: object LifeCycle
+    
     init(presenter: FavoritesScenePresentationLogic, worker: FavoritesSceneWorker) {
         self.presenter = presenter
         self.worker = worker
     }
-
 }
 
 extension FavoritesSceneInteractor: FavoritesSceneBusinessLogic {
+    
+    func deleteAllDAta(request: FavoritesScene.DeleteAll.Request) {
+        worker?.deleteAll()
+        presenter?.presentDeleting(response: FavoritesScene.DeleteAll.Response())
+    }
+    
     func getFavorites(request: FavoritesScene.GetFavoriteJobs.Request) {
-        guard let response =  worker?.getFavorites() else { return }
-        // to do unwrap!
-        response.forEach({ favorites in
-            self.container.append(JobModel(logoImage: favorites.image!, brand: favorites.employer!, jobTitle: favorites.jobTitle!, location: favorites.location ?? "Tbilisi", jobType: favorites.jobTitle ?? "Full-time", category: favorites.category ?? " HR", sallary: Int(favorites.salary ) ))
-        })
-        presenter?.presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response(data: container))
-
+        Task {
+            guard let favoriteJobs = await worker?.fetchFavoriteJobs() else { return }
+            self.container = favoriteJobs
+            presenter?.presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response(data: container))
+        }
+       
     }
     
     

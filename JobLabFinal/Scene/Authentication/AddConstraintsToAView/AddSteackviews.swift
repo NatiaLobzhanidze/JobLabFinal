@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    
     func addFirstStackview(textLb: [UILabel], textFld: [UITextField], btn: [UIButton], contentView: UIView) {
         
         //MARK: First StaCkView
@@ -65,6 +66,6 @@ extension UIViewController {
         
         contentView.addSubview(thierdStackview)
         thierdStackview.anchor(top: secondMainStackview.bottomAnchor, bottom: contentView.bottomAnchor, paddingTop: 40, paddingBottom: 10)
-        thierdStackview.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        thierdStackview.centerX(inView: contentView)
     }
 }

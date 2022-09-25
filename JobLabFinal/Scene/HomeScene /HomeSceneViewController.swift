@@ -20,8 +20,8 @@ protocol HomeSceneDisplayLogic: AnyObject {
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel)
     func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel)
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel)
-    func logOut(viewModel: HomeScene.LogOut.ViewModel)
     func displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel)
+    func displayFavorireCells(viewModel: HomeScene.FavoriteCell.ViewModel)
 }
 
 final class HomeSceneViewController: UIViewController {
@@ -35,6 +35,7 @@ final class HomeSceneViewController: UIViewController {
     
     private var dataSource = [TipsModel]()
     private var jobsDataSource = [JobModel]()
+    private var favoritesDataSource = [String]()
     private var selectedtip: TipsModel!
     private var savedJobs = [JobModel]()
     
@@ -82,6 +83,7 @@ final class HomeSceneViewController: UIViewController {
         setUpViews()
         registerCells()
         interactor?.getCommonModel(request: HomeScene.GetCommonModel.Request())
+        interactor?.getFavorites(request: HomeScene.FavoriteCell.Request())
     }
     
     // MARK: Private methods
@@ -94,6 +96,9 @@ final class HomeSceneViewController: UIViewController {
     private func setJobsTableData(data: [JobModel]) {
         self.jobsDataSource = data
         tableView.reloadData()
+    }
+    private func setFavoritesData(data: [String]) {
+        self.favoritesDataSource  = data
     }
     
     // MARK: Setup UI
@@ -177,15 +182,15 @@ extension HomeSceneViewController : UISearchBarDelegate {
 //MARK: display logic methods
 
 extension HomeSceneViewController: HomeSceneDisplayLogic {
+    func displayFavorireCells(viewModel: HomeScene.FavoriteCell.ViewModel) {
+        self.favoritesDataSource = viewModel.data
+    }
+    
     func displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel) {
         let jobData = viewModel.data.jobs
         let tipsData = viewModel.data.tips
         self.setJobsTableData(data: jobData)
         self.setTipsTableData(data: tipsData)
-    }
-    
-    func logOut(viewModel: HomeScene.LogOut.ViewModel) {
-        router?.logOut()
     }
     
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
@@ -264,6 +269,8 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 4:
             let cell = tableView.deque(class: JobsTableViewCell.self, for: indexPath)
+
+            cell.favorites = favoritesDataSource
             cell.configureCell(with: jobsDataSource[indexPath.row])
             cell.delegate = self
             cell.shadowedtoView()

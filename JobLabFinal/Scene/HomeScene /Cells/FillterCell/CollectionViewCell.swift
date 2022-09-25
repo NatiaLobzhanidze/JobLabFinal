@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FilterCollectionViewCell: UICollectionViewCell {
+final class FilterCollectionViewCell: UICollectionViewCell {
     
     let myview: UIView = {
         let v = UIView()
@@ -15,8 +15,8 @@ class FilterCollectionViewCell: UICollectionViewCell {
         v.layer.borderColor = UIColor.tintColor.cgColor
         
         return v
-        
     }()
+    
     let filtersTitle: UILabel = {
         let lb = UILabel()
         lb.textColor = .tintColor
@@ -26,19 +26,14 @@ class FilterCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
                 super.prepareForReuse()
         setUpView()
-                
         }
-        
         override init(frame: CGRect) {
                 super.init(frame: frame)
             setUpView()
-               
         }
     override func awakeFromNib() {
         super.awakeFromNib()
-    
         setUpView()
-                
     }
     
     func setUpView() {
@@ -51,6 +46,4 @@ class FilterCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
                     fatalError("init(coder:) has not been implemented")
             }
-    
-    
 }

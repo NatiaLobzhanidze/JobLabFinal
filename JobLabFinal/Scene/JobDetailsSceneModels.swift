@@ -12,21 +12,16 @@
 
 import UIKit
 
-enum JobDetailsScene
-{
+enum JobDetailsScene {
   // MARK: Use cases
   
-  enum ShowDetails
-  {
-    struct Request
-    {
+  enum ShowDetails {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
         let data: JobModel
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         let data: JobModel
     }
   }

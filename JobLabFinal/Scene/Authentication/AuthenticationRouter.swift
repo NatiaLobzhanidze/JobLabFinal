@@ -36,9 +36,8 @@ class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassin
     }
     
     func navigateToCategoriesScene() {
-        UserDefaults.standard.set(true, forKey: "ISUSERLOGGEDIN")
+      
         let desttVc = CategoriesSceneConfiguration.configure()
-        
         viewController?.view.window?.rootViewController = desttVc
         viewController?.view.window?.makeKeyAndVisible()
     }

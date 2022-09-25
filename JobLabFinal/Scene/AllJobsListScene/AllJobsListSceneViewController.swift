@@ -141,6 +141,7 @@ extension AllJobsListSceneViewController: AllJobsListSceneDisplayLogic {
 //MARK: TableView datasource
 
 extension AllJobsListSceneViewController:  UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -177,6 +178,11 @@ extension AllJobsListSceneViewController: UITableViewDelegate {
         let height = indexPath.section == 0 ? 70 : 120
         return CGFloat(height)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let data = allJobsContainer[indexPath.row]
+        interactor?.seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request(data: data))
+    }
 }
 
 //MARK: Delegate/protocol methods
@@ -185,7 +191,13 @@ extension AllJobsListSceneViewController : FilterByCategoryDelegate {
     func filterByCategory(with title: String) {
         interactor?.getFilteredJobs(request: AllJobsListScene.FilterJobs.Request(keyword: nil, category: title))
     }
-    
-   
-    
 }
+    
+extension AllJobsListSceneViewController: SelsectJobDelegateProtocol {
+    func selectJob(data: JobModel) {
+        interactor?.seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request(data: data))
+        
+    }
+}
+    
+

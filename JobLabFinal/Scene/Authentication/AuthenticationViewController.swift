@@ -46,7 +46,6 @@ final class AuthenticationViewController:  BaseViewController {
         setUpView()
     }
 
-
   // MARK: @objc Methods
   
     @objc func goToRegistration() {
@@ -65,7 +64,7 @@ final class AuthenticationViewController:  BaseViewController {
         self.navigationItem.setHidesBackButton(true, animated: true)
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
-        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, signUp]
+        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
         let scrollView = UIScrollView()
             scrollView.isScrollEnabled = true
         let contentView = UIView()
@@ -76,14 +75,14 @@ final class AuthenticationViewController:  BaseViewController {
     }
     private func setUpBaseVcUI() {
         mainBtn.setTitle("Log in", for: .normal)
-        signUp.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
+        bottomBtn.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
         mainBtn.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
     }
 }
 
 //MARK: DisplayLogic Methods
 
-extension AuthenticationViewController :   AuthenticationDisplayLogic {
+extension AuthenticationViewController :  AuthenticationDisplayLogic {
     
     func displayLogIngSuccess() {
         router?.navigateToCategoriesScene()
@@ -98,9 +97,4 @@ extension AuthenticationViewController :   AuthenticationDisplayLogic {
     }
 }
 
-//extension AuthenticationViewController :  UIViewControllerTransitioningDelegate {
-//
-//    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-//        FilterPresentationController(presentedViewController: presented, presenting: presenting)
-//    }
-//}
+

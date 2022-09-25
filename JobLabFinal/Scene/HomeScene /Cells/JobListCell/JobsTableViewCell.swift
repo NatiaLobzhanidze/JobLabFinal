@@ -16,6 +16,7 @@ final class JobsTableViewCell: UITableViewCell {
     //MARK: Fieleds
     
     var favoriteJobs: JobModel?
+    var favorites = [String]()
     var delegate: SelsectJobDelegateProtocol!
      
     //MARK: UI
@@ -69,14 +70,13 @@ final class JobsTableViewCell: UITableViewCell {
     
     @objc func addToFavoritesList() {
         guard let favoriteJobs = favoriteJobs else { return }
-        let jobDictionary: [String : Any] = ["image" : favoriteJobs.logoImage,
-                                             "employer" : favoriteJobs.brand,
-                                             "isFavorite" : true,
-                                             "jobTitle" : favoriteJobs.jobTitle]
+        let jobDictionary: [String : Any] = ["identity" : favoriteJobs.ident,
+                                             "isFavorite" : true]
+        //MARK: Check!
+        
         CoreDataManaager.shared.create(from: jobDictionary, toEntity: "Favorites")
         
         favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-        print("saved?")
     }
     
     // MARK: Private Methods
@@ -94,7 +94,9 @@ final class JobsTableViewCell: UITableViewCell {
         self.logoImage.loadImageUsingCache(withUrl: model.logoImage)
         self.employerName.text = model.brand
         self.jobName.text = model.jobTitle
-        self.favoriteButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        let btnStyle = favorites.contains(model.ident ) ? "bookmark.fill" : "bookmark"
+        self.favoriteButton.setImage(UIImage(systemName: btnStyle), for: .normal)
     }
+    
 }
 

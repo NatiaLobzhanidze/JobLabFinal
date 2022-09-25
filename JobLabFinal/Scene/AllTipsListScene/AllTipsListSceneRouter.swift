@@ -12,18 +12,15 @@
 
 import UIKit
 
-@objc protocol AllTipsListSceneRoutingLogic
-{
+protocol AllTipsListSceneRoutingLogic {
   func navigateToTipsDetails()
 }
 
-protocol AllTipsListSceneDataPassing
-{
+protocol AllTipsListSceneDataPassing {
   var dataStore: AllTipsListSceneDataStore? { get }
 }
 
-class AllTipsListSceneRouter: NSObject, AllTipsListSceneRoutingLogic, AllTipsListSceneDataPassing
-{
+final class AllTipsListSceneRouter: NSObject, AllTipsListSceneRoutingLogic, AllTipsListSceneDataPassing {
   weak var viewController: AllTipsListSceneViewController?
  private(set) var dataStore: AllTipsListSceneDataStore?
   
@@ -40,11 +37,5 @@ class AllTipsListSceneRouter: NSObject, AllTipsListSceneRoutingLogic, AllTipsLis
         let destVc = TipsDetailsSceneConfiguration.configure(with: selectedTip)
         viewController?.navigationController?.pushViewController(destVc, animated: true)
     }
-  
-  // MARK: Passing data
-  
-  //func passDataToSomewhere(source: AllTipsListSceneDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+
 }

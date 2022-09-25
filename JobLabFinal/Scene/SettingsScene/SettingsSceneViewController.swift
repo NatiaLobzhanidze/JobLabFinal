@@ -14,7 +14,7 @@ import UIKit
 
 protocol SettingsSceneDisplayLogic: AnyObject {
     
-    func displaySettings(viewModel: SettingsScene.Settings.ViewModel)
+    func displayAuthScene(viewModel: SettingsScene.Settings.ViewModel)
 }
 
 final class SettingsSceneViewController: UIViewController {
@@ -87,8 +87,15 @@ final class SettingsSceneViewController: UIViewController {
 //MARK: DisplayLogic
 
 extension SettingsSceneViewController: SettingsSceneDisplayLogic  {
-    func displaySettings(viewModel: SettingsScene.Settings.ViewModel) {
+    func displayAuthScene(viewModel: SettingsScene.Settings.ViewModel) {
+        router?.navigateToAuthScene()
     }
+    
+    func displaySettings(viewModel: SettingsScene.Settings.ViewModel) {
+        
+    }
+    
+   
 }
 
 //MARK: TableView dataSource
@@ -118,6 +125,10 @@ extension SettingsSceneViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
+            
+            interactor?.logOut(request: SettingsScene.Settings.Request())
+            
+            UserDefaults.standard.set(false, forKey: "ISUSERLOGGEDIN")
             view.window?.rootViewController = AuthenticationConfiguration.configure()
             view.window?.makeKeyAndVisible()
         }

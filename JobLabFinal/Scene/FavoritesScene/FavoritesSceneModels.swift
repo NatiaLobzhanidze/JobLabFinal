@@ -29,4 +29,17 @@ enum FavoritesScene
       {
           var data: [JobModel]
       }
-    }}
+    }
+    
+    enum DeleteAll {
+        struct Request
+        {
+        }
+        struct Response
+        {
+        }
+        struct ViewModel
+        {
+        }
+    }
+}

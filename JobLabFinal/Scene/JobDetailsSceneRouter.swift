@@ -12,17 +12,14 @@
 
 import UIKit
 
-@objc protocol JobDetailsSceneRoutingLogic
-{
+protocol JobDetailsSceneRoutingLogic{
 }
 
-protocol JobDetailsSceneDataPassing
-{
+protocol JobDetailsSceneDataPassing {
   var dataStore: JobDetailsSceneDataStore? { get }
 }
 
-class JobDetailsSceneRouter: NSObject, JobDetailsSceneRoutingLogic, JobDetailsSceneDataPassing
-{
+final class JobDetailsSceneRouter: JobDetailsSceneRoutingLogic, JobDetailsSceneDataPassing {
   weak var viewController: JobDetailsSceneViewController?
   var dataStore: JobDetailsSceneDataStore?
   

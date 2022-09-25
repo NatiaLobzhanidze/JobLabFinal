@@ -20,8 +20,8 @@ protocol HomeScenePresentationLogic {
   func presentAllJobs(response: HomeScene.ShowAllJobs.Response)
   func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
   func presentjobsByCategory(response: HomeScene.FilterJobs.Response)
-  func logOutScene(response: HomeScene.LogOut.Response)
   func presentCommomModel(response: HomeScene.GetCommonModel.Response)
+  func presentFavorites(response: HomeScene.FavoriteCell.Response)
 }
 
 final class HomeScenePresenter {
@@ -29,13 +29,14 @@ final class HomeScenePresenter {
 }
 
 extension HomeScenePresenter: HomeScenePresentationLogic {
+    func presentFavorites(response: HomeScene.FavoriteCell.Response) {
+        let viewModel = response.data
+        viewController?.displayFavorireCells(viewModel: HomeScene.FavoriteCell.ViewModel(data: viewModel))
+    }
+    
     func presentCommomModel(response: HomeScene.GetCommonModel.Response) {
         let viewModel = response.data
         viewController?.displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel(data: viewModel))
-    }
-    
-    func logOutScene(response: HomeScene.LogOut.Response) {
-        viewController?.logOut(viewModel: HomeScene.LogOut.ViewModel())
     }
     
     func presentjobsByCategory(response: HomeScene.FilterJobs.Response) {

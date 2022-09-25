@@ -15,8 +15,8 @@ protocol ViewContextProvider: AnyObject {
 
 extension ViewContextProvider {
     var viewContext: NSManagedObjectContext {
-        guard  let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("Could not determine appDelegate.") }
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+          
         return appDelegate.persistentContainer.viewContext
     }
 }
@@ -31,6 +31,7 @@ final class CoreDataManaager: ViewContextProvider {
     private init() {}
     
     //MARK: Create
+    
     func create(from params: [ String: Any], toEntity: String) {
         
         guard  let entity = NSEntityDescription.entity(forEntityName: toEntity,
@@ -50,21 +51,31 @@ final class CoreDataManaager: ViewContextProvider {
     
     //MARK: Read
     
-    func featchFavorites<T: NSManagedObject>(fromEntity: String, by predicate: String) -> [T] {
-        
+    func featchFavorites<T: NSManagedObject>(fromEntity: String, by predicate: String, completion: @escaping([T])->(Void)) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: fromEntity)
         fetchRequest.predicate = NSPredicate(format: predicate)
-        
         do {
-            let fetchedObjc = try viewContext.fetch(fetchRequest) as! [T]
-            return fetchedObjc
-            
+            let fetchedObjcs = try viewContext.fetch(fetchRequest) as? [T]
+            guard let fetchedObjcs = fetchedObjcs else { return }
+            completion(fetchedObjcs)
         }catch let error {
             fatalError(error.localizedDescription)
         }
     }
-    
-    //MARK: Update
-    //to do check favorites value // existness
+
     //MARK: Delete
+    
+    func deleteAllData(entity: String) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:  entity)
+        do {
+            let results = try viewContext.fetch(fetchRequest)
+            for object in results {
+                guard let objectData = object as? NSManagedObject else { continue }
+                viewContext.delete(objectData)
+                try viewContext.save()
+            }
+        } catch let error {
+            print("Detele all data in \(entity) error :", error)
+        }
+    }
 }

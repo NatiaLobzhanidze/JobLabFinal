@@ -12,8 +12,7 @@
 
 import UIKit
 
-class JobDetailsSceneWorker
-{
+class JobDetailsSceneWorker {
   func doSomeWork()
   {
   }

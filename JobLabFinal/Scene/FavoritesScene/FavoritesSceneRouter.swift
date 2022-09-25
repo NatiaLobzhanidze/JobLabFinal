@@ -12,18 +12,14 @@
 
 import UIKit
 
-@objc protocol FavoritesSceneRoutingLogic
-{
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+protocol FavoritesSceneRoutingLogic {
 }
 
-protocol FavoritesSceneDataPassing
-{
+protocol FavoritesSceneDataPassing {
   var dataStore: FavoritesSceneDataStore? { get }
 }
 
-class FavoritesSceneRouter: FavoritesSceneRoutingLogic, FavoritesSceneDataPassing
-{
+final class FavoritesSceneRouter: FavoritesSceneRoutingLogic, FavoritesSceneDataPassing {
   weak var viewController: FavoritesSceneViewController?
   var dataStore: FavoritesSceneDataStore?
   

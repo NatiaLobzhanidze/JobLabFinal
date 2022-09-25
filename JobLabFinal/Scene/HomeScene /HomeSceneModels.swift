@@ -19,7 +19,7 @@ enum HomeScene {
     enum ShowAllTips {
         
         struct Request {
-            let data: [TipsModel]
+        let data: [TipsModel]
         }
         struct Response {}
         struct ViewModel {}
@@ -73,4 +73,14 @@ enum HomeScene {
             let data: CommonModel
         }
     }
+    enum FavoriteCell {
+        struct Request {}
+        struct Response {
+            let data: [String]
+        }
+        struct ViewModel {
+            let data: [String]
+        }
+    }
+    
 }
