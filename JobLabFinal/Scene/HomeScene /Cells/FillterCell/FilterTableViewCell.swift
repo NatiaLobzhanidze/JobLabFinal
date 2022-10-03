@@ -59,13 +59,11 @@ final class FilterTableViewCell: UITableViewCell {
     //MARK: Private Methods
     
     func fillCategories(from objects: [JobModel]) {
-        if !objects.isEmpty {
             let categoriesSet = Set(objects.map{$0.category})
             self.allCategories = Array(categoriesSet)
             self.allCategories.insert("All Jobs", at: 0)
-        }
-        
     }
+    
     private func setUpViews() {
         
         self.contentView.addSubview(collectionView)

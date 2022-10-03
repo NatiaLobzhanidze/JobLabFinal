@@ -193,7 +193,7 @@ extension AllJobsListSceneViewController : FilterByCategoryDelegate {
     }
 }
     
-extension AllJobsListSceneViewController: SelsectJobDelegateProtocol {
+extension AllJobsListSceneViewController: SelectJobDelegateProtocol {
     func selectJob(data: JobModel) {
         interactor?.seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request(data: data))
         

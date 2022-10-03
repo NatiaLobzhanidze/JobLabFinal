@@ -149,7 +149,7 @@ extension HomeSceneViewController: SeeAllJobsDelegate {
         self.interactor?.didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request())
     }
 }
-extension HomeSceneViewController: SelsectJobDelegateProtocol {
+extension HomeSceneViewController: SelectJobDelegateProtocol {
     func selectJob(data: JobModel) {
         self.interactor?.seeJobDetails(request: HomeScene.SeeJobDetails.Request(job: data))
     }

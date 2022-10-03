@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol SelsectJobDelegateProtocol {
+protocol SelectJobDelegateProtocol {
     func selectJob(data: JobModel)
 }
 
@@ -17,7 +17,7 @@ final class JobsTableViewCell: UITableViewCell {
     
     var favoriteJobs: JobModel?
     var favorites = [String]()
-    var delegate: SelsectJobDelegateProtocol!
+    var delegate: SelectJobDelegateProtocol!
      
     //MARK: UI
     
