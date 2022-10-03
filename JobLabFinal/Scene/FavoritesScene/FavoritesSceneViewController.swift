@@ -78,7 +78,6 @@ final class FavoritesSceneViewController: UIViewController {
          DispatchQueue.main.async {
              self.tableView.reloadData()
          }
-    
     }
     
     // MARK: Setup UI

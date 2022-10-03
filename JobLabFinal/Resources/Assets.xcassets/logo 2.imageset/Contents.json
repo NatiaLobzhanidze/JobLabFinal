@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "job2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "3_Light_Splash Screen Ready.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

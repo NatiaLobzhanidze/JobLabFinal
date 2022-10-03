@@ -12,7 +12,6 @@
 
 import UIKit
 import CoreData
-import SwiftUI
 
 enum WrokerTitles: String {
     case entityName = "Favorites"
@@ -26,10 +25,12 @@ protocol FavoritesSceneWorkerLogic {
 
 final class FavoritesSceneWorker {
     
+    //MARK: Fields
+    
     private var coreDataManager: CoreDataManaager
     private var api = APIManager.shared
     private let jobsUrl = ApiUrls.jobs.rawValue
-    
+    private var identities = [String]()
     init(coreDataManager: CoreDataManaager) {
         self.coreDataManager = coreDataManager
     }
@@ -46,13 +47,15 @@ extension FavoritesSceneWorker : FavoritesSceneWorkerLogic {
     
     func fetchFavoriteJobs() async -> [JobModel] {
         var favJobs = [JobModel]()
-        let identities = fetchFavorites()
         do {
             favJobs = try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
+            DispatchQueue.main.async { [weak self] in
+                guard let res = self?.fetchFavorites() else { return }
+                self?.identities = res
+            }
         } catch {
             print(error.localizedDescription)
         }
-        
         return favJobs.filter({identities.contains($0.ident)})
     }
     

@@ -23,7 +23,7 @@ final class FilterTableViewCell: UITableViewCell {
             self.collectionView.reloadData()
         }
     }
-
+    
     //MARK: View
     
     lazy var collectionView: UICollectionView = {
@@ -95,8 +95,8 @@ extension FilterTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
         let label = UILabel(frame: CGRect.zero)
         label.text = allCategories[indexPath.row]
         label.sizeToFit()
-      
-            return CGSize(width: label.frame.width + 35, height: 60)
+        
+        return CGSize(width: label.frame.width + 35, height: 60)
         
     }
     
