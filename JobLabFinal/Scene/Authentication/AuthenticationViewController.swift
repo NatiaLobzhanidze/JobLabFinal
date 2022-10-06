@@ -23,8 +23,8 @@ final class AuthenticationViewController:  BaseViewController {
     
     //MARK: Clean Components
     
-  var interactor: AuthenticationBusinessLogic?
-  var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)?
+  var interactor: AuthenticationBusinessLogic
+  var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)
     
 
   // MARK: Object lifecycle
@@ -50,10 +50,10 @@ final class AuthenticationViewController:  BaseViewController {
   
     @objc func goToRegistration() {
      
-        interactor?.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
+        interactor.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
     }
     @objc func tryLogin() {
-         interactor?.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
+         interactor.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
      }
     
   // MARK: set up UI
@@ -85,7 +85,7 @@ final class AuthenticationViewController:  BaseViewController {
 extension AuthenticationViewController :  AuthenticationDisplayLogic {
     
     func displayLogIngSuccess() {
-        router?.navigateToCategoriesScene()
+        router.navigateToCategoriesScene()
     }
     
     func displayLogInFailure(message: String) {
@@ -93,7 +93,7 @@ extension AuthenticationViewController :  AuthenticationDisplayLogic {
     }
 
     func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel) {
-        router?.navigationToRegistration()
+        router.navigationToRegistration()
     }
 }
 

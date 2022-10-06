@@ -15,7 +15,7 @@ struct OnBoardingModel {
 
 //MARK: for onBording collectionView cell conf.
 
-enum onBanner {
+enum viewsOnBanner {
     static let jobBanners = [
         "job1-1" : "Find job offers from the most popular job listing sites",
         "job2-1" : "Track all your job applicatons and don’t get lost in the process",

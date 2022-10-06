@@ -20,8 +20,8 @@ protocol OnBoardingDisplayLogic: AnyObject {
 final class OnBoardingViewController: UIViewController {
     //MARK: Clean components
     
-    var interactor: OnBoardingBusinessLogic?
-    var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)?
+    var interactor: OnBoardingBusinessLogic
+    var router: ( OnBoardingRoutingLogic & OnBoardingDataPassing)
     
     //MARK: UI
     
@@ -86,14 +86,14 @@ final class OnBoardingViewController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError()
     }
     
     // MARK: View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor?.getBanners(request: OnBoarding.GetOnBoardingData.Request())
+        interactor.getBanners(request: OnBoarding.GetOnBoardingData.Request())
         setUpView()
     }
     
@@ -120,7 +120,7 @@ final class OnBoardingViewController: UIViewController {
     }
     private func changePage (on collectionView: UICollectionView){
         if currentPage == dataSource.count - 1  {
-            interactor?.getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request())
+            interactor.getLogInScene(request: OnBoarding.GoToLogInScecen.Request())
         } else {
             collectionView.isPagingEnabled = false
             currentPage += 1
@@ -134,7 +134,7 @@ final class OnBoardingViewController: UIViewController {
     //MARK: @objc Methods
     
     @objc func skipBtn() {
-        self.interactor?.getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request())
+        self.interactor.getLogInScene(request: OnBoarding.GoToLogInScecen.Request())
     }
     @objc func nextPage() {
         changePage(on: self.collectionView)
@@ -151,7 +151,7 @@ final class OnBoardingViewController: UIViewController {
 
 extension OnBoardingViewController: OnBoardingDisplayLogic {
     func displayLogInScene(viewModel: OnBoarding.GoToLogInScecen.ViewModel) {
-        router?.navigateToAuthentication()
+        router.navigateToAuthentication()
     }
     
     func displayBanners(viewModel: OnBoarding.GetOnBoardingData.ViewModel) {
@@ -180,6 +180,7 @@ extension OnBoardingViewController: UICollectionViewDelegate, UICollectionViewDe
     private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 100)
     }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         currentPage = Int(scrollView.contentOffset.x) / Int(width)

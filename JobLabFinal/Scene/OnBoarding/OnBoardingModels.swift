@@ -12,34 +12,24 @@
 
 import UIKit
 
-enum OnBoarding
-{
+enum OnBoarding {
   // MARK: Use cases
   
-  enum GetOnBoardingData
-  {
-    struct Request
-    {
-    }
-    struct Response
-    {
+  enum GetOnBoardingData {
+    struct Request {}
+    struct Response {
         let data: [OnBoardingModel]
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         let tableData: [OnBoardingModel]
     }
   }
-    enum GoToLogInScecen
-    {
-      struct Request
-      {
+    enum GoToLogInScecen {
+      struct Request {
       }
-      struct Response
-      {
+      struct Response {
       }
-      struct ViewModel
-      {
+      struct ViewModel {
       }
     }
 }
