@@ -14,7 +14,7 @@ import UIKit
 
 protocol OnBoardingBusinessLogic {
     func getBanners(request: OnBoarding.GetOnBoardingData.Request)
-    func getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request)
+    func getLogInScene(request: OnBoarding.GoToLogInScecen.Request)
 }
 
 protocol OnBoardingDataStore {
@@ -25,8 +25,8 @@ final class OnBoardingInteractor: OnBoardingDataStore {
     
     //MARK: Clean components
     
-    private var presenter: OnBoardingPresentationLogic?
-    private var worker: OnBoardingWorker?
+    private var presenter: OnBoardingPresentationLogic
+    private var worker: OnBoardingWorker
     
     //MARK: Fields
     
@@ -44,13 +44,14 @@ final class OnBoardingInteractor: OnBoardingDataStore {
 // MARK: BusinessLogic Methods
 
 extension OnBoardingInteractor : OnBoardingBusinessLogic {
-    func getLogInScene(reequest: OnBoarding.GoToLogInScecen.Request) {
-        presenter?.presentLogInScene(response: OnBoarding.GoToLogInScecen.Response())
+    func getLogInScene(request: OnBoarding.GoToLogInScecen.Request) {
+ 
+        presenter.presentLogInScene(response: OnBoarding.GoToLogInScecen.Response())
     }
     
     func getBanners(request: OnBoarding.GetOnBoardingData.Request) {
-        guard let banners = worker?.getModelArray() else { return}
+        let banners = worker.setUpBanners()
         self.banners = banners
-        self.presenter?.presentBanners(response: OnBoarding.GetOnBoardingData.Response(data: self.banners))
+        self.presenter.presentBanners(response: OnBoarding.GetOnBoardingData.Response(data: self.banners))
     }
 }

@@ -25,7 +25,7 @@ final class OnBoardingPresenter {
     
     private func configureTableModel(from data: [OnBoardingModel]) -> [OnBoardingModel] {
         var tableModel = [OnBoardingModel]()
-        tableModel.append(contentsOf: data.map{
+        tableModel.append(contentsOf: data.map {
             OnBoardingModel(image: $0.image, title: $0.title)
         })
         return tableModel

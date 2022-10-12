@@ -14,14 +14,14 @@ import UIKit
 
 protocol OnboardingWorkerLogic {
     
-    func getModelArray() -> [OnBoardingModel]
+    func setUpBanners() -> [OnBoardingModel]
 }
 
 final class OnBoardingWorker: OnboardingWorkerLogic {
     
-    private let onBoardingTitles = onBanner.jobBanners
+    private let onBoardingTitles = viewsOnBanner.jobBanners
     
-    func getModelArray() -> [OnBoardingModel] {
+    func setUpBanners() -> [OnBoardingModel] {
         
         var conteiner = [OnBoardingModel]()
         for (key, value) in onBoardingTitles {
