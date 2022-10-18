@@ -8,8 +8,19 @@
 import Foundation
 import UIKit
 
+extension UIStackView {
+    func bestackView(axis: NSLayoutConstraint.Axis ,space : CGFloat, distribution: Distribution?) {
+        self.axis = axis
+        self.spacing = space
+        guard let distribution = distribution else {
+            return
+        }
+        self.distribution = distribution
+    }
+}
+
 extension UIViewController {
-    
+  
     func addFirstStackview(textLb: [UILabel], textFld: [UITextField], btn: [UIButton], contentView: UIView) {
         
         //MARK: First StaCkView
@@ -17,55 +28,43 @@ extension UIViewController {
         let innerStackview1 = UIStackView(arrangedSubviews: [textLb[0], textFld[0]])
         let innerStackview2 = UIStackView(arrangedSubviews: [textLb[1], textFld[1]])
         
-        innerStackview2.axis = .vertical
-        innerStackview1.spacing = 5
-        innerStackview1.axis = .vertical
-        innerStackview2.spacing = 5
+        innerStackview2.bestackView(axis: .vertical, space: 5, distribution: .equalSpacing)
+        innerStackview1.bestackView(axis: .vertical, space: 5, distribution: .equalSpacing)
+      
         
         let mainStackview = UIStackView(arrangedSubviews: [innerStackview1, innerStackview2])
         if textFld.count > 2 {
-        let innerstackview = UIStackView(arrangedSubviews: [textLb[5], textFld[2]] )
-            innerstackview.axis = .vertical
-            innerstackview.spacing = 5
-            mainStackview.addArrangedSubview(innerstackview)
+        let innerstackview3 = UIStackView(arrangedSubviews: [textLb[5], textFld[2]] )
+            innerstackview3.bestackView(axis: .vertical, space: 10, distribution: .equalSpacing)
+            mainStackview.addArrangedSubview(innerstackview3)
             mainStackview.addArrangedSubview(btn[0])
-            mainStackview.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3  ).isActive = true
+            mainStackview.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 2.5  ).isActive = true
         } else {
             mainStackview.addArrangedSubview( btn[0])
             mainStackview.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3.5 ).isActive = true
-
         }
+        
         contentView.addSubview(mainStackview)
         
-    
-        mainStackview.axis = .vertical
-        mainStackview.distribution = .equalSpacing
-        
-        mainStackview.anchor(top: textLb[2].bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 30,  paddingRight: 30 )
+        mainStackview.bestackView(axis: .vertical, space: 10, distribution: .equalSpacing)
+        mainStackview.anchor(top: textLb[2].bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 15, paddingLeft: 30,  paddingRight: 30 )
 
         //MARK: Second StaCkView
         let horizontalStackview1 = UIStackView(arrangedSubviews: [btn[1], btn[2]])
-        horizontalStackview1.axis = .horizontal
-        horizontalStackview1.distribution = .equalSpacing
-        horizontalStackview1.spacing = 10
+        horizontalStackview1.bestackView(axis: .horizontal, space: 10, distribution: .equalSpacing)
         
         let secondMainStackview = UIStackView(arrangedSubviews: [textLb[3], horizontalStackview1])
         contentView.addSubview(secondMainStackview)
-        secondMainStackview.axis = .vertical
-        secondMainStackview.distribution = .equalSpacing
-        secondMainStackview.spacing = 30
+        secondMainStackview.bestackView(axis: .vertical, space: 20, distribution: .equalSpacing)
         
-        secondMainStackview.anchor(top: mainStackview.bottomAnchor, left: contentView.leftAnchor,  right: contentView.rightAnchor, paddingTop: 40, paddingLeft: 30,  paddingRight: 30, height: 100)
+        secondMainStackview.anchor(top: mainStackview.bottomAnchor, left: contentView.leftAnchor,  right: contentView.rightAnchor, paddingTop: 30, paddingLeft: 30,  paddingRight: 30)
         
         // //MARK: Third StaCkView
         
         let thierdStackview = UIStackView(arrangedSubviews: [textLb[4], btn[3]])
-        thierdStackview.axis = .horizontal
-        thierdStackview.spacing = 0
-        thierdStackview.distribution = .fillProportionally
-        
+        thierdStackview.bestackView(axis: .horizontal, space: 5, distribution: .fillProportionally)
         contentView.addSubview(thierdStackview)
-        thierdStackview.anchor(top: secondMainStackview.bottomAnchor, bottom: contentView.bottomAnchor, paddingTop: 40, paddingBottom: 10)
+        thierdStackview.anchor(top: secondMainStackview.bottomAnchor, bottom: contentView.bottomAnchor, paddingTop: 40, paddingBottom: 20)
         thierdStackview.centerX(inView: contentView)
     }
 }

@@ -52,17 +52,6 @@ final class RegistrationViewController: BaseViewController {
         
         return txt
     }()
-//
-//    let signIn: UIButton = {
-//        let btn = UIButton()
-//        btn.setTitle("Sign in", for: .normal)
-//        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
-//        btn.titleLabel?.font = .systemFont(ofSize: 15)
-//        btn.widthAnchor.constraint(equalToConstant: 60).isActive = true
-//
-//        return btn
-//
-//    }()
     
     // MARK: Object lifecycle
     
@@ -85,6 +74,9 @@ final class RegistrationViewController: BaseViewController {
     private func setUpBaseVcUI() {
         mainBtn.setTitle("Sign up", for: .normal)
         mainBtn.setTitleColor(.white, for: .normal)
+        mainBtn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
+        bottomBtn.setTitle("Log in", for: .normal)
+        donthaveAn.text = "Do you have an account? "
     }
     private func setUpView() {
         view.backgroundColor = .white
@@ -96,7 +88,7 @@ final class RegistrationViewController: BaseViewController {
                                     orContinueLb,
                                     donthaveAn,
                                     confirmePasswordLb]
-        let btnArr: [UIButton] = [mainBtn, googleBtn, bottomBtn]
+        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
         
         self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)

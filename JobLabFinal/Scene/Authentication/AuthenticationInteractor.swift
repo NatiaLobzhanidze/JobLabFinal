@@ -21,8 +21,8 @@ protocol AuthenticationDataStore {
 }
 
 final class AuthenticationInteractor:  AuthenticationDataStore {
-  var presenter: AuthenticationPresentationLogic?
-  var worker: AuthenticationWorker?
+  var presenter: AuthenticationPresentationLogic
+  var worker: AuthenticationWorker
  
     init(presenter: AuthenticationPresentationLogic, worker: AuthenticationWorker ) {
         self.presenter = presenter
@@ -37,16 +37,17 @@ extension AuthenticationInteractor: AuthenticationBusinessLogic {
    func tryLogIn(request: Authentication.LoginAction.Request) {
        guard let mail = request.mailTextField.text,
              let password = request.passwordTexfield.text else { return }
-        worker?.tryLogIn(email: mail, pass: password, completionBlock: { [weak self] successResult in
-            if (successResult) {
-                self?.presenter?.presentSuccess()
-            } else {
-                self?.presenter?.presentFailure(message: AlertMessage.wrong.rawValue)
-            }
-        })
+       worker.tryLogIn(email: mail, pass: password){ [weak self] userResult in
+           switch userResult {
+           case .success(_):
+               self?.presenter.presentSuccess()
+           case .failure(let error):
+               self?.presenter.presentFailure(message: error.localizedDescription)
+           }
+        }
     }
     
     func getRegistrationScene(request: Authentication.GoRegisterScene.Request) {
-        presenter?.presentRegisterScene(response: Authentication.GoRegisterScene.Response())
+        presenter.presentRegisterScene(response: Authentication.GoRegisterScene.Response())
     }
 }

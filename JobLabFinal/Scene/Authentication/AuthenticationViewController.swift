@@ -49,8 +49,8 @@ final class AuthenticationViewController:  BaseViewController {
   // MARK: @objc Methods
   
     @objc func goToRegistration() {
-     
-        interactor.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
+   
+     interactor.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
     }
     @objc func tryLogin() {
          interactor.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
@@ -62,14 +62,15 @@ final class AuthenticationViewController:  BaseViewController {
         setUpBaseVcUI()
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
+        
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
         let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
         let scrollView = UIScrollView()
             scrollView.isScrollEnabled = true
         let contentView = UIView()
-        self.addConstreintsToScrollView(scrollView: scrollView, contentView: contentView)
-        self.addConstraintsToImage(contentView: contentView, logoImage: self.logoImage)
+        addConstreintsToScrollView(scrollView: scrollView, contentView: contentView)
+        addConstraintsToImage(contentView: contentView, logoImage: self.logoImage)
         self.addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
         self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }

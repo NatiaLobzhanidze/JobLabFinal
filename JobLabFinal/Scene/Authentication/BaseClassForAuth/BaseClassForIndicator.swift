@@ -113,4 +113,30 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    //MARK: set up view
+    
+    func addConstreintsToScrollView(scrollView: UIScrollView, contentView: UIView) {
+        
+        self.view.addSubview(scrollView)
+        
+        scrollView.anchor(top: self.view.layoutMarginsGuide.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0 )
+        scrollView.addSubview(contentView)
+        
+        contentView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0)
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+
+    }
+    
+    func addConstraintsToImage(contentView: UIView, logoImage: UIImageView) {
+        contentView.addSubview(logoImage)
+        logoImage.anchor(top: contentView.topAnchor, paddingTop: 0)
+        logoImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        logoImage.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1 / 2 ).isActive = true
+        logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor, multiplier: 1 / 1.2 ).isActive = true
+    }
+    
+    func addHeadLine(contentView: UIView, headLineLb: UILabel, logoImage: UIImageView ) {
+        contentView.addSubview(headLineLb)
+        headLineLb.anchor(top: logoImage.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30,  paddingRight: 30, height: 30)
+    }
 }

@@ -13,20 +13,22 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-
+enum AuthError: Error {
+    case badEmailFormat
+    case badPassword
+}
 protocol AuthenticationWorkerLogic {
-    func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void)
+    func tryLogIn(email: String, pass: String, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 final class AuthenticationWorker: AuthenticationWorkerLogic {
-    func tryLogIn(email: String, pass: String, completionBlock: @escaping (_ success: Bool) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
+    func tryLogIn(email: String, pass: String, completion: @escaping (Result<(Bool), Error>) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: pass) { (user, error) in
             if let error = error {
-                print(error)
-                completionBlock(false)
+                completion(.failure(error))
             } else {
-                completionBlock(true)
-              }
+                completion(.success(true))
+            }
         }
     }
 }

@@ -13,31 +13,25 @@
 import UIKit
 import SwiftUI
 
-enum Authentication
-{
+enum Authentication {
+    
   // MARK: Use cases
   
-  enum LoginAction
-  {
-    struct Request
-    {
+  enum LoginAction {
+    struct Request {
         let mailTextField: UITextField
         let passwordTexfield: UITextField
     }
-    struct Response
-    {
+    struct Response {
         let user: User
-        
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         let email: String
         let password: String
         let isVAlid: Bool
     }
   }
-    enum GoRegisterScene
-    {
+    enum GoRegisterScene {
       struct Request
       {
       }

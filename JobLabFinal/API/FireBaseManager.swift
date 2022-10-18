@@ -10,11 +10,16 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
+enum FireAuthError: Error {
+    case invalidMail
+    case invalidPassword
+    case userDoesNotExist
+}
 final class FireBaseManager {
     
     static var shared = FireBaseManager()
     private init() {}
-    
+    typealias Completion = (_ errMsg: String?, _ data: AnyObject?) -> Void
     let userReference = Firestore.firestore().collection("users")
     
     func signIn<T: UITextField >(userMail: T, userPassword: T)  {
@@ -22,8 +27,8 @@ final class FireBaseManager {
         guard let mail =  userMail.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let password =  userPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
  
-        Auth.auth().createUser(withEmail: mail, password: password) { result,
-            err in
+        Auth.auth().createUser(withEmail: mail, password: password) { (result, err) in
+            let errcode = AuthErrorCode(_nsError: err as! NSError)
             if err != nil {
                 print(err?.localizedDescription ?? "firebaseManager error")
             }  else {
@@ -36,4 +41,8 @@ final class FireBaseManager {
         }
     }
 }
+    func handleFirebaseError(error: NSError, onComplete: Completion? ) {
+        print(error.debugDescription)
+       
+    }
 }

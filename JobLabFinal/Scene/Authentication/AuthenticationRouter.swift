@@ -21,7 +21,7 @@ protocol AuthenticationDataPassing {
   var dataStore: AuthenticationDataStore? { get }
 }
 
-class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassing {
+final class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationDataPassing {
   weak var viewController: AuthenticationViewController?
   var dataStore: AuthenticationDataStore?
     init(dataStore: AuthenticationDataStore ) {
