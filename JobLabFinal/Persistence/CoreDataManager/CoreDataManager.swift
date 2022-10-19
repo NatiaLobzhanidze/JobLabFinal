@@ -70,8 +70,7 @@ final class CoreDataManaager: ViewContextProvider {
         do {
             let results = try viewContext.fetch(fetchRequest)
             for object in results {
-                guard let objectData = object as? NSManagedObject else { continue }
-                viewContext.delete(objectData)
+                viewContext.delete(object)
                 try viewContext.save()
             }
         } catch let error {

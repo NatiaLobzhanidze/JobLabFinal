@@ -22,8 +22,8 @@ final class RegistrationViewController: BaseViewController {
     
     //MARK: Clean Components
     
-    var interactor: RegistrationBusinessLogic?
-    var router: (RegistrationRoutingLogic & RegistrationDataPassing)?
+    var interactor: RegistrationBusinessLogic
+    var router: (RegistrationRoutingLogic & RegistrationDataPassing)
     
     // MARK: UI
     
@@ -93,12 +93,12 @@ final class RegistrationViewController: BaseViewController {
         self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
         self.addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
-        self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
+        self.addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
     }
     // MARK: @objc Methods
     
     @objc func createAccount() {
-        self.interactor?.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
+        self.interactor.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
     }
 }
 

@@ -72,7 +72,7 @@ final class AuthenticationViewController:  BaseViewController {
         addConstreintsToScrollView(scrollView: scrollView, contentView: contentView)
         addConstraintsToImage(contentView: contentView, logoImage: self.logoImage)
         self.addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
-        self.addFirstStackview(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
+        self.addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }
     private func setUpBaseVcUI() {
         mainBtn.setTitle("Log in", for: .normal)

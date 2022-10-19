@@ -28,7 +28,7 @@ final class FireBaseManager {
               let password =  userPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
  
         Auth.auth().createUser(withEmail: mail, password: password) { (result, err) in
-            let errcode = AuthErrorCode(_nsError: err as! NSError)
+            _ = AuthErrorCode(_nsError: err! as NSError)
             if err != nil {
                 print(err?.localizedDescription ?? "firebaseManager error")
             }  else {
