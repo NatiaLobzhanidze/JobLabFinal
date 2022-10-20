@@ -13,6 +13,7 @@
 import UIKit
 
 protocol RegistrationRoutingLogic {
+    func navigateToLogIn()
 }
 
 protocol RegistrationDataPassing {
@@ -20,6 +21,11 @@ protocol RegistrationDataPassing {
 }
 
 final class RegistrationRouter: RegistrationRoutingLogic, RegistrationDataPassing {
+   
+    
   weak var viewController: RegistrationViewController?
   var dataStore: RegistrationDataStore?
+    func navigateToLogIn() {
+        
+    }
 }
