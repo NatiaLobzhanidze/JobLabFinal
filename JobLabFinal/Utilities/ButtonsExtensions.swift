@@ -13,8 +13,6 @@ extension UIButton {
     func configureBtn(with title: String, image: String) {
      
        self.setImage(UIImage(named: image), for: .normal)
-        self.setTitle(title, for: .normal)
-        self.setTitleColor(.black, for: .normal)
         self.backgroundColor = .white
         self.layer.cornerRadius = 10
         self.shadowedField()

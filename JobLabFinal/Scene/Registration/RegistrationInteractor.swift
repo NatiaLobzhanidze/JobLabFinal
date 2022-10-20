@@ -12,16 +12,18 @@
 
 import UIKit
 
+
 protocol RegistrationBusinessLogic {
     func createAccount(request: Registration.CreateUser.Request)
+    func goToLogInPage(request: Registration.GoToLogIn.Request)
 }
 
 protocol RegistrationDataStore {
 }
 
 final class RegistrationInteractor:  RegistrationDataStore {
-  var presenter: RegistrationPresentationLogic?
-  var worker: RegistrationWorker?
+  var presenter: RegistrationPresentationLogic
+  var worker: RegistrationWorker
     
     private(set) var isPasswordValid: Bool?
   
@@ -35,25 +37,27 @@ final class RegistrationInteractor:  RegistrationDataStore {
  //MARK: BusinessLogics Methods
 
 extension RegistrationInteractor : RegistrationBusinessLogic {
+    func goToLogInPage(request: Registration.GoToLogIn.Request) {
+        presenter.goToLogIngPage(response: Registration.GoToLogIn.Response())
+    }
+    
 
     func createAccount(request: Registration.CreateUser.Request) {
         
       guard let mail = request.mailTextField.text, let password = request.passwordTexfield.text else {
-          presenter?.presentFailure(with: AlertMessage.fillFields.rawValue)
+          presenter.presentFailure(with: AlertMessage.fillFields.rawValue)
                   return }
         
-        if  let checkfeldsResult =  worker?.checkValidity(email: request.mailTextField, password: request.passwordTexfield, rePassword: request.checkPassword) {
-            self.presenter?.presentFailure(with: "\(checkfeldsResult)")
+        if  let checkfeldsResult =  worker.checkValidity(email: request.mailTextField, password: request.passwordTexfield, rePassword: request.checkPassword) {
+            self.presenter.presentFailure(with: "\(checkfeldsResult)")
         } else {
-            worker?.createUser(email: mail, password: password, completionBlock: { success in
+            worker.createUser(email: mail, password: password, completionBlock: { [weak self] success in
                           if (success) {
-                              self.presenter?.presentSuccess(with: AlertMessage.success.rawValue)
+                              self?.presenter.presentSuccess(with: AlertMessage.success.rawValue)
                           } else {
-                              self.presenter?.presentFailure(with: AlertMessage.problemCreating.rawValue )
+                              self?.presenter.presentFailure(with: AlertMessage.problemCreating.rawValue )
                           }
             })
         }
     }
 }
-
-

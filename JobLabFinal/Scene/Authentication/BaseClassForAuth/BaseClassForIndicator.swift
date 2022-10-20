@@ -8,20 +8,34 @@
 import Foundation
 import UIKit
 
+enum AuthorizationKeys: String {
+    
+    case logo = "logo"
+    case headLine = "Sing in to your account"
+    case mainColor = "#5180F7"
+    case orContinue = "or continue with"
+    case fbBtn = "Facebook"
+    case googleBtn = "Google"
+    case dontHave = "Don't have an account?"
+    case logIn = "Log In"
+    case signUp = "Sign up"
+    case doyouHave = "Do you have an account? "
+}
+
 class BaseViewController: UIViewController {
     
     //MARK: UI
-    
+ 
     let logoImage : UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(named: "logo")
+        img.image = UIImage(named: AuthorizationKeys.logo.rawValue)
         
         return img
     }()
     
     let headLineLb: UILabel = {
         let lb = UILabel()
-        lb.text = "Sing in to you account"
+        lb.text = AuthorizationKeys.headLine.rawValue
         lb.font = .systemFont(ofSize: 20, weight: .semibold)
         lb.textAlignment = .center
         
@@ -64,7 +78,7 @@ class BaseViewController: UIViewController {
 
     let mainBtn: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = hexStringToUIColor(hex: "#5180F7")
+        btn.backgroundColor = hexStringToUIColor(hex: AuthorizationKeys.mainColor.rawValue)
         btn.heightAnchor.constraint(equalToConstant: 43).isActive = true
         btn.layer.cornerRadius = 20
 
@@ -73,7 +87,7 @@ class BaseViewController: UIViewController {
   
     let orContinueLb: UILabel = {
         let lb = UILabel()
-        lb.text = "or continue with"
+        lb.text = AuthorizationKeys.orContinue.rawValue
         lb.textAlignment = .center
         lb.font = .systemFont(ofSize: 15)
         
@@ -82,18 +96,20 @@ class BaseViewController: UIViewController {
     
     let fbBtn: UIButton = {
         let btn = UIButton(type: .custom)
-        btn.configureBtn(with: "  FaceBook", image: "20")
+        let fb = AuthorizationKeys.fbBtn.rawValue
+        btn.configureBtn(with: fb , image: fb)
         return btn
     }()
     let googleBtn: UIButton = {
         let btn = UIButton()
-        btn.configureBtn(with: "  Google", image: "32")
+        let google = AuthorizationKeys.googleBtn.rawValue
+        btn.configureBtn(with: google, image: google)
         return btn
     }()
     
     let donthaveAn: UILabel = {
         let lb = UILabel()
-        lb.text = "Don't have an account?"
+        lb.text = AuthorizationKeys.dontHave.rawValue
         lb.textAlignment = .right
         lb.font = .systemFont(ofSize: 15)
         
@@ -102,8 +118,7 @@ class BaseViewController: UIViewController {
     
     let bottomBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("SignUp", for: .normal)
-        btn.setTitleColor(hexStringToUIColor(hex: "#5180F7"), for: .normal)
+        btn.setTitleColor(hexStringToUIColor(hex: AuthorizationKeys.mainColor.rawValue), for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
     
         return btn
@@ -138,5 +153,48 @@ class BaseViewController: UIViewController {
     func addHeadLine(contentView: UIView, headLineLb: UILabel, logoImage: UIImageView ) {
         contentView.addSubview(headLineLb)
         headLineLb.anchor(top: logoImage.bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 0, paddingLeft: 30,  paddingRight: 30, height: 30)
+    }
+    
+    func addStackviews(textLb: [UILabel], textFld: [UITextField], btn: [UIButton], contentView: UIView) {
+        
+        //MARK: First StaCkView
+        
+        let innerStackview1 = UIStackView(arrangedSubviews: [textLb[0], textFld[0]])
+        let innerStackview2 = UIStackView(arrangedSubviews: [textLb[1], textFld[1]])
+        innerStackview2.beStackView(axis: .vertical, space: 5, distribution: .equalSpacing)
+        innerStackview1.beStackView(axis: .vertical, space: 5, distribution: .equalSpacing)
+        
+        let mainStackview = UIStackView(arrangedSubviews: [innerStackview1, innerStackview2])
+        
+        if textFld.count > 2 {
+        let innerstackview3 = UIStackView(arrangedSubviews: [textLb[5], textFld[2]] )
+            innerstackview3.beStackView(axis: .vertical, space: 10, distribution: .equalSpacing)
+            mainStackview.addArrangedSubview(innerstackview3)
+           
+        }
+        mainStackview.addArrangedSubview( btn[0])
+        mainStackview.beStackView(axis: .vertical, space: 10, distribution: .equalSpacing)
+        
+        contentView.addSubview(mainStackview)
+        mainStackview.anchor(top: textLb[2].bottomAnchor, left: contentView.leftAnchor, right: contentView.rightAnchor, paddingTop: 15, paddingLeft: 30,  paddingRight: 30 )
+
+        //MARK: Second StackView
+        
+        let horizontalStackview1 = UIStackView(arrangedSubviews: [btn[1], btn[2]])
+        horizontalStackview1.beStackView(axis: .horizontal, space: 10, distribution: .equalSpacing)
+        let secondMainStackview = UIStackView(arrangedSubviews: [textLb[3], horizontalStackview1])
+        
+        contentView.addSubview(secondMainStackview)
+        secondMainStackview.beStackView(axis: .vertical, space: 20, distribution: .equalSpacing)
+        secondMainStackview.anchor(top: mainStackview.bottomAnchor, left: contentView.leftAnchor,  right: contentView.rightAnchor, paddingTop: 30, paddingLeft: 30,  paddingRight: 30)
+        
+        // //MARK: Third StackView
+        
+        let thierdStackview = UIStackView(arrangedSubviews: [textLb[4], btn[3]])
+        thierdStackview.beStackView(axis: .horizontal, space: 5, distribution: .fillProportionally)
+        
+        contentView.addSubview(thierdStackview)
+        thierdStackview.anchor(top: secondMainStackview.bottomAnchor, bottom: contentView.bottomAnchor, paddingTop: 40, paddingBottom: 20)
+        thierdStackview.centerX(inView: contentView)
     }
 }

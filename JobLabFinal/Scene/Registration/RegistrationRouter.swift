@@ -13,7 +13,7 @@
 import UIKit
 
 protocol RegistrationRoutingLogic {
-    func navigateToLogIn()
+    func navigateToLogInPage()
 }
 
 protocol RegistrationDataPassing {
@@ -21,11 +21,14 @@ protocol RegistrationDataPassing {
 }
 
 final class RegistrationRouter: RegistrationRoutingLogic, RegistrationDataPassing {
-   
+  
     
   weak var viewController: RegistrationViewController?
   var dataStore: RegistrationDataStore?
-    func navigateToLogIn() {
-        
+    
+    func navigateToLogInPage() {
+        //let destVc = AuthenticationConfiguration.configure()
+        viewController?.navigationController?.popViewController(animated: true)
     }
 }
+

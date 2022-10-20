@@ -12,7 +12,6 @@
 
 import UIKit
 
-
 protocol AuthenticationDisplayLogic: AnyObject {
     func displayLogIngSuccess()
     func displayLogInFailure(message: String)
@@ -71,12 +70,13 @@ final class AuthenticationViewController:  BaseViewController {
         let contentView = UIView()
         addConstreintsToScrollView(scrollView: scrollView, contentView: contentView)
         addConstraintsToImage(contentView: contentView, logoImage: self.logoImage)
-        self.addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
-        self.addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
+       addHeadLine(contentView: contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
+        addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: contentView)
     }
     private func setUpBaseVcUI() {
-        mainBtn.setTitle("Log in", for: .normal)
+        mainBtn.setTitle(AuthorizationKeys.logIn.rawValue, for: .normal)
         bottomBtn.addTarget(self, action: #selector(goToRegistration), for: .touchUpInside)
+        bottomBtn.setTitle(AuthorizationKeys.signUp.rawValue, for: .normal)
         mainBtn.addTarget(self, action: #selector(tryLogin), for: .touchUpInside)
     }
 }
@@ -97,5 +97,8 @@ extension AuthenticationViewController :  AuthenticationDisplayLogic {
         router.navigationToRegistration()
     }
 }
+
+
+
 
 

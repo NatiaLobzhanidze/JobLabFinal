@@ -16,6 +16,7 @@ protocol RegistrationDisplayLogic: AnyObject {
     func displayCreatingSuccess(message: String)
     func displayCreatingFailure(message: String)
     func tryCreateUser(viewModel: Registration.CreateUser.ViewModel)
+    func goToLogInPage(vieModel: Registration.GoToLogIn.ViewModel)
 }
 
 final class RegistrationViewController: BaseViewController {
@@ -71,13 +72,19 @@ final class RegistrationViewController: BaseViewController {
         super.viewDidLoad()
         setUpView()
     }
+    
+    //MARK: private Methods
+    
     private func setUpBaseVcUI() {
-        mainBtn.setTitle("Sign up", for: .normal)
+        
+        mainBtn.setTitle(AuthorizationKeys.signUp.rawValue, for: .normal)
         mainBtn.setTitleColor(.white, for: .normal)
         mainBtn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
-        bottomBtn.setTitle("Log in", for: .normal)
-        donthaveAn.text = "Do you have an account? "
+        bottomBtn.setTitle(AuthorizationKeys.logIn.rawValue, for: .normal)
+        bottomBtn.addTarget(self, action: #selector(goToLogIn), for: .touchUpInside)
+        donthaveAn.text = AuthorizationKeys.doyouHave.rawValue
     }
+    
     private func setUpView() {
         view.backgroundColor = .white
         setUpBaseVcUI()
@@ -90,30 +97,38 @@ final class RegistrationViewController: BaseViewController {
                                     confirmePasswordLb]
         let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
         
-        self.addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
-        self.addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
-        self.addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
-        self.addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
+        addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
+        addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
+        addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
+        addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
     }
+    
     // MARK: @objc Methods
     
     @objc func createAccount() {
-        self.interactor.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
+    interactor.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
+    }
+    
+    @objc func goToLogIn() {
+        interactor.goToLogInPage(request: Registration.GoToLogIn.Request())
     }
 }
 
 //MARK: DipslayLogics
 
 extension RegistrationViewController : RegistrationDisplayLogic {
+    func goToLogInPage(vieModel: Registration.GoToLogIn.ViewModel) {
+        router.navigateToLogInPage()
+    }
+    
     func displayCreatingSuccess(message: String) {
-        self.showAlert(alertText: "", alertMessage: message, addActionTitle: "Ok")
+        self.showAlert(alertText: "Error", alertMessage: message, addActionTitle: "Ok")
     }
     
     func displayCreatingFailure(message: String) {
-        self.showAlert(alertText: "", alertMessage: message, addActionTitle: "Ok")
+        self.showAlert(alertText: "Error", alertMessage: message, addActionTitle: "Ok")
     }
     
     func tryCreateUser(viewModel: Registration.CreateUser.ViewModel) {
-        
     }
 }

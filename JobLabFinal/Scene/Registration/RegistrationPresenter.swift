@@ -15,9 +15,12 @@ import UIKit
 protocol RegistrationPresentationLogic {
     func presentSuccess(with message: String)
     func presentFailure(with message: String)
+    func goToLogIngPage(response: Registration.GoToLogIn.Response)
 }
 
 final class RegistrationPresenter: RegistrationPresentationLogic {
+  
+    
     
   weak var viewController: RegistrationDisplayLogic?
   
@@ -30,4 +33,9 @@ final class RegistrationPresenter: RegistrationPresentationLogic {
     func presentFailure(with message: String) {
         self.viewController?.displayCreatingFailure(message: message)
     }
+    
+    func goToLogIngPage(response: Registration.GoToLogIn.Response) {
+        viewController?.goToLogInPage(vieModel: Registration.GoToLogIn.ViewModel())
+    }
 }
+

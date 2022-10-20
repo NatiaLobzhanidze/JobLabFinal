@@ -390,6 +390,7 @@
 		605E9F5028D8967500956B07 /* BaseClassForAuth */ = {
 			isa = PBXGroup;
 			children = (
+				6075AC6A28C2BABA00FD823A /* AddSteackviews.swift */,
 				605E9F5128D898E500956B07 /* BaseClassForIndicator.swift */,
 			);
 			path = BaseClassForAuth;
@@ -597,7 +598,6 @@
 		6075AC5B28C2215700FD823A /* AddConstraintsToAView */ = {
 			isa = PBXGroup;
 			children = (
-				6075AC6A28C2BABA00FD823A /* AddSteackviews.swift */,
 			);
 			path = AddConstraintsToAView;
 			sourceTree = "<group>";

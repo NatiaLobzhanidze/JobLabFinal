@@ -39,4 +39,14 @@ enum Registration {
         struct ViewModel {
         }
     }
+    
+    enum GoToLogIn {
+        
+        struct Request {
+        }
+        struct Response {
+        }
+        struct ViewModel {
+        }
+    }
 }
