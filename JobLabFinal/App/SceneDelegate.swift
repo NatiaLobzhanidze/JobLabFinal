@@ -58,7 +58,7 @@ extension SceneDelegate {
         let isUserLoggedIn = UserDefaults.standard.bool(forKey: "ISUSERLOGGEDIN")
         
         let initialController = isUserLoggedIn ? TabBarViewController() : OnBoardingConfiguration.configure()
-        let navigationController = UINavigationController(rootViewController: AuthenticationConfiguration.configure())
+        let navigationController = UINavigationController(rootViewController: CategoriesSceneConfiguration.configure())
         window = UIWindow(windowScene: scene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

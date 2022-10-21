@@ -6,8 +6,9 @@
 //
 
 import Foundation
+
 enum CategoryEnum {
     
-    static let allCategoryList = [ "Finance", "Administration", "HR", "sales", "Delivery"]
+    static let allCategoryList = [ "Finance", "Administration", "HR", "Sales", "Delivery"]
     
 }
