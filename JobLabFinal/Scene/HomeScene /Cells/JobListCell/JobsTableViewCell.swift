@@ -14,18 +14,22 @@ protocol SelsectJobDelegateProtocol {
 final class JobsTableViewCell: UITableViewCell {
     
     //MARK: Fieleds
+    var favoriteJob: JobModel?
+    var favorites = [String]() {
+        didSet {
+            favorites = Array(Set(favorites))
+        }
+    }
     
-    var favoriteJobs: JobModel?
-    var favorites = [String]()
     var delegate: SelsectJobDelegateProtocol!
-     
+    
     //MARK: UI
     
     private let backView = UIView()
     
-    let logoImage = UIImageView()
+    private let logoImage = UIImageView()
     
-    let jobName: UILabel = {
+    private let jobName: UILabel = {
         let lb = UILabel()
         lb.textColor = .black
         lb.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -33,7 +37,7 @@ final class JobsTableViewCell: UITableViewCell {
         return lb
     }()
     
-    let employerName: UILabel = {
+    private let employerName: UILabel = {
         let lb = UILabel()
         lb.textColor = .black
         lb.font = .systemFont(ofSize: 16)
@@ -61,22 +65,40 @@ final class JobsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     //MARK: @objc methods
     
-    @objc func addToFavoritesList() {
-        guard let favoriteJobs = favoriteJobs else { return }
-        let jobDictionary: [String : Any] = ["identity" : favoriteJobs.ident,
-                                             "isFavorite" : true]
-        //MARK: Check!
+    @objc func addToFavoritesList(_ sender: UIButton) {
         
-        CoreDataManaager.shared.create(from: jobDictionary, toEntity: "Favorites")
+        guard let favoriteJob = favoriteJob else { return }
+        var ifIsFavorite = true
+        let jobDictionary: [String : Any] = ["identity" : favoriteJob.ident,
+                                             "isFavorite" : ifIsFavorite]
         
-        favoriteButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+        switch sender.currentImage {
+        case UIImage(systemName: "bookmark.fill") :
+            
+            if favorites.contains(favoriteJob.ident) {
+                if let index = favorites.firstIndex(of: favoriteJob.ident) {
+                    favorites.remove(at: index)
+                    //delete from coreData
+                    CoreDataManaager.shared.deleteJobObject(from: "Favorites", by: "identity == \(favoriteJob.ident)")
+                }
+            }
+            sender.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        case UIImage(systemName: "bookmark") :
+            ifIsFavorite = true
+            favorites.append(favoriteJob.ident)
+            sender.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            // add to coreData
+            CoreDataManaager.shared.create(from: jobDictionary, toEntity: "Favorites")
+        default:
+            break
+        }
     }
     
     // MARK: Private Methods
@@ -90,13 +112,12 @@ final class JobsTableViewCell: UITableViewCell {
     //MARK: Configure Cell
     
     func configureCell(with model: JobModel) {
-        self.favoriteJobs = model
+        self.favoriteJob = model
         self.logoImage.loadImageUsingCache(withUrl: model.logoImage)
         self.employerName.text = model.brand
         self.jobName.text = model.jobTitle
         let btnStyle = favorites.contains(model.ident ) ? "bookmark.fill" : "bookmark"
         self.favoriteButton.setImage(UIImage(systemName: btnStyle), for: .normal)
     }
-    
 }
 

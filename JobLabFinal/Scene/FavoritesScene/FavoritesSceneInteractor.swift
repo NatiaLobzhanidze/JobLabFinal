@@ -26,8 +26,8 @@ final class FavoritesSceneInteractor:  FavoritesSceneDataStore {
     
     //MARK: Clean components
 
-  var presenter: FavoritesScenePresentationLogic?
-  var worker: FavoritesSceneWorker?
+  var presenter: FavoritesScenePresentationLogic
+  var worker: FavoritesSceneWorker
     
     //MARK: Fields
   var container = [JobModel]()
@@ -43,15 +43,15 @@ final class FavoritesSceneInteractor:  FavoritesSceneDataStore {
 extension FavoritesSceneInteractor: FavoritesSceneBusinessLogic {
     
     func deleteAllDAta(request: FavoritesScene.DeleteAll.Request) {
-        worker?.deleteAll()
-        presenter?.presentDeleting(response: FavoritesScene.DeleteAll.Response())
+        worker.deleteAll()
+        presenter.presentDeleting(response: FavoritesScene.DeleteAll.Response())
     }
     
     func getFavorites(request: FavoritesScene.GetFavoriteJobs.Request) {
         Task {
-            guard let favoriteJobs = await worker?.fetchFavoriteJobs() else { return }
+          let favoriteJobs = await worker.fetchFavoriteJobs()
             self.container = favoriteJobs
-            presenter?.presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response(data: container))
+            presenter.presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response(data: container))
         }
        
     }

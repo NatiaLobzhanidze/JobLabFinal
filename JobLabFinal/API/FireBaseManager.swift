@@ -11,10 +11,12 @@ import FirebaseAuth
 import FirebaseFirestore
 
 enum FireAuthError: Error {
+    
     case invalidMail
     case invalidPassword
     case userDoesNotExist
 }
+
 final class FireBaseManager {
     
     static var shared = FireBaseManager()

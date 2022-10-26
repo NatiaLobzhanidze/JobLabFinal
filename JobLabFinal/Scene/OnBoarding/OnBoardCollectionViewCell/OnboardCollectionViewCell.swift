@@ -12,9 +12,9 @@ final class OnBoardingCollectionViewCell: UICollectionViewCell {
     
     //MARK: UI
     
-    let welcomeImage = UIImageView ()
+   private let welcomeImage = UIImageView ()
     
-    let titleLabel: UILabel = {
+   private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = .blue
         titleLabel.textAlignment = .center

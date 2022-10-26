@@ -32,7 +32,7 @@ final class OnBoardingViewController: UIViewController {
         return cv
     }()
     
-    let skipButton: UIButton = {
+   private let skipButton: UIButton = {
         let btn = UIButton()
         btn.setTitle(OnBorderingBtnTitles.skip.rawValue.uppercased(), for: .normal)
         btn.setTitleColor(.blue, for: .normal)
@@ -42,7 +42,7 @@ final class OnBoardingViewController: UIViewController {
         return btn
     }()
     
-    let nextButtom: UIButton = {
+   private let nextButtom: UIButton = {
         let btn = UIButton()
         btn.setTitle(OnBorderingBtnTitles.next.rawValue.uppercased(), for: .normal)
         btn.setTitleColor(.blue, for: .normal)
@@ -52,7 +52,7 @@ final class OnBoardingViewController: UIViewController {
         return btn
     }()
     
-    let pageControll: UIPageControl = {
+  private let pageControll: UIPageControl = {
         let mypageControl = UIPageControl()
         mypageControl.pageIndicatorTintColor = .darkGray
         mypageControl.currentPageIndicatorTintColor = .tintColor

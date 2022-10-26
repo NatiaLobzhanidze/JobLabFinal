@@ -72,9 +72,25 @@ final class CoreDataManaager: ViewContextProvider {
             for object in results {
                 viewContext.delete(object)
                 try viewContext.save()
+                print("1111111 Deleted")
             }
         } catch let error {
             print("Detele all data in \(entity) error :", error)
+        }
+    }
+   //MARK: delete by id
+    
+    func deleteJobObject(from entity: String, by predicate : String ) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        fetchRequest.predicate = NSPredicate(format: predicate)
+        do {
+            let objects = try viewContext.fetch(fetchRequest)
+            for object in objects {
+                viewContext.delete(object as! NSManagedObject)
+                print(objects, object)
+            }
+        } catch let error as NSError{
+            print(error)
         }
     }
 }
