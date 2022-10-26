@@ -33,12 +33,16 @@ final class FavoritesSceneWorker {
     init(coreDataManager: CoreDataManaager) {
         self.coreDataManager = coreDataManager
     }
-    func fetchFavorites() -> [String] {
-        var identities = [String]()
-        coreDataManager.featchFavorites(fromEntity: WrokerTitles.entityName.rawValue, by: WrokerTitles.predicatebyFavorites.rawValue) { nsObjects in
-            identities = nsObjects.compactMap{($0 as? Favorites)?.identity}
+    
+    func fetchFavorites(completion: @escaping(([String]) -> Void)) {
+        DispatchQueue.main.async { [weak self] in
+            
+            var identities = [String]()
+            self?.coreDataManager.featchFavorites(fromEntity: WrokerTitles.entityName.rawValue, by: WrokerTitles.predicatebyFavorites.rawValue) { nsObjects in
+                identities = nsObjects.compactMap{($0 as? Favorites)?.identity}
+                completion(identities)
+            }
         }
-        return identities
     }
 }
 
@@ -46,13 +50,15 @@ extension FavoritesSceneWorker : FavoritesSceneWorkerLogic {
     
     func fetchFavoriteJobs() async -> [JobModel] {
         var favJobs = [JobModel]()
-        let identities = fetchFavorites()
+        var identities = [String]()
+        fetchFavorites { identity in
+            identities = identity
+        }
         do {
             favJobs = try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
         } catch {
             print(error.localizedDescription)
         }
-        
         return favJobs.filter({identities.contains($0.ident)})
     }
     
