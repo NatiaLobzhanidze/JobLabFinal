@@ -12,15 +12,13 @@
 
 import UIKit
 
-protocol AllJobsListScenePresentationLogic
-{
+protocol AllJobsListScenePresentationLogic {
     func presentAllJobs(response: AllJobsListScene.GetAllJobs.Response)
     func presentFilteredJobs(response: HomeScene.FilterJobs.Response)
     func presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response)
 }
 
-class AllJobsListScenePresenter: AllJobsListScenePresentationLogic
-{
+class AllJobsListScenePresenter: AllJobsListScenePresentationLogic {
   weak var viewController: AllJobsListSceneDisplayLogic?
 
     // MARK: PresentationLogic Protocol Methods
