@@ -17,8 +17,3 @@ struct TipsModel: Decodable {
         case title, author
     }
 }
-
-enum SeeAll: String {
-    case tip = "Tips for you"
-    case job = "Job recomendations"
-}

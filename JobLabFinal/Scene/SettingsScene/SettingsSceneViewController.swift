@@ -107,14 +107,19 @@ extension SettingsSceneViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.deque(class: SettingsTableViewCell.self, for: indexPath)
+        tableView.deque(class: SettingsTableViewCell.self, for: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? SettingsTableViewCell else { return }
         let icon = iconsSupplier[indexPath.row]
         let title = titlesSupplier[indexPath.row]
         cell.logoImage.image = UIImage(systemName: icon)
         cell.titleLb.text = title
         cell.addBottomBorder(in: .tintColor, width: 1)
-        return cell
     }
+    
+    
 }
 
 //MARK: TableView delegate

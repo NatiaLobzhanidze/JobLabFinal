@@ -176,7 +176,9 @@ extension HomeSceneViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.showsCancelButton = false
-        searchBar.endEditing(true)    }
+        searchBar.endEditing(true)
+        
+    }
 }
 
 //MARK: display logic methods
@@ -221,19 +223,9 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
 //MARK: Tableview delegate, dataSource protocol methods
 
 extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-            
-        case 0, 2:
-            return CGFloat(HomeTableViewCellItems.seeAll.rawValue)
-        case 1:
-            return  CGFloat(HomeTableViewCellItems.tips.rawValue)
-        case 3:
-            return CGFloat(HomeTableViewCellItems.filters.rawValue)
-        default:
-            return CGFloat(HomeTableViewCellItems.jobs.rawValue)
-        }
-        
+        HomeTableViewCellItems(section: indexPath.section).cellHeight
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         5
@@ -248,18 +240,19 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0 :
             let cell = tableView.deque(class: TipsForYouTableViewCell.self, for: indexPath)
-            cell.textlb.text = SeeAll.tip.rawValue
+            cell.textlb.text = HomeTableViewCellItems(section: indexPath.section).title
             cell.delegate = self
             return cell
         case 1 :
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
             cell.delegate = self
+            
             cell.tipsArray = dataSource
             cell.shadowedtoView()
             return cell
         case 2:
             let cell = tableView.deque(class: JobRecomendationsTableViewCell.self, for: indexPath)
-            cell.textlb.text = SeeAll.job.rawValue
+            cell.textlb.text = HomeTableViewCellItems(section: indexPath.section).title
             cell.delegate = self
             return cell
         case 3:

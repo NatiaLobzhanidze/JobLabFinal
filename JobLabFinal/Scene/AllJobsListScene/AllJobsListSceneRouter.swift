@@ -12,13 +12,11 @@
 
 import UIKit
 
-@objc protocol AllJobsListSceneRoutingLogic
-{
+@objc protocol AllJobsListSceneRoutingLogic {
   func navigateTpJobDetailsScene()
 }
 
-protocol AllJobsListSceneDataPassing
-{
+protocol AllJobsListSceneDataPassing {
   var dataStore: AllJobsListSceneDataStore? { get }
 }
 
