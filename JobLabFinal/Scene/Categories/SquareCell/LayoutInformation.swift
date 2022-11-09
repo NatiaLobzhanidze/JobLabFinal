@@ -26,7 +26,8 @@ extension UICollectionViewCell {
         backView.addSubview(image)
         image.center(inView: backView)
         image.setDimensions(height: backViewSize - 20, width: backViewSize - 20)
-        image.tintColor = hexStringToUIColor(hex: "#4F7EF7")
+        //image.tintColor = hexStringToUIColor(hex: "#4F7EF7")
+        image.tintColor = .brown
         let categoryTitle = UILabel()
         categoryTitle.text = title
         self.contentView.addSubview(categoryTitle)
