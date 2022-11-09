@@ -32,6 +32,8 @@ public final class APIManager {
         } catch {
             print(error.localizedDescription)
             throw ApiError.decodingError(error.localizedDescription)
+       
+        //sdsd
         }
     }
 }
