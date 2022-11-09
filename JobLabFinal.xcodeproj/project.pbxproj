@@ -137,7 +137,18 @@
 		60D5D05D28EEBE650076CB25 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 60D5D05C28EEBE650076CB25 /* FirebaseDatabase */; };
 		60D5D05F28EEBE650076CB25 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 60D5D05E28EEBE650076CB25 /* FirebaseFirestore */; };
 		60D5D06128EEBE650076CB25 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 60D5D06028EEBE650076CB25 /* FirebaseStorage */; };
+		60D5D09829190D770076CB25 /* JobLabFinalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D5D09729190D770076CB25 /* JobLabFinalTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		60D5D09929190D770076CB25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6075ABF928BF911C00FD823A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6075AC0028BF911C00FD823A;
+			remoteInfo = JobLabFinal;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6022BF1C28DA9BCC00E4B0E3 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
@@ -267,6 +278,8 @@
 		60D07F9D28D3473A00D8562B /* RequirementsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequirementsCell.swift; sourceTree = "<group>"; };
 		60D07FAF28D3E12400D8562B /* FireBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseManager.swift; sourceTree = "<group>"; };
 		60D07FB128D4C63900D8562B /* FieldsValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsValidation.swift; sourceTree = "<group>"; };
+		60D5D09529190D770076CB25 /* JobLabFinalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JobLabFinalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		60D5D09729190D770076CB25 /* JobLabFinalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobLabFinalTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +292,13 @@
 				60D5D05928EEBE650076CB25 /* FirebaseAnalytics in Frameworks */,
 				60D5D06128EEBE650076CB25 /* FirebaseStorage in Frameworks */,
 				60D5D05B28EEBE650076CB25 /* FirebaseAuth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60D5D09229190D770076CB25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +446,7 @@
 			isa = PBXGroup;
 			children = (
 				6075AC0328BF911C00FD823A /* JobLabFinal */,
+				60D5D09629190D770076CB25 /* JobLabFinalTests */,
 				6075AC0228BF911C00FD823A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -434,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				6075AC0128BF911C00FD823A /* JobLabFinal.app */,
+				60D5D09529190D770076CB25 /* JobLabFinalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -826,6 +848,14 @@
 			path = "Requirements Cell";
 			sourceTree = "<group>";
 		};
+		60D5D09629190D770076CB25 /* JobLabFinalTests */ = {
+			isa = PBXGroup;
+			children = (
+				60D5D09729190D770076CB25 /* JobLabFinalTests.swift */,
+			);
+			path = JobLabFinalTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -853,6 +883,24 @@
 			productReference = 6075AC0128BF911C00FD823A /* JobLabFinal.app */;
 			productType = "com.apple.product-type.application";
 		};
+		60D5D09429190D770076CB25 /* JobLabFinalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60D5D09D29190D770076CB25 /* Build configuration list for PBXNativeTarget "JobLabFinalTests" */;
+			buildPhases = (
+				60D5D09129190D770076CB25 /* Sources */,
+				60D5D09229190D770076CB25 /* Frameworks */,
+				60D5D09329190D770076CB25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60D5D09A29190D770076CB25 /* PBXTargetDependency */,
+			);
+			name = JobLabFinalTests;
+			productName = JobLabFinalTests;
+			productReference = 60D5D09529190D770076CB25 /* JobLabFinalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -865,6 +913,10 @@
 				TargetAttributes = {
 					6075AC0028BF911C00FD823A = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					60D5D09429190D770076CB25 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 6075AC0028BF911C00FD823A;
 					};
 				};
 			};
@@ -885,6 +937,7 @@
 			projectRoot = "";
 			targets = (
 				6075AC0028BF911C00FD823A /* JobLabFinal */,
+				60D5D09429190D770076CB25 /* JobLabFinalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -897,6 +950,13 @@
 				6075AC1428BF911D00FD823A /* LaunchScreen.storyboard in Resources */,
 				6075AC1128BF911D00FD823A /* Assets.xcassets in Resources */,
 				605E9F3328D5E3DA00956B07 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60D5D09329190D770076CB25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,7 +1092,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		60D5D09129190D770076CB25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60D5D09829190D770076CB25 /* JobLabFinalTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		60D5D09A29190D770076CB25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6075AC0028BF911C00FD823A /* JobLabFinal */;
+			targetProxy = 60D5D09929190D770076CB25 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6075AC1228BF911D00FD823A /* LaunchScreen.storyboard */ = {
@@ -1214,6 +1290,40 @@
 			};
 			name = Release;
 		};
+		60D5D09B29190D770076CB25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NatiaLobzhanidze.JobLabFinalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JobLabFinal.app/JobLabFinal";
+			};
+			name = Debug;
+		};
+		60D5D09C29190D770076CB25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NatiaLobzhanidze.JobLabFinalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JobLabFinal.app/JobLabFinal";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1231,6 +1341,15 @@
 			buildConfigurations = (
 				6075AC1928BF911D00FD823A /* Debug */,
 				6075AC1A28BF911D00FD823A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60D5D09D29190D770076CB25 /* Build configuration list for PBXNativeTarget "JobLabFinalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60D5D09B29190D770076CB25 /* Debug */,
+				60D5D09C29190D770076CB25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum ApiError: Error {
+public enum ApiError: Error {
     case invalidUrl
-    case httpError
-    case decodingError
+    case httpError(statusCode: Int)
+    case decodingError(_ errorMessage: String?)
+    case unknown
 }
