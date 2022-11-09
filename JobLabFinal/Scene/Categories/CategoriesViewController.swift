@@ -170,6 +170,6 @@ extension CategoriesViewController : UICollectionViewDelegate, UICollectionViewD
         return CGSize(width: cellSize, height: cellSize - 20)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
