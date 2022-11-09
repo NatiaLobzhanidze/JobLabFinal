@@ -119,6 +119,7 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
                     self?.tips = tipsResponse
                     self?.presenter?.presentCommomModel(response: HomeScene.GetCommonModel.Response(data: CommonModel(jobs: filteredResponse, tips: tipsResponse)))
                 }
+                
             } catch {
                 fatalError(error.localizedDescription)
             }
