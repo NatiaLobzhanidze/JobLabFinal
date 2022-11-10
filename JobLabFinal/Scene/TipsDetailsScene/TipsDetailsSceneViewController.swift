@@ -43,7 +43,7 @@ class TipsDetailsSceneViewController: UIViewController {
   lazy  var lineView: UIView = {
       let tiptitlewidht = Int(tipTitle.bounds.size.width)
       let v = UIView()
-      v.setDimensions(height: 1, width: 100)
+      v.setDimensions(height: 3, width: 100)
       v.backgroundColor = .white
       
       return v
