@@ -17,8 +17,7 @@ protocol TipsDetailsSceneDisplayLogic: AnyObject
     func displayDetails(viewModel: TipsDetailsScene.Details.ViewModel)
 }
 
-class TipsDetailsSceneViewController: UIViewController
-{
+class TipsDetailsSceneViewController: UIViewController {
     // MARK: - Clean Components
     
     var interactor: TipsDetailsSceneBusinessLogic?
