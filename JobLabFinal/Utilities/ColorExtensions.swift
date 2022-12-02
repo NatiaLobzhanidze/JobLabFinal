@@ -8,18 +8,18 @@
 import Foundation
 import UIKit
 
-func hexStringToUIColor (hex:String) -> UIColor {
-    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+func hexStringToUIColor (hex: String) -> UIColor {
+    var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
-    if (cString.hasPrefix("#")) {
+    if cString.hasPrefix("#") {
         cString.remove(at: cString.startIndex)
     }
 
-    if ((cString.count) != 6) {
+    if (cString.count) != 6 {
         return UIColor.gray
     }
 
-    var rgbValue:UInt64 = 0
+    var rgbValue: UInt64 = 0
     Scanner(string: cString).scanHexInt64(&rgbValue)
 
     return UIColor(
@@ -29,4 +29,3 @@ func hexStringToUIColor (hex:String) -> UIColor {
         alpha: CGFloat(1.0)
     )
 }
-

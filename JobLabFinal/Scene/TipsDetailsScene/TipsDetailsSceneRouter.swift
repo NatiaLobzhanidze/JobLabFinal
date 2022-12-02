@@ -12,21 +12,18 @@
 
 import UIKit
 
-@objc protocol TipsDetailsSceneRoutingLogic
-{
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+@objc protocol TipsDetailsSceneRoutingLogic {
+  // func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol TipsDetailsSceneDataPassing
-{
+protocol TipsDetailsSceneDataPassing {
   var dataStore: TipsDetailsSceneDataStore? { get }
 }
 
-class TipsDetailsSceneRouter: NSObject, TipsDetailsSceneRoutingLogic, TipsDetailsSceneDataPassing
-{
+class TipsDetailsSceneRouter: NSObject, TipsDetailsSceneRoutingLogic, TipsDetailsSceneDataPassing {
   weak var viewController: TipsDetailsSceneViewController?
   var dataStore: TipsDetailsSceneDataStore?
-  
+
   // MARK: Routing
     init(dataStore: TipsDetailsSceneDataStore) {
         self.dataStore = dataStore

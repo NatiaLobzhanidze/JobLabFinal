@@ -12,21 +12,19 @@
 
 import UIKit
 
-protocol JobDetailsSceneDisplayLogic: AnyObject
-{
+protocol JobDetailsSceneDisplayLogic: AnyObject {
     func displayJobDetails(viewModel: JobDetailsScene.ShowDetails.ViewModel)
 
 }
 
-class JobDetailsSceneViewController: UIViewController
-{
-    //MARK: Clean components
-    
+class JobDetailsSceneViewController: UIViewController {
+    // MARK: Clean components
+
   var interactor: JobDetailsSceneBusinessLogic?
   var router: (JobDetailsSceneRoutingLogic & JobDetailsSceneDataPassing)?
-    
-    //MARK: View
-    
+
+    // MARK: View
+
     let jobTopView: UIView = {
         let v = UIView()
         v.backgroundColor = .white
@@ -35,7 +33,7 @@ class JobDetailsSceneViewController: UIViewController
         v.layer.borderColor = UIColor.tintColor.cgColor
         return v
     }()
-    
+
     let logoImage = UIImageView()
     let jobTitle: UILabel = {
         let lb = UILabel()
@@ -46,7 +44,7 @@ class JobDetailsSceneViewController: UIViewController
     let salary: UILabel = {
         let lb = UILabel()
         return lb
-        
+
     }()
     let jobType = UILabel()
     let location = UILabel()
@@ -54,48 +52,44 @@ class JobDetailsSceneViewController: UIViewController
     let tableView: UITableView = {
         let v = UITableView()
         v.showsVerticalScrollIndicator = false
-        return v 
+        return v
     }()
-    
+
     let requirementArray = JobDetailsScene.Requirements.requirements
-    
+
   // MARK: Object lifecycle
-  init(interactor: JobDetailsSceneBusinessLogic, router: (JobDetailsSceneRoutingLogic & JobDetailsSceneDataPassing))
-    {
+  init(interactor: JobDetailsSceneBusinessLogic, router: (JobDetailsSceneRoutingLogic & JobDetailsSceneDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
-  
-  required init?(coder aDecoder: NSCoder)
-  {
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
   }
-  
+
   // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
+
+  override func viewDidLoad() {
     super.viewDidLoad()
       view.backgroundColor = .white
       title = "Job Details"
-      
+
       interactor?.getDetails(request: JobDetailsScene.ShowDetails.Request())
       tableView.registerClass(class: RequirementsTableViewCell.self)
       tableView.delegate = self
       tableView.dataSource = self
-      setUpView() 
+      setUpView()
   }
-  
+
   // MARK: private methods
-    
+
     private func setUpView() {
         view.addSubview(jobTopView)
-        jobTopView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40,  paddingRight: 40, height: 120)
-        
+        jobTopView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40,   paddingRight: 40, height: 120)
+
         jobTopView.addSubview(logoImage)
-        logoImage.anchor(top: jobTopView.topAnchor, left: jobTopView.leftAnchor, bottom: jobTopView.bottomAnchor,  paddingTop: 20, paddingLeft: 20, paddingBottom: 20,  width: 80)
+        logoImage.anchor(top: jobTopView.topAnchor, left: jobTopView.leftAnchor, bottom: jobTopView.bottomAnchor,   paddingTop: 20, paddingLeft: 20, paddingBottom: 20,   width: 80)
         let topViewStackView = UIStackView(arrangedSubviews: [jobTitle, employer])
         topViewStackView.axis = .vertical
         topViewStackView.alignment = .center
@@ -107,7 +101,7 @@ class JobDetailsSceneViewController: UIViewController
         detailsViewStackview.distribution = .fillEqually
         detailsViewStackview.addBorders(to: [.top, .bottom], in: .lightGray, width: 1)
         view.addSubview(detailsViewStackview)
-        detailsViewStackview.anchor(top: jobTopView.bottomAnchor, left: jobTopView.leftAnchor, right: jobTopView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingRight: 0,  height: 130)
+        detailsViewStackview.anchor(top: jobTopView.bottomAnchor, left: jobTopView.leftAnchor, right: jobTopView.rightAnchor, paddingTop: 25, paddingLeft: 0, paddingRight: 0,   height: 130)
         let titleLabel = UILabel()
         titleLabel.text = "Requirements"
         titleLabel.font = .systemFont(ofSize: 23, weight: .semibold)
@@ -116,8 +110,7 @@ class JobDetailsSceneViewController: UIViewController
         view.addSubview(tableView)
         tableView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 10, paddingRight: 20)
     }
-    
-    
+
     private func horizontalStackview(lable: String, value: UILabel) -> UIStackView {
         let titleLabel = UILabel()
         titleLabel.text = lable
@@ -132,9 +125,9 @@ class JobDetailsSceneViewController: UIViewController
     }
 }
 
-//MARK: Displaylogics
+// MARK: Displaylogics
 
-extension JobDetailsSceneViewController : JobDetailsSceneDisplayLogic {
+extension JobDetailsSceneViewController: JobDetailsSceneDisplayLogic {
     func displayJobDetails(viewModel: JobDetailsScene.ShowDetails.ViewModel) {
         let model = viewModel.data
         guard let myUrl =  URL(string: model.logoImage) else { return }
@@ -151,15 +144,15 @@ extension JobDetailsSceneViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         requirementArray.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.deque(class: RequirementsTableViewCell.self, for: indexPath)
         cell.requirementsText.text = requirementArray[indexPath.row]
-      
+
         cell.layer.cornerRadius = 20
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }

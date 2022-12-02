@@ -12,28 +12,25 @@
 
 import UIKit
 
-protocol JobDetailsSceneBusinessLogic
-{
+protocol JobDetailsSceneBusinessLogic {
     func getDetails(request: JobDetailsScene.ShowDetails.Request)
 }
 
-protocol JobDetailsSceneDataStore
-{
+protocol JobDetailsSceneDataStore {
   var selectedJob: JobModel { get }
 }
 
-class JobDetailsSceneInteractor:  JobDetailsSceneDataStore
-{
+class JobDetailsSceneInteractor: JobDetailsSceneDataStore {
     var selectedJob: JobModel
-    
+
   var presenter: JobDetailsScenePresentationLogic?
- 
-//MARK: object lifeCycle
+
+// MARK: object lifeCycle
     init(presenter: JobDetailsScenePresentationLogic, selectedJob: JobModel ) {
         self.presenter = presenter
         self.selectedJob = selectedJob
     }
-  
+
   // MARK: Do something
 }
 
@@ -42,6 +39,5 @@ extension JobDetailsSceneInteractor: JobDetailsSceneBusinessLogic {
         let response = JobDetailsScene.ShowDetails.Response(data: selectedJob)
         presenter?.presentJobDetails(response: response)
     }
-    
-    
+
 }

@@ -13,7 +13,7 @@
 import UIKit
 
 protocol HomeSceneDisplayLogic: AnyObject {
-    
+
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel)
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel)
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel)
@@ -25,25 +25,25 @@ protocol HomeSceneDisplayLogic: AnyObject {
 }
 
 final class HomeSceneViewController: UIViewController {
-    
-    //MARK: Clean components
-    
+
+    // MARK: Clean components
+
     var interactor: HomeSceneBusinessLogic?
     var router: (HomeSceneRoutingLogic & HomeSceneDataPassing)?
-    
-    //MARK: dataSources
-    
+
+    // MARK: dataSources
+
     private var dataSource = [TipsModel]()
     private var jobsDataSource = [JobModel]()
     private var favoritesDataSource = [String]()
     private var selectedtip: TipsModel!
     private var savedJobs = [JobModel]()
-    
-    //MARK: UI
-  
+
+    // MARK: UI
+
     lazy var mySearchBar: UISearchBar = {
         let sr = UISearchBar()
-        
+
         sr.searchBarStyle = .minimal
         sr.backgroundColor = .clear
         sr.searchTextField.backgroundColor = .clear
@@ -52,10 +52,10 @@ final class HomeSceneViewController: UIViewController {
         sr.returnKeyType = .search
         sr.sizeToFit()
         sr.delegate = self
-        
+
         return sr
     }()
-    
+
     lazy var tableView: UITableView = {
         let v = UITableView()
         v.separatorStyle = .none
@@ -63,21 +63,21 @@ final class HomeSceneViewController: UIViewController {
         v.dataSource = self
         return v
     }()
-    
+
     // MARK: Object lifecycle
-    
+
     init(interactor: HomeSceneBusinessLogic, router: (HomeSceneRoutingLogic & HomeSceneDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
@@ -85,14 +85,14 @@ final class HomeSceneViewController: UIViewController {
         interactor?.getCommonModel(request: HomeScene.GetCommonModel.Request())
         interactor?.getFavorites(request: HomeScene.FavoriteCell.Request())
     }
-    
+
     // MARK: Private methods
-    
+
     private func setTipsTableData(data: [TipsModel]) {
         self.dataSource = data
         tableView.reloadData()
     }
-    
+
     private func setJobsTableData(data: [JobModel]) {
         self.jobsDataSource = data
         tableView.reloadData()
@@ -100,9 +100,9 @@ final class HomeSceneViewController: UIViewController {
     private func setFavoritesData(data: [String]) {
         self.favoritesDataSource  = data
     }
-    
+
     // MARK: Setup UI
-    
+
     private func registerCells() {
         tableView.registerClass(class: TipsForYouTableViewCell.self)
         tableView.registerClass(class: TipsTableViewCell.self)
@@ -110,7 +110,7 @@ final class HomeSceneViewController: UIViewController {
         tableView.registerClass(class: JobsTableViewCell.self)
         tableView.registerClass(class: FilterTableViewCell.self)
     }
-    
+
     private func setUpViews() {
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
@@ -119,7 +119,7 @@ final class HomeSceneViewController: UIViewController {
                            left: view.leftAnchor,
                            right: view.rightAnchor,
                            paddingTop: 0, paddingLeft: 20,
-                           paddingRight: 20,height: 40)
+                           paddingRight: 20, height: 40)
         view.addSubview(tableView)
         tableView.anchor(top: mySearchBar.bottomAnchor,
                          left: view.leftAnchor,
@@ -130,16 +130,16 @@ final class HomeSceneViewController: UIViewController {
     }
 }
 
-//MARK: Delegate/Protocols
+// MARK: Delegate/Protocols
 
 extension HomeSceneViewController: OpenAllTipsScene {
-    
+
     func seeAllTipsTap() {
         self.interactor?.didTapSeeAllTips(request: HomeScene.ShowAllTips.Request(data: dataSource))
     }
 }
 extension HomeSceneViewController: SendDelegatTovc {
-    
+
     func passDataToVc(of title: String) {
         self.interactor?.seeTipsDetails(request: HomeScene.SeeDetails.Request(tipTitle: title, dataSource: dataSource))
     }
@@ -160,53 +160,53 @@ extension HomeSceneViewController: FilterByCategoryDelegate {
     }
 }
 
-//MARK: SearchBar Methods
+// MARK: SearchBar Methods
 
-extension HomeSceneViewController : UISearchBarDelegate {
-    
+extension HomeSceneViewController: UISearchBarDelegate {
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+
         guard let text = searchBar.text else { return }
         self.interactor?.getFilteredJobs(request: HomeScene.FilterJobs.Request(keyword: text))
     }
-    
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.showsCancelButton = false
         searchBar.endEditing(true)
-        
+
     }
 }
 
-//MARK: display logic methods
+// MARK: display logic methods
 
 extension HomeSceneViewController: HomeSceneDisplayLogic {
     func displayFavorireCells(viewModel: HomeScene.FavoriteCell.ViewModel) {
         self.favoritesDataSource = viewModel.data
     }
-    
+
     func displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel) {
         let jobData = viewModel.data.jobs
         let tipsData = viewModel.data.tips
         self.setJobsTableData(data: jobData)
         self.setTipsTableData(data: tipsData)
     }
-    
+
     func displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel) {
        self.setJobsTableData(data: viewModel.data)
     }
-    
+
     func displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel) {
         router?.navigateToJobDetailsScene()
     }
-    
+
     func displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel) {
         self.setJobsTableData(data: viewModel.data)
     }
-    
+
     func displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel) {
         router?.navigateToAllJobsScene()
     }
@@ -214,16 +214,16 @@ extension HomeSceneViewController: HomeSceneDisplayLogic {
     func displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel) {
         router?.navigateToAllTipsListScene()
     }
-    
+
     func displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel) {
         router?.navigateToDetailsScene()
     }
 }
 
-//MARK: Tableview delegate, dataSource protocol methods
+// MARK: Tableview delegate, dataSource protocol methods
 
 extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         HomeTableViewCellItems(section: indexPath.section).cellHeight
     }
@@ -234,19 +234,19 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         let cellnum = section == 4 ? jobsDataSource.count : 1
         return cellnum
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         switch indexPath.section {
-        case 0 :
+        case 0:
             let cell = tableView.deque(class: TipsForYouTableViewCell.self, for: indexPath)
             cell.textlb.text = HomeTableViewCellItems(section: indexPath.section).title
             cell.delegate = self
             return cell
-        case 1 :
+        case 1:
             let cell = tableView.deque(class: TipsTableViewCell.self, for: indexPath)
             cell.delegate = self
-            
+
             cell.tipsArray = dataSource
             cell.shadowedtoView()
             return cell
@@ -274,4 +274,3 @@ extension HomeSceneViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-

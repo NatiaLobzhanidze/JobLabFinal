@@ -13,7 +13,7 @@
 import UIKit
 
 protocol AllJobsListSceneBusinessLogic {
-    
+
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request)
     func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request)
     func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request)
@@ -24,32 +24,32 @@ protocol AllJobsListSceneDataStore {
     var selectedJob: JobModel? { get }
 }
 
-final class AllJobsListSceneInteractor:  AllJobsListSceneDataStore {
-    
-    //MARK: Clean components
-    
+final class AllJobsListSceneInteractor: AllJobsListSceneDataStore {
+
+    // MARK: Clean components
+
     var presenter: AllJobsListScenePresentationLogic?
-    
-    var myJobModel:  [JobModel]
+
+    var myJobModel: [JobModel]
     var selectedJob: JobModel?
-    
+
     // MARK: Object LifeCycle
-    
-    init(presenter: AllJobsListScenePresentationLogic, myJobModel:  [JobModel]) {
+
+    init(presenter: AllJobsListScenePresentationLogic, myJobModel: [JobModel]) {
         self.presenter = presenter
         self.myJobModel = myJobModel
     }
 }
 
 extension AllJobsListSceneInteractor: AllJobsListSceneBusinessLogic {
-    
+
     func seeJobDetails(request: AllJobsListScene.SeeJobDetails.Request) {
         self.selectedJob = request.data
         presenter?.presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response())
     }
-    
+
     func getFilteredJobs(request: AllJobsListScene.FilterJobs.Request) {
-        
+
         if let request = request.keyword {
             let filteredJobs = myJobModel.filter({$0.jobTitle.lowercased().contains(request.lowercased()) })
             let data = !request.isEmpty ? filteredJobs : myJobModel
@@ -61,7 +61,7 @@ extension AllJobsListSceneInteractor: AllJobsListSceneBusinessLogic {
             presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
         }
     }
-    
+
     func getAllJobs(request: AllJobsListScene.GetAllJobs.Request) {
         let response = AllJobsListScene.GetAllJobs.Response(data: self.myJobModel)
         presenter?.presentAllJobs(response: response)

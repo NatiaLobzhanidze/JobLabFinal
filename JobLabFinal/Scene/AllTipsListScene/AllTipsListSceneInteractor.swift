@@ -12,43 +12,37 @@
 
 import UIKit
 
-protocol AllTipsListSceneBusinessLogic
-{
+protocol AllTipsListSceneBusinessLogic {
     func getAllTips(request: AllTipsListScene.ShowAllTipsList.Request)
     func seeTipsDetails(request: AllTipsListScene.SeeDetails.Request )
 }
 
-protocol AllTipsListSceneDataStore
-{
+protocol AllTipsListSceneDataStore {
     var selectedTip: TipsModel? { get }
 }
 
-class AllTipsListSceneInteractor:  AllTipsListSceneDataStore
-{
+class AllTipsListSceneInteractor: AllTipsListSceneDataStore {
   var presenter: AllTipsListScenePresentationLogic?
     private(set) var passedObject: [TipsModel]
     var selectedTip: TipsModel?
 
-  
   // MARK: Object LifeCycle
-    
-    init(presenter: AllTipsListScenePresentationLogic,passedObject: [TipsModel] ) {
+
+    init(presenter: AllTipsListScenePresentationLogic, passedObject: [TipsModel] ) {
         self.presenter = presenter
         self.passedObject = passedObject
     }
-  
- 
-  
+
 }
 
 extension AllTipsListSceneInteractor: AllTipsListSceneBusinessLogic {
-    
+
     func getAllTips(request: AllTipsListScene.ShowAllTipsList.Request) {
-      
+
         let response = AllTipsListScene.ShowAllTipsList.Response(data: self.passedObject)
         self.presenter?.presentAllTipsList(response: response)
     }
-    
+
     func seeTipsDetails(request: AllTipsListScene.SeeDetails.Request) {
         self.selectedTip = request.data
         self.presenter?.presentTipsDetails(response: AllTipsListScene.SeeDetails.Response())

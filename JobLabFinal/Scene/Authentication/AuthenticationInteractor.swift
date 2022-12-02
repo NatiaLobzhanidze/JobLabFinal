@@ -20,33 +20,33 @@ protocol AuthenticationBusinessLogic {
 protocol AuthenticationDataStore {
 }
 
-final class AuthenticationInteractor:  AuthenticationDataStore {
+final class AuthenticationInteractor: AuthenticationDataStore {
   var presenter: AuthenticationPresentationLogic
   var worker: AuthenticationWorker
- 
+
     init(presenter: AuthenticationPresentationLogic, worker: AuthenticationWorker ) {
         self.presenter = presenter
         self.worker = worker
     }
 }
 
-//MARK: BusinessLogic
+// MARK: BusinessLogic
 
 extension AuthenticationInteractor: AuthenticationBusinessLogic {
-    
+
    func tryLogIn(request: Authentication.LoginAction.Request) {
        guard let mail = request.mailTextField.text,
              let password = request.passwordTexfield.text else { return }
-       worker.tryLogIn(email: mail, pass: password){ [weak self] userResult in
+       worker.tryLogIn(email: mail, pass: password) { [weak self] userResult in
            switch userResult {
-           case .success(_):
+           case .success:
                self?.presenter.presentSuccess()
            case .failure(let error):
                self?.presenter.presentFailure(message: error.localizedDescription)
            }
         }
     }
-    
+
     func getRegistrationScene(request: Authentication.GoRegisterScene.Request) {
         presenter.presentRegisterScene(response: Authentication.GoRegisterScene.Response())
     }

@@ -17,6 +17,6 @@ struct SettingsValue {
 }
 
 enum SettingsConfigure {
-    static let settingsTitle = ["Help & Support", "About",  "Log Out"]
+    static let settingsTitle = ["Help & Support", "About",   "Log Out"]
     static var settingsIcons  = ["questionmark.circle.fill", "info.circle.fill", "rectangle.portrait.and.arrow.right.fill"]
 }

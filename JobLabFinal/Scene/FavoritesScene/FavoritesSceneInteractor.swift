@@ -13,7 +13,6 @@
 import UIKit
 import CoreData
 
-
 protocol FavoritesSceneBusinessLogic {
     func getFavorites(request: FavoritesScene.GetFavoriteJobs.Request)
     func deleteAllDAta(request: FavoritesScene.DeleteAll.Request)
@@ -22,18 +21,18 @@ protocol FavoritesSceneBusinessLogic {
 protocol FavoritesSceneDataStore {
 }
 
-final class FavoritesSceneInteractor:  FavoritesSceneDataStore {
-    
-    //MARK: Clean components
+final class FavoritesSceneInteractor: FavoritesSceneDataStore {
+
+    // MARK: Clean components
 
   var presenter: FavoritesScenePresentationLogic
   var worker: FavoritesSceneWorker
-    
-    //MARK: Fields
+
+    // MARK: Fields
   var container = [JobModel]()
-  
+
   // MARK: object LifeCycle
-    
+
     init(presenter: FavoritesScenePresentationLogic, worker: FavoritesSceneWorker) {
         self.presenter = presenter
         self.worker = worker
@@ -41,20 +40,19 @@ final class FavoritesSceneInteractor:  FavoritesSceneDataStore {
 }
 
 extension FavoritesSceneInteractor: FavoritesSceneBusinessLogic {
-    
+
     func deleteAllDAta(request: FavoritesScene.DeleteAll.Request) {
         worker.deleteAll()
         presenter.presentDeleting(response: FavoritesScene.DeleteAll.Response())
     }
-    
+
     func getFavorites(request: FavoritesScene.GetFavoriteJobs.Request) {
         Task {
           let favoriteJobs = await worker.fetchFavoriteJobs()
             self.container = favoriteJobs
             presenter.presentFavorites(response: FavoritesScene.GetFavoriteJobs.Response(data: container))
         }
-       
+
     }
-    
-    
+
 }

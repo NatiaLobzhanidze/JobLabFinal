@@ -16,28 +16,26 @@ protocol CategoriesRoutingLogic {
    func navigateToHomeScene()
 }
 
-protocol CategoriesDataPassing
-{
+protocol CategoriesDataPassing {
   var dataStore: CategoriesDataStore? { get }
 }
 
-class CategoriesRouter:  CategoriesDataPassing
-{
-    //MARK: Clean components
+class CategoriesRouter: CategoriesDataPassing {
+    // MARK: Clean components
   weak var viewController: CategoriesViewController?
   var dataStore: CategoriesDataStore?
-  
+
     // MARK: Object Lifecycle
-    
+
     init(dataStore: CategoriesDataStore) {
         self.dataStore = dataStore
     }
-  
+
     func  navigateToDetailsEditor(vc: UIViewController) {
         self.viewController?.present(vc, animated: true)
     }
 }
-//MARK: Routing Logic methods/ Navigation
+// MARK: Routing Logic methods/ Navigation
 
 extension CategoriesRouter: CategoriesRoutingLogic {
     func navigateToHomeScene() {
@@ -47,5 +45,5 @@ extension CategoriesRouter: CategoriesRoutingLogic {
         UserDefaults.standard.set(true, forKey: "ISUSERLOGGEDIN")
         viewController?.view.window?.rootViewController = tabbarVc
         viewController?.view.window?.makeKeyAndVisible()
-    }  
+    }
 }

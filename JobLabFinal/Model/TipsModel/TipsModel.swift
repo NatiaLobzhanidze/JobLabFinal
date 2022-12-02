@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct TipsModel: Decodable {
     let title, text, author, authorOccupation, cover: String
     enum CodingKeys: String, CodingKey {

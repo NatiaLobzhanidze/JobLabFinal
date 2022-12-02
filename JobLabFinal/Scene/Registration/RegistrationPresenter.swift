@@ -19,23 +19,20 @@ protocol RegistrationPresentationLogic {
 }
 
 final class RegistrationPresenter: RegistrationPresentationLogic {
-  
-    
-    
+
   weak var viewController: RegistrationDisplayLogic?
-  
+
   // MARK: PresentationLogic Methods
-    
+
     func presentSuccess(with message: String) {
         self.viewController?.displayCreatingSuccess(message: message)
     }
-    
+
     func presentFailure(with message: String) {
         self.viewController?.displayCreatingFailure(message: message)
     }
-    
+
     func goToLogIngPage(response: Registration.GoToLogIn.Response) {
         viewController?.goToLogInPage(vieModel: Registration.GoToLogIn.ViewModel())
     }
 }
-

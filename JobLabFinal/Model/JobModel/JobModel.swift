@@ -7,18 +7,17 @@
 
 import Foundation
 
-
 struct JobModel: Codable {
-    
+
     let ident: String
     let logoImage: String
-    let brand : String
+    let brand: String
     let jobTitle: String
     let location: String
     let jobType: String
     let sallary: Int
     let category: String
-   
+
 }
 
 struct FavJobModeL: Codable {

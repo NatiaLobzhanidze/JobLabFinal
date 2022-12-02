@@ -8,7 +8,7 @@
 import UIKit
 
 final class SettingsTableViewCell: UITableViewCell {
-    
+
     let logoImage = UIImageView()
     let titleLb = UILabel()
 
@@ -23,15 +23,15 @@ final class SettingsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 }
 
-    //MARK: setup view
-    
+    // MARK: setup view
+
     private func setUpView() {
         contentView.addSubview(logoImage)
-        logoImage.anchor(top: contentView.topAnchor, left: contentView.leftAnchor,  paddingTop: 15, paddingLeft: 15,  width: 30, height: 30)
+        logoImage.anchor(top: contentView.topAnchor, left: contentView.leftAnchor,   paddingTop: 15, paddingLeft: 15,   width: 30, height: 30)
         contentView.addSubview(titleLb)
-        titleLb.anchor( left: logoImage.rightAnchor,  paddingLeft: 20, width: 120)
+        titleLb.anchor( left: logoImage.rightAnchor,   paddingLeft: 20, width: 120)
         titleLb.centerY(inView: logoImage)
-        
+
     }
-    
+
 }

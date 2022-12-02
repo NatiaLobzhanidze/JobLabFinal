@@ -22,7 +22,7 @@ protocol FavoritesSceneDataPassing {
 final class FavoritesSceneRouter: FavoritesSceneRoutingLogic, FavoritesSceneDataPassing {
   weak var viewController: FavoritesSceneViewController?
   var dataStore: FavoritesSceneDataStore?
-  
+
     init(dataStore: FavoritesSceneDataStore) {
         self.dataStore = dataStore
     }

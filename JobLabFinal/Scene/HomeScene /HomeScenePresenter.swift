@@ -13,7 +13,7 @@
 import UIKit
 
 protocol HomeScenePresentationLogic {
-    
+
   func presentAllTips(response: HomeScene.ShowAllTips.Response)
   func presnetTipsDetails(response: HomeScene.SeeDetails.Response)
   func presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response)
@@ -33,21 +33,21 @@ extension HomeScenePresenter: HomeScenePresentationLogic {
         let viewModel = response.data
         viewController?.displayFavorireCells(viewModel: HomeScene.FavoriteCell.ViewModel(data: viewModel))
     }
-    
+
     func presentCommomModel(response: HomeScene.GetCommonModel.Response) {
         let viewModel = response.data
         viewController?.displayCommonModel(viewModel: HomeScene.GetCommonModel.ViewModel(data: viewModel))
     }
-    
+
     func presentjobsByCategory(response: HomeScene.FilterJobs.Response) {
         let viewModel  = response.data
         viewController?.displayJobsBycategory(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))
     }
-    
+
     func presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response) {
         viewController?.displaySelectedJobDetails(viewModel: HomeScene.SeeJobDetails.ViewModel())
     }
-    
+
     func presentFilteredJobs(response: HomeScene.FilterJobs.Response) {
         let viewModel =  response.data
         viewController?.displayFilteredJobs(viewModel: HomeScene.FilterJobs.ViewModel(data: viewModel))
@@ -56,11 +56,11 @@ extension HomeScenePresenter: HomeScenePresentationLogic {
     func presentAllJobs(response: HomeScene.ShowAllJobs.Response) {
         viewController?.displayAllJobsScene(viewModel: HomeScene.ShowAllJobs.ViewModel())
     }
-    
+
     func presnetTipsDetails(response: HomeScene.SeeDetails.Response) {
         viewController?.displayTipDetails(viewModel: HomeScene.SeeDetails.ViewModel())
     }
-    
+
     func presentAllTips(response: HomeScene.ShowAllTips.Response) {
         viewController?.displayAllTipsScene(viewModel: HomeScene.ShowAllTips.ViewModel())
     }

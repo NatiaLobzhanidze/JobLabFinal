@@ -21,20 +21,20 @@ protocol OnBoardingDataPassing {
 }
 
 final class OnBoardingRouter: OnBoardingRoutingLogic, OnBoardingDataPassing {
-    
-    //MARK: Clean components
+
+    // MARK: Clean components
 
     weak var viewController: OnBoardingViewController?
     private(set) var dataStore: OnBoardingDataStore?
-    
-    //MARK: Object LifeCycle
-    
+
+    // MARK: Object LifeCycle
+
     init(dataStore: OnBoardingDataStore ) {
         self.dataStore = dataStore
     }
-    
+
     // MARK: Navigation
-    
+
     func navigateToAuthentication() {
         let destVc = AuthenticationConfiguration.configure()
         viewController?.navigationController?.pushViewController(destVc, animated: true)

@@ -14,16 +14,13 @@ import UIKit
 
 enum SettingsScene {
   // MARK: Use cases
-  
+
   enum Settings {
-    struct Request
-    {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
     }
-    struct ViewModel
-    {
+    struct ViewModel {
     }
   }
 }

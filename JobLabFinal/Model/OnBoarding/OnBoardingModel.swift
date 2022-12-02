@@ -13,13 +13,13 @@ struct OnBoardingModel {
     let title: String
 }
 
-//MARK: for onBording collectionView cell conf.
+// MARK: for onBording collectionView cell conf.
 
 enum viewsOnBanner {
     static let jobBanners = [
-        "job1-1" : "Find job offers from the most popular job listing sites",
-        "job2-1" : "Track all your job applicatons and don’t get lost in the process",
-        "job3-1" : "Start appliying and get a Job Now!"
+        "job1-1": "Find job offers from the most popular job listing sites",
+        "job2-1": "Track all your job applicatons and don’t get lost in the process",
+        "job3-1": "Start appliying and get a Job Now!"
     ]
 }
 enum OnBorderingBtnTitles: String {

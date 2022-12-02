@@ -8,12 +8,11 @@
 import Foundation
 import UIKit
 
-
 final class CustomCollectionViewConfiguration {
     static var shared = CustomCollectionViewConfiguration()
     private init() { }
-    func customCollectionView(direction:  UICollectionView.ScrollDirection, itemSize: CGSize) -> UICollectionView {
-        
+    func customCollectionView(direction: UICollectionView.ScrollDirection, itemSize: CGSize) -> UICollectionView {
+
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
         layout.scrollDirection = direction
@@ -24,7 +23,7 @@ final class CustomCollectionViewConfiguration {
         view.showsHorizontalScrollIndicator = false
         view.backgroundColor = .white
         view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-    
+
         return view
     }
 }

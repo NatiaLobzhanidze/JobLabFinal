@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-enum AuthenticationConfiguration  {
+enum AuthenticationConfiguration {
     static func configure() -> AuthenticationViewController {
         let presenter = AuthenticationPresenter()
         let worker = AuthenticationWorker()
@@ -17,7 +16,7 @@ enum AuthenticationConfiguration  {
         let viewController = AuthenticationViewController(interactor: interactor, router: router)
         presenter.viewController = viewController
         router.viewController = viewController
-    
+
         return viewController
     }
 }

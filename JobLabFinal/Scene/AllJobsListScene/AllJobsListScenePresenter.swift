@@ -22,13 +22,13 @@ class AllJobsListScenePresenter: AllJobsListScenePresentationLogic {
   weak var viewController: AllJobsListSceneDisplayLogic?
 
     // MARK: PresentationLogic Protocol Methods
-    
+
     func presentAllJobs(response: AllJobsListScene.GetAllJobs.Response) {
-        
+
         let viewModel = AllJobsListScene.GetAllJobs.ViewModel(data: response.data)
         viewController?.displayJobsList(viewModel: viewModel)
     }
-    
+
     func presentFilteredJobs(response: HomeScene.FilterJobs.Response) {
         let viewModel = response.data
         viewController?.displayFilteredJobs(viewModel: AllJobsListScene.FilterJobs.ViewModel(data: viewModel))
@@ -36,5 +36,5 @@ class AllJobsListScenePresenter: AllJobsListScenePresentationLogic {
     func presentJobDetails(response: AllJobsListScene.SeeJobDetails.Response) {
         viewController?.displayJobDetailsScene(viewModel: AllJobsListScene.SeeJobDetails.ViewModel())
     }
-    
+
 }

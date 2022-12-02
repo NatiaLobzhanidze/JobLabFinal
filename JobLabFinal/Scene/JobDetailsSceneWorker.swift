@@ -13,7 +13,6 @@
 import UIKit
 
 class JobDetailsSceneWorker {
-  func doSomeWork()
-  {
+  func doSomeWork() {
   }
 }

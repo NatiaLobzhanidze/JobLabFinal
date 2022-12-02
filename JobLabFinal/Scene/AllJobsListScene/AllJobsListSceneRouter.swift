@@ -24,18 +24,18 @@ final class AllJobsListSceneRouter: AllJobsListSceneRoutingLogic, AllJobsListSce
 
   weak var viewController: AllJobsListSceneViewController?
   var dataStore: AllJobsListSceneDataStore?
-  
-    //MARK: object LifeCycle
+
+    // MARK: object LifeCycle
     init(dataStore: AllJobsListSceneDataStore) {
         self.dataStore = dataStore
     }
   // MARK: Routing
     func navigateTpJobDetailsScene() {
-        
+
         guard let selectedJob = dataStore?.selectedJob else { return }
-        
+
         let destVc = JobDetailsViewControllerConfiguration.configure(with: selectedJob)
         viewController?.navigationController?.pushViewController(destVc, animated: true )
-                
+
     }
 }

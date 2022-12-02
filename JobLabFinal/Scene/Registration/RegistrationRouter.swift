@@ -21,14 +21,12 @@ protocol RegistrationDataPassing {
 }
 
 final class RegistrationRouter: RegistrationRoutingLogic, RegistrationDataPassing {
-  
-    
+
   weak var viewController: RegistrationViewController?
   var dataStore: RegistrationDataStore?
-    
+
     func navigateToLogInPage() {
-        //let destVc = AuthenticationConfiguration.configure()
+        // let destVc = AuthenticationConfiguration.configure()
         viewController?.navigationController?.popViewController(animated: true)
     }
 }
-

@@ -20,15 +20,15 @@ protocol SettingsSceneDataStore {
 }
 
 final class SettingsSceneInteractor: SettingsSceneBusinessLogic, SettingsSceneDataStore {
-    
+
   var presenter: SettingsScenePresentationLogic?
-  
+
   // MARK: Object lifeCycle
-    
+
     init(presenter: SettingsScenePresentationLogic) {
         self.presenter = presenter
     }
-  
+
     func logOut(request: SettingsScene.Settings.Request) {
         presenter?.presentAuthScene(response: SettingsScene.Settings.Response())
     }

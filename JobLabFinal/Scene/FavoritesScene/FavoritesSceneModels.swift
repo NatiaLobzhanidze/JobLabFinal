@@ -12,34 +12,26 @@
 
 import UIKit
 
-enum FavoritesScene
-{
+enum FavoritesScene {
   // MARK: Use cases
-  
-    enum GetFavoriteJobs
-    {
-      struct Request
-      {
+
+    enum GetFavoriteJobs {
+      struct Request {
       }
-      struct Response
-      {
+      struct Response {
           var data: [JobModel]
       }
-      struct ViewModel
-      {
+      struct ViewModel {
           var data: [JobModel]
       }
     }
-    
+
     enum DeleteAll {
-        struct Request
-        {
+        struct Request {
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
 }

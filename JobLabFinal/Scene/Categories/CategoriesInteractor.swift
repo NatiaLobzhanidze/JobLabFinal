@@ -20,22 +20,22 @@ protocol CategoriesDataStore {
     var passingCategories: [String] { get }
 }
 
-final class CategoriesInteractor:  CategoriesDataStore {
+final class CategoriesInteractor: CategoriesDataStore {
     // MARK: Clean components
   var presenter: CategoriesPresentationLogic?
 
-    //MARK: passing data conteiner
-    
+    // MARK: passing data conteiner
+
   var passingCategories: [String] = []
- 
+
     // MARK: Object Lifecycle
-    
+
     init(presenter: CategoriesPresentationLogic ) {
         self.presenter = presenter
     }
 }
 
-//MARK: BusinessLogic methods
+// MARK: BusinessLogic methods
 
 extension CategoriesInteractor: CategoriesBusinessLogic {
     func passCategory(request: Categories.FavoriteCategory.Request) {

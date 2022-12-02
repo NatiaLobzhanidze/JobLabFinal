@@ -12,34 +12,29 @@
 
 import UIKit
 
-protocol TipsDetailsSceneBusinessLogic
-{
+protocol TipsDetailsSceneBusinessLogic {
   func getDetails(request: TipsDetailsScene.Details.Request)
 }
 
-protocol TipsDetailsSceneDataStore
-{
-  //var name: String { get set }
+protocol TipsDetailsSceneDataStore {
+  // var name: String { get set }
 }
 
-class TipsDetailsSceneInteractor:  TipsDetailsSceneDataStore
-{
+class TipsDetailsSceneInteractor: TipsDetailsSceneDataStore {
   var presenter: TipsDetailsScenePresentationLogic?
     private(set) var selectedTip: TipsModel
-    
+
     init(presenter: TipsDetailsScenePresentationLogic, selectedTip: TipsModel) {
         self.presenter = presenter
         self.selectedTip = selectedTip
     }
-  
-    
+
 }
 extension TipsDetailsSceneInteractor: TipsDetailsSceneBusinessLogic {
     func getDetails(request: TipsDetailsScene.Details.Request) {
-        
+
         let response = TipsDetailsScene.Details.Response(tip: selectedTip)
         presenter?.presentDetails(response: response)
     }
-    
-    
+
 }

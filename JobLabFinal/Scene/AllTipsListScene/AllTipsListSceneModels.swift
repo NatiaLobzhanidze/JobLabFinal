@@ -12,35 +12,27 @@
 
 import UIKit
 
-enum AllTipsListScene
-{
+enum AllTipsListScene {
   // MARK: Use cases
-  
-  enum ShowAllTipsList
-  {
-    struct Request
-    {
+
+  enum ShowAllTipsList {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
         var data: [TipsModel]
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         var data: [TipsModel]
     }
   }
     enum SeeDetails {
-        struct Request
-        {
+        struct Request {
             var data: TipsModel
         }
-        struct Response
-        {
-          
+        struct Response {
+
         }
-        struct ViewModel
-        {
+        struct ViewModel {
             var data: TipsModel
         }
     }

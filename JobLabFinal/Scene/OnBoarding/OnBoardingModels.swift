@@ -14,7 +14,7 @@ import UIKit
 
 enum OnBoarding {
   // MARK: Use cases
-  
+
   enum GetOnBoardingData {
     struct Request {}
     struct Response {

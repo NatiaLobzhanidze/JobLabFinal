@@ -12,9 +12,7 @@
 
 import UIKit
 
-class TipsDetailsSceneWorker
-{
-  func doSomeWork()
-  {
+class TipsDetailsSceneWorker {
+  func doSomeWork() {
   }
 }

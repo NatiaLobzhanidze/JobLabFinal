@@ -13,16 +13,16 @@
 import UIKit
 
 protocol OnboardingWorkerLogic {
-    
+
     func setUpBanners() -> [OnBoardingModel]
 }
 
 final class OnBoardingWorker: OnboardingWorkerLogic {
-    
+
     private let onBoardingTitles = viewsOnBanner.jobBanners
-    
+
     func setUpBanners() -> [OnBoardingModel] {
-        
+
         var conteiner = [OnBoardingModel]()
         for (key, value) in onBoardingTitles {
             conteiner.append( OnBoardingModel(image: UIImage(named: key), title: value))

@@ -19,74 +19,74 @@ protocol FavoritesSceneDisplayLogic: AnyObject {
 }
 
 final class FavoritesSceneViewController: UIViewController {
-    
-    //MARK: Clean Components
-    
+
+    // MARK: Clean Components
+
     var interactor: FavoritesSceneBusinessLogic?
     var router: (FavoritesSceneRoutingLogic & FavoritesSceneDataPassing)?
     var dataSource = [JobModel]()
-    
-    //MARK: UI
-    
+
+    // MARK: UI
+
     let deleteBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("Delete All", for: .normal)
         btn.setTitleColor(.tintColor, for: .normal)
-        
+
         return btn
     }()
-    
+
     lazy var tableView: UITableView = {
         let v = UITableView()
         v.dataSource = self
         v.delegate = self
-      
+
         return v
     }()
-    
+
     // MARK: Object lifecycle
-    
+
     init(interactor: FavoritesSceneBusinessLogic, router: (FavoritesSceneRoutingLogic & FavoritesSceneDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerClass(class: JobsTableViewCell.self)
         setUpUi()
         interactor?.getFavorites(request: FavoritesScene.GetFavoriteJobs.Request())
-      
+
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.getFavorites(request: FavoritesScene.GetFavoriteJobs.Request())
     }
-    
-    //MARK: Private methods
+
+    // MARK: Private methods
 
      func setFavoritesTableData(data: [JobModel]) {
         self.dataSource = data
          DispatchQueue.main.async {
              self.tableView.reloadData()
          }
-    
+
     }
-    
+
     // MARK: Setup UI
-    
+
     private func setUpUi() {
         view.backgroundColor = .white
         view.addSubview(deleteBtn)
-        deleteBtn.anchor(top: view.safeAreaLayoutGuide.topAnchor ,  right: view.rightAnchor, paddingTop: 50, paddingRight: 20, width: 100, height: 35)
+        deleteBtn.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 50, paddingRight: 20, width: 100, height: 35)
         view.addSubview(tableView)
         tableView.anchor(top: deleteBtn.bottomAnchor,
                          left: view.leftAnchor,
@@ -99,23 +99,23 @@ final class FavoritesSceneViewController: UIViewController {
         interactor?.deleteAllDAta(request: FavoritesScene.DeleteAll.Request())
     }
 }
-//MARK: DisplayLogic Methods
+// MARK: DisplayLogic Methods
 
 extension FavoritesSceneViewController: FavoritesSceneDisplayLogic {
     func displayDeleting(viewModel: FavoritesScene.DeleteAll.ViewModel) {
         self.setFavoritesTableData(data: [])
     }
-    
+
     func displayFavoriteJobs(viewModel: FavoritesScene.GetFavoriteJobs.ViewModel) {
         let data = viewModel.data
         self.setFavoritesTableData(data: data)
     }
 }
 
-//MARK: CollectionViewDataSource
+// MARK: CollectionViewDataSource
 
-extension FavoritesSceneViewController : UITableViewDataSource {
-    
+extension FavoritesSceneViewController: UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource.count
     }
@@ -130,5 +130,5 @@ extension FavoritesSceneViewController : UITableViewDataSource {
 }
 
 extension FavoritesSceneViewController: UITableViewDelegate {
-    
+
 }

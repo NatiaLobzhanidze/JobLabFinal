@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum RegistrationConfiguration  {
-    static func configure() -> RegistrationViewController{
+enum RegistrationConfiguration {
+    static func configure() -> RegistrationViewController {
         let presenter = RegistrationPresenter()
         let worker = RegistrationWorker()
         let interactor = RegistrationInteractor(presenter: presenter, worker: worker)
@@ -16,7 +16,7 @@ enum RegistrationConfiguration  {
         let viewController = RegistrationViewController(interactor: interactor, router: router)
         presenter.viewController = viewController
         router.viewController = viewController
-        
+
         return viewController
     }
 }

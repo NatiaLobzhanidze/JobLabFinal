@@ -14,9 +14,9 @@ import UIKit
 import SwiftUI
 
 enum Authentication {
-    
+
   // MARK: Use cases
-  
+
   enum LoginAction {
     struct Request {
         let mailTextField: UITextField
@@ -32,14 +32,11 @@ enum Authentication {
     }
   }
     enum GoRegisterScene {
-      struct Request
-      {
+      struct Request {
       }
-      struct Response
-      {
+      struct Response {
       }
-      struct ViewModel
-      {
+      struct ViewModel {
       }
     }
 }

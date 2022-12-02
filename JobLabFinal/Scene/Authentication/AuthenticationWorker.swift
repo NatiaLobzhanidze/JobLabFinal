@@ -23,7 +23,7 @@ protocol AuthenticationWorkerLogic {
 
 final class AuthenticationWorker: AuthenticationWorkerLogic {
     func tryLogIn(email: String, pass: String, completion: @escaping (Result<(Bool), Error>) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: pass) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: pass) { (_, error) in
             if let error = error {
                 completion(.failure(error))
             } else {

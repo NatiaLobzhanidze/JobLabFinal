@@ -8,9 +8,9 @@
 import Foundation
 
 enum HomeSceneConfiguration {
-    
+
     static func configure(with jobCategory: [String]) -> HomeSceneViewController {
-        
+
         let apiManager = APIManager.shared
         let worker = HomeSceneWorker(api: apiManager)
         let presenter = HomeScenePresenter()
@@ -19,7 +19,7 @@ enum HomeSceneConfiguration {
         let viewController = HomeSceneViewController(interactor: interactor, router: router)
         presenter.viewController = viewController
         router.viewController = viewController
-        
+
         return viewController
     }
 }

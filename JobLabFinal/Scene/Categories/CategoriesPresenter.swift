@@ -17,13 +17,13 @@ protocol CategoriesPresentationLogic {
 }
 
 final class CategoriesPresenter: CategoriesPresentationLogic {
-   
+
   weak var viewController: CategoriesDisplayLogic?
-  
+
   // MARK: resentationLogic methods
-    
+
     func presentHomeScene(response: Categories.FavoriteCategory.Response) {
         viewController?.displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel())
     }
-    
+
 }

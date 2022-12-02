@@ -29,14 +29,14 @@ final class AuthenticationRouter: AuthenticationRoutingLogic, AuthenticationData
     }
 
   // MARK: RoutingLogic Methods
-    
+
     func navigationToRegistration() {
         let vc = RegistrationConfiguration.configure()
         viewController?.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     func navigateToCategoriesScene() {
-      
+
         let desttVc = CategoriesSceneConfiguration.configure()
         viewController?.view.window?.rootViewController = desttVc
         viewController?.view.window?.makeKeyAndVisible()

@@ -18,53 +18,52 @@ protocol AuthenticationDisplayLogic: AnyObject {
     func displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel)
 }
 
-final class AuthenticationViewController:  BaseViewController {
-    
-    //MARK: Clean Components
-    
+final class AuthenticationViewController: BaseViewController {
+
+    // MARK: Clean Components
+
   var interactor: AuthenticationBusinessLogic
   var router: (AuthenticationRoutingLogic & AuthenticationDataPassing)
-    
 
   // MARK: Object lifecycle
-    
+
     init(interactor: AuthenticationBusinessLogic, router: (AuthenticationRoutingLogic & AuthenticationDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
   required init?(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
   }
-    
+
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
       super.viewDidLoad()
         setUpView()
     }
 
   // MARK: @objc Methods
-  
+
     @objc func goToRegistration() {
-   
+
      interactor.getRegistrationScene(request: Authentication.GoRegisterScene.Request())
     }
     @objc func tryLogin() {
          interactor.tryLogIn(request: Authentication.LoginAction.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld))
      }
-    
+
   // MARK: set up UI
-    
+
     private func setUpView() {
         setUpBaseVcUI()
         view.backgroundColor = .white
         self.navigationItem.setHidesBackButton(true, animated: true)
-        
+
         let textFieldsArr: [UITextField] = [emailTxFld, passwordTxFld]
         let labelarr: [UILabel]  = [emailLb, passwordLb, headLineLb, orContinueLb, donthaveAn ]
-        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
+        let btnArr: [UIButton] = [mainBtn, fbBtn, googleBtn, bottomBtn]
         let scrollView = UIScrollView()
             scrollView.isScrollEnabled = true
         let contentView = UIView()
@@ -81,14 +80,14 @@ final class AuthenticationViewController:  BaseViewController {
     }
 }
 
-//MARK: DisplayLogic Methods
+// MARK: DisplayLogic Methods
 
-extension AuthenticationViewController :  AuthenticationDisplayLogic {
-    
+extension AuthenticationViewController: AuthenticationDisplayLogic {
+
     func displayLogIngSuccess() {
         router.navigateToCategoriesScene()
     }
-    
+
     func displayLogInFailure(message: String) {
         self.showAlert(alertText: "Eroor while log in", alertMessage: message, addActionTitle: "Ok")
     }
@@ -97,8 +96,3 @@ extension AuthenticationViewController :  AuthenticationDisplayLogic {
         router.navigationToRegistration()
     }
 }
-
-
-
-
-

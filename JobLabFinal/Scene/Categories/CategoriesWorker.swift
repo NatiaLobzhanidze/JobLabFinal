@@ -12,9 +12,7 @@
 
 import UIKit
 
-class CategoriesWorker
-{
-  func doSomeWork()
-  {
+class CategoriesWorker {
+  func doSomeWork() {
   }
 }

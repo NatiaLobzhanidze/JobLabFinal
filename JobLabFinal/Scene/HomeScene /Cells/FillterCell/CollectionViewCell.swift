@@ -8,15 +8,15 @@
 import UIKit
 
 final class FilterCollectionViewCell: UICollectionViewCell {
-    
+
     let myview: UIView = {
         let v = UIView()
         v.layer.borderWidth = 2
         v.layer.borderColor = UIColor.tintColor.cgColor
-        
+
         return v
     }()
-    
+
     let filtersTitle: UILabel = {
         let lb = UILabel()
         lb.textColor = .tintColor
@@ -35,7 +35,7 @@ final class FilterCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         setUpView()
     }
-    
+
     func setUpView() {
         contentView.addSubview(myview)
         myview.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 10, paddingRight: 0)

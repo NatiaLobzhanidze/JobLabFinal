@@ -12,21 +12,16 @@
 
 import UIKit
 
-enum Categories
-{
+enum Categories {
   // MARK: Use cases
-  
-  enum FavoriteCategory
-  {
-    struct Request
-    {
+
+  enum FavoriteCategory {
+    struct Request {
         let favoriteCategory: [String]
     }
-    struct Response
-    {
+    struct Response {
     }
-    struct ViewModel
-    {
+    struct ViewModel {
     }
   }
     enum CategoriesField {

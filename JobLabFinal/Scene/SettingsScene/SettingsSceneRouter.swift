@@ -22,9 +22,9 @@ protocol SettingsSceneDataPassing {
 
 final class SettingsSceneRouter: SettingsSceneRoutingLogic, SettingsSceneDataPassing {
     func navigateToAuthScene() {
-        
+
     }
-    
+
   weak var viewController: SettingsSceneViewController?
   var dataStore: SettingsSceneDataStore?
     init(dataStore: SettingsSceneDataStore) {

@@ -20,29 +20,29 @@ protocol RegistrationDisplayLogic: AnyObject {
 }
 
 final class RegistrationViewController: BaseViewController {
-    
-    //MARK: Clean Components
-    
+
+    // MARK: Clean Components
+
     var interactor: RegistrationBusinessLogic
     var router: (RegistrationRoutingLogic & RegistrationDataPassing)
-    
+
     // MARK: UI
-    
-    let scrollView : UIScrollView  = {
+
+    let scrollView: UIScrollView  = {
         let view = UIScrollView()
         view.isScrollEnabled = true
         return view
     }()
-    
+
     let contentView = UIView()
-    
+
     let confirmePasswordLb: UILabel = {
         let lb = UILabel()
         lb.addRequiredAsterisk(text: TextFieldsTitles.confirmPasswordAsterisk.rawValue)
         lb.font = .systemFont(ofSize: 14, weight: .semibold)
         return lb
     }()
-    
+
     let repeatePasswordtxFld: UITextField = {
         let txt = UITextField()
         txt.placeholder = TextFieldsTitles.confirmPassword.rawValue
@@ -50,33 +50,33 @@ final class RegistrationViewController: BaseViewController {
         txt.shadowedField()
         txt.addPaddingToTextField()
         txt.isSecureTextEntry = true
-        
+
         return txt
     }()
-    
+
     // MARK: Object lifecycle
-    
-    init(interactor: RegistrationBusinessLogic, router: (RegistrationRoutingLogic & RegistrationDataPassing ) ){
+
+    init(interactor: RegistrationBusinessLogic, router: (RegistrationRoutingLogic & RegistrationDataPassing ) ) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
     }
-    
-    //MARK: private Methods
-    
+
+    // MARK: private Methods
+
     private func setUpBaseVcUI() {
-        
+
         mainBtn.setTitle(AuthorizationKeys.signUp.rawValue, for: .normal)
         mainBtn.setTitleColor(.white, for: .normal)
         mainBtn.addTarget(self, action: #selector(createAccount), for: .touchUpInside)
@@ -84,7 +84,7 @@ final class RegistrationViewController: BaseViewController {
         bottomBtn.addTarget(self, action: #selector(goToLogIn), for: .touchUpInside)
         donthaveAn.text = AuthorizationKeys.doyouHave.rawValue
     }
-    
+
     private func setUpView() {
         view.backgroundColor = .white
         setUpBaseVcUI()
@@ -95,40 +95,40 @@ final class RegistrationViewController: BaseViewController {
                                     orContinueLb,
                                     donthaveAn,
                                     confirmePasswordLb]
-        let btnArr: [UIButton] = [mainBtn,fbBtn, googleBtn, bottomBtn]
-        
+        let btnArr: [UIButton] = [mainBtn, fbBtn, googleBtn, bottomBtn]
+
         addConstreintsToScrollView(scrollView: self.scrollView, contentView: self.contentView)
         addConstraintsToImage(contentView: self.contentView, logoImage: self.logoImage)
         addHeadLine(contentView: self.contentView, headLineLb: self.headLineLb, logoImage: self.logoImage)
         addStackviews(textLb: labelarr, textFld: textFieldsArr, btn: btnArr, contentView: self.contentView)
     }
-    
+
     // MARK: @objc Methods
-    
+
     @objc func createAccount() {
     interactor.createAccount(request: Registration.CreateUser.Request(mailTextField: emailTxFld, passwordTexfield: passwordTxFld, checkPassword: repeatePasswordtxFld))
     }
-    
+
     @objc func goToLogIn() {
         interactor.goToLogInPage(request: Registration.GoToLogIn.Request())
     }
 }
 
-//MARK: DipslayLogics
+// MARK: DipslayLogics
 
-extension RegistrationViewController : RegistrationDisplayLogic {
+extension RegistrationViewController: RegistrationDisplayLogic {
     func goToLogInPage(vieModel: Registration.GoToLogIn.ViewModel) {
         router.navigateToLogInPage()
     }
-    
+
     func displayCreatingSuccess(message: String) {
         self.showAlert(alertText: "Error", alertMessage: message, addActionTitle: "Ok")
     }
-    
+
     func displayCreatingFailure(message: String) {
         self.showAlert(alertText: "Error", alertMessage: message, addActionTitle: "Ok")
     }
-    
+
     func tryCreateUser(viewModel: Registration.CreateUser.ViewModel) {
     }
 }

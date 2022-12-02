@@ -14,5 +14,5 @@ enum TextFieldsTitles: String {
     case passwordAsterisk = "  Password*"
     case confirmPassword = "  Confirm Password"
     case confirmPasswordAsterisk = "  Confirm Password*"
-    
+
 }

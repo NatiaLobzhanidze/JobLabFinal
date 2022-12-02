@@ -23,15 +23,15 @@ protocol AllTipsListSceneDataPassing {
 final class AllTipsListSceneRouter: NSObject, AllTipsListSceneRoutingLogic, AllTipsListSceneDataPassing {
   weak var viewController: AllTipsListSceneViewController?
  private(set) var dataStore: AllTipsListSceneDataStore?
-  
-    //MARK: Object LifeCycle
-    
+
+    // MARK: Object LifeCycle
+
     init(dataStore: AllTipsListSceneDataStore) {
         self.dataStore = dataStore
     }
 
   // MARK: Navigation
-  
+
     func navigateToTipsDetails() {
         guard let selectedTip = dataStore?.selectedTip else { return }
         let destVc = TipsDetailsSceneConfiguration.configure(with: selectedTip)

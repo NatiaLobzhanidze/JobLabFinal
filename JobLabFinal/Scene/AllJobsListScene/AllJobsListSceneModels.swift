@@ -12,49 +12,38 @@
 
 import UIKit
 
-enum AllJobsListScene
-{
+enum AllJobsListScene {
   // MARK: Use cases
-  
-  enum GetAllJobs
-  {
-    struct Request
-    {
+
+  enum GetAllJobs {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
         var data: [JobModel]
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         var data: [JobModel]
     }
   }
-    enum FilterJobs  {
-        struct Request
-        {
+    enum FilterJobs {
+        struct Request {
             var keyword: String?
             var category: String?
         }
-        struct Response
-        {
+        struct Response {
             var data: [JobModel]
         }
-        struct ViewModel
-        {
+        struct ViewModel {
             var data: [JobModel]
         }
     }
     enum SeeJobDetails {
-        struct Request
-        {
+        struct Request {
             var data: JobModel
         }
-        struct Response
-        {
+        struct Response {
         }
-        struct ViewModel
-        {
+        struct ViewModel {
         }
     }
 

@@ -14,7 +14,7 @@ import UIKit
 
 enum JobDetailsScene {
   // MARK: Use cases
-  
+
   enum ShowDetails {
     struct Request {
     }

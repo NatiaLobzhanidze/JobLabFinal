@@ -13,9 +13,9 @@
 import UIKit
 
 enum Registration {
-    
+
     // MARK: Use cases
-    
+
     enum CreateUser {
         struct Request {
             let mailTextField: UITextField
@@ -28,7 +28,7 @@ enum Registration {
         }
     }
     enum CheckTextFields {
-        
+
         struct Request {
             let mailTextField: UITextField
             let passwordTexfield: UITextField
@@ -39,9 +39,9 @@ enum Registration {
         struct ViewModel {
         }
     }
-    
+
     enum GoToLogIn {
-        
+
         struct Request {
         }
         struct Response {

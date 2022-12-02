@@ -25,29 +25,29 @@ protocol FavoritesSceneWorkerLogic {
 }
 
 final class FavoritesSceneWorker {
-    
+
     private var coreDataManager: CoreDataManaager
     private var api = APIManager.shared
     private let jobsUrl = ApiUrls.jobs.rawValue
-    
+
     init(coreDataManager: CoreDataManaager) {
         self.coreDataManager = coreDataManager
     }
-    
+
     func fetchFavorites(completion: @escaping(([String]) -> Void)) {
         DispatchQueue.main.async { [weak self] in
-            
+
             var identities = [String]()
             self?.coreDataManager.featchFavorites(fromEntity: WrokerTitles.entityName.rawValue, by: WrokerTitles.predicatebyFavorites.rawValue) { nsObjects in
-                identities = nsObjects.compactMap{($0 as? Favorites)?.identity}
+                identities = nsObjects.compactMap {($0 as? Favorites)?.identity}
                 completion(identities)
             }
         }
     }
 }
 
-extension FavoritesSceneWorker : FavoritesSceneWorkerLogic {
-    
+extension FavoritesSceneWorker: FavoritesSceneWorkerLogic {
+
     func fetchFavoriteJobs() async -> [JobModel] {
         var favJobs = [JobModel]()
         var identities = [String]()
@@ -61,7 +61,7 @@ extension FavoritesSceneWorker : FavoritesSceneWorkerLogic {
         }
         return favJobs.filter({identities.contains($0.ident)})
     }
-    
+
     func deleteAll() {
         coreDataManager.deleteAllData(entity: WrokerTitles.entityName.rawValue)
     }

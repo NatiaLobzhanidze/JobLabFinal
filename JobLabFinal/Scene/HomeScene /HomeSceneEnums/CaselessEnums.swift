@@ -13,14 +13,14 @@ enum HomeTableViewCellItems: Int {
     case seeAllTips = 2
     case filters = 3
     case jobs = 4
-    
+
     init(section: Int) {
         self = HomeTableViewCellItems(rawValue: section) ?? .seeAllJob
     }
-    
+
     var title: String {
         switch self {
-    
+
         case .seeAllJob:
             return "Job Remcomandations"
         case .seeAllTips:
@@ -29,7 +29,7 @@ enum HomeTableViewCellItems: Int {
             return ""
     }
     }
-    
+
     var cellHeight: CGFloat {
         switch self {
         case .tips:

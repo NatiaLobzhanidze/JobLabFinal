@@ -12,29 +12,27 @@
 
 import UIKit
 
-protocol AllTipsListSceneDisplayLogic: AnyObject
-{
+protocol AllTipsListSceneDisplayLogic: AnyObject {
     func displayAllTipsList(viewModel: AllTipsListScene.ShowAllTipsList.ViewModel)
     func displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel)
 }
 
-class AllTipsListSceneViewController: UIViewController
-{
-    //MARK: Clean Components
-    
+class AllTipsListSceneViewController: UIViewController {
+    // MARK: Clean Components
+
   var interactor: AllTipsListSceneBusinessLogic?
   var router: (AllTipsListSceneRoutingLogic & AllTipsListSceneDataPassing)?
-    
-    //MARK: CollectionView
+
+    // MARK: CollectionView
     var AllTipsContainer = [TipsModel]() {
         didSet {
             self.collectionView.reloadData()
         }
     }
-    
+
     private lazy var collectionView: UICollectionView = {
-        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width - 40 , height: UIScreen.main.bounds.height / 7))
-    
+        let sm = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height / 7))
+
         return sm
     }()
   // MARK: Object lifecycle
@@ -43,18 +41,15 @@ class AllTipsListSceneViewController: UIViewController
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
- 
-  
-  required init?(coder aDecoder: NSCoder)
-  {
+
+  required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-  
+
   }
-  
+
   // MARK: View lifecycle
-  
-  override func viewDidLoad()
-  {
+
+  override func viewDidLoad() {
     super.viewDidLoad()
       view.backgroundColor = .white
       title = "Your Tips"
@@ -64,21 +59,21 @@ class AllTipsListSceneViewController: UIViewController
       setUpView()
       self.interactor?.getAllTips(request: AllTipsListScene.ShowAllTipsList.Request())
   }
-  
+
     // MARK: Setup
     func setUpView() {
         view.addSubview(collectionView)
         collectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 0, paddingBottom: 20, paddingRight: 0)
     }
 }
-//MARK: DisplayLogic
+// MARK: DisplayLogic
 
 extension AllTipsListSceneViewController:
     AllTipsListSceneDisplayLogic {
     func displayTipDetailsScene(viewModel: HomeScene.SeeDetails.ViewModel) {
         router?.navigateToTipsDetails()
     }
-    
+
     func displayAllTipsList(viewModel: AllTipsListScene.ShowAllTipsList.ViewModel) {
         DispatchQueue.main.async { [weak self] in
             self?.AllTipsContainer = viewModel.data
@@ -86,24 +81,23 @@ extension AllTipsListSceneViewController:
     }
 }
 
-
 extension AllTipsListSceneViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return AllTipsContainer.count   }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(AllTipsListCollectionViewCell.self, for: indexPath)
         cell.configure(with: AllTipsContainer[indexPath.row])
         cell.delegate = self
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 280, height: 200)
     }
 }
 
-extension AllTipsListSceneViewController : GoDetailsDelegate {
+extension AllTipsListSceneViewController: GoDetailsDelegate {
     func didTapTip(with model: String) {
         guard let selectedObject = self.AllTipsContainer.filter({$0.title == model}).first else { return }
         self.interactor?.seeTipsDetails(request: AllTipsListScene.SeeDetails.Request(data: selectedObject))

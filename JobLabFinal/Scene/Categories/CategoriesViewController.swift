@@ -13,45 +13,45 @@
 import UIKit
 
 protocol CategoriesDisplayLogic: AnyObject {
-    
+
     func displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel)
 }
 
 final class CategoriesViewController: UIViewController {
-    
-    //MARK: CLean components
-    
+
+    // MARK: CLean components
+
     var interactor: CategoriesBusinessLogic?
     var router: (CategoriesRoutingLogic & CategoriesDataPassing)?
-    
-    //MARK: Fields
-    
+
+    // MARK: Fields
+
     private(set) var favoriteCategories = [String]()
     private let allCategoryList = CategoryEnum.allCategoryList
-    
-    var counter: Int = 0  {
+
+    var counter: Int = 0 {
         didSet {
             counter < 3 ? isNotInteractionEnabled() : isInteractionEnabled()
         }
     }
-    //MARK: UI
-    
-    private  let subTitleLb : UILabel = {
+    // MARK: UI
+
+    private  let subTitleLb: UILabel = {
         let lb = UILabel()
         lb.text = "Choose 3-5 job categories and we'll optimize the job vacancy for you"
         lb.font = .systemFont(ofSize: 18)
         lb.numberOfLines = 0
         return lb
     }()
-    
+
     lazy var  collectionView: UICollectionView = {
-        let  cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize:  CGSize(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.width/2))
+        let  cv = CustomCollectionViewConfiguration.shared.customCollectionView(direction: .vertical, itemSize: CGSize(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.width/2))
         cv.registerClass(class: SquareCollectionViewCell.self)
         cv.delegate = self
         cv.dataSource = self
         return cv
     }()
-    
+
     let saveButton: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(hexStringToUIColor(hex: "#5583F7"), for: .normal)
@@ -61,52 +61,52 @@ final class CategoriesViewController: UIViewController {
         btn.layer.cornerRadius = 20
         btn.isUserInteractionEnabled = false
         btn.addTarget(self, action: #selector(goToHomeScene), for: .touchUpInside)
-        
+
         return btn
     }()
-    
+
     // MARK: Object lifecycle
     init(interactor: CategoriesBusinessLogic, router: (CategoriesRoutingLogic & CategoriesDataPassing)) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
         view.backgroundColor = .white
         super.viewDidLoad()
         setUpViewElemets()
     }
-    
+
     // MARK: Do something
-    
+
     private func setUpViewElemets() {
         view.addSubview(subTitleLb)
         subTitleLb.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 5, paddingLeft: 20, paddingRight: 20, height: 50)
         view.addSubview(collectionView)
         collectionView.anchor(top: subTitleLb.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingRight: 0)
         view.addSubview(saveButton)
-        saveButton.anchor(top: collectionView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 30, paddingRight: 40,  height: 40)
+        saveButton.anchor(top: collectionView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 40, paddingBottom: 30, paddingRight: 40,   height: 40)
     }
     private func isNotInteractionEnabled() {
         self.saveButton.isUserInteractionEnabled = false
         self.saveButton.setTitle("\(counter) item ", for: .normal)
     }
-    
+
     private func isInteractionEnabled() {
         self.saveButton.isUserInteractionEnabled = true
         self.saveButton.backgroundColor = .tintColor
         self.saveButton.setTitleColor(.white, for: .normal)
         self.saveButton.setTitle("continue", for: .normal)
-    
+
     }
-    
+
     @objc func goToHomeScene() {
         if saveButton.isUserInteractionEnabled {
             interactor?.passCategory(request: Categories.FavoriteCategory.Request(favoriteCategory: favoriteCategories))
@@ -114,7 +114,7 @@ final class CategoriesViewController: UIViewController {
     }
 }
 
-//MARK: DisplayLogic Methods
+// MARK: DisplayLogic Methods
 
 extension CategoriesViewController: CategoriesDisplayLogic {
     func displayHomeScene(viewModel: Categories.FavoriteCategory.ViewModel) {
@@ -122,13 +122,13 @@ extension CategoriesViewController: CategoriesDisplayLogic {
     }
 }
 
-//MARK: CollectionView dataSourse
+// MARK: CollectionView dataSourse
 
-extension CategoriesViewController:  UICollectionViewDataSource  {
+extension CategoriesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         allCategoryList.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.deque(SquareCollectionViewCell.self, for: indexPath)
         cell.titleLabel.text = allCategoryList[indexPath.row]
@@ -138,13 +138,13 @@ extension CategoriesViewController:  UICollectionViewDataSource  {
         cell.layer.borderColor = hexStringToUIColor(hex: "#ECEEF2").cgColor
         cell.shadowedtoView()
         cell.addview(with: allCategoryList[indexPath.row])
-        
+
         return cell
     }
 }
 
-extension CategoriesViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let blue = UIColor.blue.cgColor
         let current = hexStringToUIColor(hex: "#ECEEF2").cgColor

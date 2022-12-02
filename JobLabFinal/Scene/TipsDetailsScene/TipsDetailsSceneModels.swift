@@ -12,23 +12,18 @@
 
 import UIKit
 
-enum TipsDetailsScene
-{
+enum TipsDetailsScene {
   // MARK: Use cases
-  
-  enum Details
-  {
-    struct Request
-    {
+
+  enum Details {
+    struct Request {
     }
-    struct Response
-    {
+    struct Response {
         var tip: TipsModel
     }
-    struct ViewModel
-    {
+    struct ViewModel {
         var tipDetails: TipsModel
-    
+
     }
   }
 }

@@ -12,19 +12,16 @@
 
 import UIKit
 
-protocol TipsDetailsScenePresentationLogic
-{
+protocol TipsDetailsScenePresentationLogic {
   func presentDetails(response: TipsDetailsScene.Details.Response)
 }
 
-class TipsDetailsScenePresenter: TipsDetailsScenePresentationLogic
-{
+class TipsDetailsScenePresenter: TipsDetailsScenePresentationLogic {
   weak var viewController: TipsDetailsSceneDisplayLogic?
-  
+
   // MARK: Methods
-  
-  func presentDetails(response: TipsDetailsScene.Details.Response)
-  {
+
+  func presentDetails(response: TipsDetailsScene.Details.Response) {
       let data = response.tip
     let viewModel = TipsDetailsScene.Details.ViewModel(tipDetails: data)
       viewController?.displayDetails(viewModel: viewModel)

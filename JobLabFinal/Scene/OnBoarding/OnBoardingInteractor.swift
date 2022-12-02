@@ -22,19 +22,19 @@ protocol OnBoardingDataStore {
 }
 
 final class OnBoardingInteractor: OnBoardingDataStore {
-    
-    //MARK: Clean components
-    
+
+    // MARK: Clean components
+
     private var presenter: OnBoardingPresentationLogic
     private var worker: OnBoardingWorker
-    
-    //MARK: Fields
-    
+
+    // MARK: Fields
+
     var bannersDataStore: OnBoardingModel?
     var banners = [OnBoardingModel]()
-    
-    //MARK: Object LifeCycle
-    
+
+    // MARK: Object LifeCycle
+
     init(presenter: OnBoardingPresentationLogic, worker: OnBoardingWorker ) {
         self.presenter = presenter
         self.worker = worker
@@ -43,12 +43,12 @@ final class OnBoardingInteractor: OnBoardingDataStore {
 
 // MARK: BusinessLogic Methods
 
-extension OnBoardingInteractor : OnBoardingBusinessLogic {
+extension OnBoardingInteractor: OnBoardingBusinessLogic {
     func getLogInScene(request: OnBoarding.GoToLogInScecen.Request) {
- 
+
         presenter.presentLogInScene(response: OnBoarding.GoToLogInScecen.Response())
     }
-    
+
     func getBanners(request: OnBoarding.GetOnBoardingData.Request) {
         let banners = worker.setUpBanners()
         self.banners = banners

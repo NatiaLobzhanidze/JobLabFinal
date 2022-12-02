@@ -13,29 +13,29 @@
 import UIKit
 
 protocol SettingsSceneDisplayLogic: AnyObject {
-    
+
     func displayAuthScene(viewModel: SettingsScene.Settings.ViewModel)
 }
 
 final class SettingsSceneViewController: UIViewController {
-    
-    //MARK: Clean components
-    
+
+    // MARK: Clean components
+
     var interactor: SettingsSceneBusinessLogic?
     var router: (SettingsSceneRoutingLogic & SettingsSceneDataPassing)?
-    
-    //MARK: Fields
-    
+
+    // MARK: Fields
+
     let titlesSupplier = SettingsConfigure.settingsTitle
     let iconsSupplier = SettingsConfigure.settingsIcons
-    
-    //MARK: UI
+
+    // MARK: UI
     let backgroundView: UIView = {
         let v = UIView()
         v.backgroundColor = hexStringToUIColor(hex: "#5180F7")
         return v
     }()
-    
+
     let titlelabel: UILabel = {
         let lb = UILabel()
         lb.text = "Settings"
@@ -43,7 +43,7 @@ final class SettingsSceneViewController: UIViewController {
         lb.textColor = .white
         return lb
     }()
-    
+
     lazy var tableView: UITableView = {
         let v = UITableView()
         v.delegate = self
@@ -51,65 +51,64 @@ final class SettingsSceneViewController: UIViewController {
         v.registerClass(class: SettingsTableViewCell.self)
         return v
     }()
-    
+
     // MARK: Object lifecycle
-    
+
     init(interactor: SettingsSceneBusinessLogic, router: (SettingsSceneRoutingLogic & SettingsSceneDataPassing) ) {
         self.interactor = interactor
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     // MARK: View lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
-    
-    //MARK: setUp Ui
+
+    // MARK: setUp Ui
     private func setUpUI() {
-      
+
         view.backgroundColor = .white
         view.addSubview(backgroundView)
         backgroundView.addSubview(titlelabel)
         titlelabel.centerX(inView: backgroundView)
-        titlelabel.anchor(top: backgroundView.topAnchor, paddingTop:  90)
-        backgroundView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0,  paddingRight: 0, height: 150)
+        titlelabel.anchor(top: backgroundView.topAnchor, paddingTop: 90)
+        backgroundView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0,   paddingRight: 0, height: 150)
         view.addSubview(tableView)
         tableView.anchor(top: backgroundView.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 20, paddingRight: 20)
     }
 }
 
-//MARK: DisplayLogic
+// MARK: DisplayLogic
 
-extension SettingsSceneViewController: SettingsSceneDisplayLogic  {
+extension SettingsSceneViewController: SettingsSceneDisplayLogic {
     func displayAuthScene(viewModel: SettingsScene.Settings.ViewModel) {
         router?.navigateToAuthScene()
     }
-    
+
     func displaySettings(viewModel: SettingsScene.Settings.ViewModel) {
-        
+
     }
-    
-   
+
 }
 
-//MARK: TableView dataSource
+// MARK: TableView dataSource
 
 extension SettingsSceneViewController: UITableViewDataSource {
-  
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         titlesSupplier.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.deque(class: SettingsTableViewCell.self, for: indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? SettingsTableViewCell else { return }
         let icon = iconsSupplier[indexPath.row]
@@ -118,11 +117,10 @@ extension SettingsSceneViewController: UITableViewDataSource {
         cell.titleLb.text = title
         cell.addBottomBorder(in: .tintColor, width: 1)
     }
-    
-    
+
 }
 
-//MARK: TableView delegate
+// MARK: TableView delegate
 
 extension SettingsSceneViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -130,9 +128,9 @@ extension SettingsSceneViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            
+
             interactor?.logOut(request: SettingsScene.Settings.Request())
-            
+
             UserDefaults.standard.set(false, forKey: "ISUSERLOGGEDIN")
             view.window?.rootViewController = AuthenticationConfiguration.configure()
             view.window?.makeKeyAndVisible()

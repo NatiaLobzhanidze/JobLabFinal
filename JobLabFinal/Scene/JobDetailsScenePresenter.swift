@@ -12,18 +12,16 @@
 
 import UIKit
 
-protocol JobDetailsScenePresentationLogic
-{
+protocol JobDetailsScenePresentationLogic {
     func presentJobDetails(response: JobDetailsScene.ShowDetails.Response)
 }
 
-class JobDetailsScenePresenter: JobDetailsScenePresentationLogic
-{
-    
+class JobDetailsScenePresenter: JobDetailsScenePresentationLogic {
+
   weak var viewController: JobDetailsSceneDisplayLogic?
-  
+
   // MARK: Do PresentationLogics
-  
+
     func presentJobDetails(response: JobDetailsScene.ShowDetails.Response) {
         let viewModel = response.data
         self.viewController?.displayJobDetails(viewModel: JobDetailsScene.ShowDetails.ViewModel(data: viewModel))

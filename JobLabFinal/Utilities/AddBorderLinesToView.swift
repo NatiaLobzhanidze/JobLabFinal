@@ -62,8 +62,8 @@ extension UIView {
         border.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
         addSubview(border)
     }
-    
-//MARK: visual efect for indicator
+
+// MARK: visual efect for indicator
         func showBlurLoader() {
             let blurLoader = BlurLoader(frame: frame)
             self.addSubview(blurLoader)
@@ -76,7 +76,7 @@ extension UIView {
         }
     }
 
-fileprivate class BlurLoader: UIView {
+private class BlurLoader: UIView {
 
     var blurEffectView: UIVisualEffectView?
 

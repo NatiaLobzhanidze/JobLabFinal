@@ -13,7 +13,7 @@
 import UIKit
 
 protocol HomeSceneBusinessLogic {
-    
+
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request)
     func seeTipsDetails(request: HomeScene.SeeDetails.Request )
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request)
@@ -33,28 +33,28 @@ protocol HomeSceneDataStore {
 }
 
 final class HomeSceneInteractor: HomeSceneDataStore {
-    
-    //MARK: Clean components
-    
+
+    // MARK: Clean components
+
     var presenter: HomeScenePresentationLogic?
     var worker: HomeSceneWorker
-    
-    //MARK: Fields
-    
+
+    // MARK: Fields
+
     var tips = [TipsModel]()
     var currentData: [TipsModel]?
     var fetchedJobs = [JobModel]()
-    
+
     var selectedTip: TipsModel?
     var selectedJob: JobModel?
-    
+
     var passingData = [TipsModel]()
     var passingJob = [JobModel]()
     var slectedCategories: [String]
     var favoritsConteiner = [JobModel]()
-    
+
     // MARK: Object Lifecycle
-    
+
     init(presenter: HomeScenePresentationLogic, worker: HomeSceneWorker, slectedCategories: [String] ) {
         self.presenter = presenter
         self.worker  = worker
@@ -62,51 +62,50 @@ final class HomeSceneInteractor: HomeSceneDataStore {
     }
 }
 
-extension HomeSceneInteractor:  HomeSceneBusinessLogic {
-  
-    
+extension HomeSceneInteractor: HomeSceneBusinessLogic {
+
     func getFavorites(request: HomeScene.FavoriteCell.Request) {
         let response =  worker.fetchFavorites()
         let resResponse = response.compactMap({$0})
         presenter?.presentFavorites(response: HomeScene.FavoriteCell.Response(data: resResponse))
     }
-    
+
     func filterJobsByCategory(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
-        let filteredJobs = passingJob.filter{$0.category.lowercased() == keyword}
+        let filteredJobs = passingJob.filter {$0.category.lowercased() == keyword}
         let data = keyword == "all jobs" ? passingJob : filteredJobs
         presenter?.presentjobsByCategory(response: HomeScene.FilterJobs.Response(data: data))
     }
-    
+
     func seeJobDetails(request: HomeScene.SeeJobDetails.Request) {
         self.selectedJob = request.job
         presenter?.presentSelectedJobDetails(response: HomeScene.SeeJobDetails.Response())
     }
-    
+
     func getFilteredJobs(request: HomeScene.FilterJobs.Request) {
         let keyword = request.keyword.lowercased()
         let filteredJobs = passingJob.filter({$0.jobTitle.lowercased().contains(keyword)})
         let data = keyword.isEmpty ? passingJob : filteredJobs
         presenter?.presentFilteredJobs(response: HomeScene.FilterJobs.Response(data: data))
     }
-    
+
     func didTapSeeAllJobs(request: HomeScene.ShowAllJobs.Request) {
         presenter?.presentAllJobs(response: HomeScene.ShowAllJobs.Response(data: passingJob))
     }
-    
+
     func seeTipsDetails(request: HomeScene.SeeDetails.Request) {
         guard let tipObject =  request.dataSource.filter({$0.title == request.tipTitle }).first else { return }
         self.selectedTip = tipObject
         presenter?.presnetTipsDetails(response: HomeScene.SeeDetails.Response())
     }
-    
+
     func didTapSeeAllTips(request: HomeScene.ShowAllTips.Request) {
         self.passingData = tips
         presenter?.presentAllTips(response: HomeScene.ShowAllTips.Response())
     }
-    
-    //MARK: NetworkCall
-    
+
+    // MARK: NetworkCall
+
     func getCommonModel(request: HomeScene.GetCommonModel.Request) {
         Task {
             let category = slectedCategories
@@ -119,12 +118,10 @@ extension HomeSceneInteractor:  HomeSceneBusinessLogic {
                     self?.tips = tipsResponse
                     self?.presenter?.presentCommomModel(response: HomeScene.GetCommonModel.Response(data: CommonModel(jobs: filteredResponse, tips: tipsResponse)))
                 }
-                
+
             } catch {
                 fatalError(error.localizedDescription)
             }
         }
     }
 }
-
-

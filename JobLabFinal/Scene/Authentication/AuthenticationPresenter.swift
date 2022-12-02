@@ -19,23 +19,23 @@ protocol AuthenticationPresentationLogic {
 }
 
 final class AuthenticationPresenter {
- 
+
   weak var viewController: AuthenticationDisplayLogic?
-  
+
 }
 
 // MARK: PresentationLogic
 
-extension AuthenticationPresenter: AuthenticationPresentationLogic  {
+extension AuthenticationPresenter: AuthenticationPresentationLogic {
     func presentSuccess() {
         viewController?.displayLogIngSuccess()
     }
-    
+
     func presentFailure(message: String) {
         viewController?.displayLogInFailure(message: message)
     }
-    
+
     func presentRegisterScene(response: Authentication.GoRegisterScene.Response) {
       viewController?.displayRegistration(viewModel: Authentication.GoRegisterScene.ViewModel())
-  }    
+  }
 }

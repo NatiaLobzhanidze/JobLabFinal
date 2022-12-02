@@ -13,11 +13,11 @@
 import UIKit
 
 enum HomeScene {
-    
+
   // MARK: Use cases
-  
+
     enum ShowAllTips {
-        
+
         struct Request {
         let data: [TipsModel]
         }
@@ -25,7 +25,7 @@ enum HomeScene {
         struct ViewModel {}
     }
     enum SeeDetails {
-        
+
         struct Request {
             let tipTitle: String
             let dataSource: [TipsModel]
@@ -41,7 +41,7 @@ enum HomeScene {
         struct ViewModel {}
     }
     enum FilterJobs {
-        struct Request{
+        struct Request {
             let keyword: String
         }
         struct Response {
@@ -63,7 +63,7 @@ enum HomeScene {
         struct Response {}
         struct ViewModel {}
     }
-    
+
     enum GetCommonModel {
         struct Request {}
         struct Response {
@@ -82,5 +82,5 @@ enum HomeScene {
             let data: [String]
         }
     }
-    
+
 }

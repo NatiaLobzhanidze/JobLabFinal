@@ -8,42 +8,42 @@
 import UIKit
 
 class BaseTableViewCell: UITableViewCell {
-    
-    //MARK: UI
-    
+
+    // MARK: UI
+
     let textlb: UILabel = {
         let lb = UILabel()
         lb.font = .systemFont(ofSize: 16)
         return lb
     }()
-    
+
     let seeAllBtn: UIButton = {
         let btn = UIButton()
         btn.setTitle("See all", for: .normal)
         btn.setTitleColor(.tintColor, for: .normal)
-        
+
         return btn
     }()
-    
-    //MARK: View LifeCycle
-    
+
+    // MARK: View LifeCycle
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
-    //MARK: SetUp UI
-    
+
+    // MARK: SetUp UI
+
     func setUpViews() {
         self.contentView.addSubview(textlb)
         textlb.anchor(top: contentView.topAnchor,
                       left: contentView.leftAnchor,
                       bottom: contentView.bottomAnchor,
                       paddingTop: 0, paddingLeft: 30,
-                      paddingBottom: 0,  width: 200)
+                      paddingBottom: 0,   width: 200)
         self.contentView.addSubview(seeAllBtn)
         seeAllBtn.anchor( right: contentView.rightAnchor,
                           paddingRight: 30,

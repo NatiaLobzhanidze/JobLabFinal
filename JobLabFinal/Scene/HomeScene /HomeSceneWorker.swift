@@ -19,24 +19,24 @@ protocol HomeSceneWorkerLogic {
     func fetchTips() async throws -> [TipsModel]
     func fetchAllJobs()async throws -> [JobModel]
     func fetchFavorites() -> [String?]
- 
+
 }
 
 final class HomeSceneWorker {
-    
-    //MARK: Fields
-    
+
+    // MARK: Fields
+
     private let api: APIManager
     private let tipsUrl = ApiUrls.tips.rawValue
     private let jobsUrl = ApiUrls.jobs.rawValue
     private let coreDataManager = CoreDataManaager.shared
-    
+
     init(api: APIManager) {
         self.api = api
     }
 }
 
-  //MARK: WorkerLogic methods
+  // MARK: WorkerLogic methods
 
 extension HomeSceneWorker: HomeSceneWorkerLogic {
     func fetchFavorites() -> [String?] {
@@ -50,14 +50,13 @@ extension HomeSceneWorker: HomeSceneWorkerLogic {
         }
         return  indetities
     }
-    
-    
+
     func fetchTips() async throws -> [TipsModel] {
         try await api.fetchData(urlString: tipsUrl, decodingType: [TipsModel].self)
     }
-    
+
     func fetchAllJobs() async throws -> [JobModel] {
         try await api.fetchData(urlString: jobsUrl, decodingType: [JobModel].self)
     }
-    
+
 }

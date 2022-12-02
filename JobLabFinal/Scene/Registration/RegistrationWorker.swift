@@ -20,20 +20,20 @@ protocol RegistrationWorkerLogic {
 }
 
 final class RegistrationWorker: RegistrationWorkerLogic {
-    
-    //MARK: RegistrationWorkerLogic Methods
-    
+
+    // MARK: RegistrationWorkerLogic Methods
+
     func checkValidity(email: UITextField, password: UITextField, rePassword: UITextField) -> String? {
         FieldsValidation.shared.validateFields(from: [email, password, rePassword], password: password, rePassword: rePassword)
     }
 
     func createUser(email: String, password: String, completionBlock: @escaping (_ success: Bool) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: password) {(result, error) in
+        Auth.auth().createUser(withEmail: email, password: password) {(_, error) in
             if error != nil {
                 completionBlock(false)
-            }  else {
+            } else {
                 let db = Firestore.firestore()
-                db.collection("users").addDocument(data: ["mail" : email,
+                db.collection("users").addDocument(data: ["mail": email,
                                                           "password": password]) { error in
                     if error != nil {
                         completionBlock(false)
@@ -44,9 +44,3 @@ final class RegistrationWorker: RegistrationWorkerLogic {
         }
     }
 }
-
-
-
-
-
-

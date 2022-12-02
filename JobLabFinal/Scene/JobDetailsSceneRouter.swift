@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol JobDetailsSceneRoutingLogic{
+protocol JobDetailsSceneRoutingLogic {
 }
 
 protocol JobDetailsSceneDataPassing {
@@ -22,9 +22,9 @@ protocol JobDetailsSceneDataPassing {
 final class JobDetailsSceneRouter: JobDetailsSceneRoutingLogic, JobDetailsSceneDataPassing {
   weak var viewController: JobDetailsSceneViewController?
   var dataStore: JobDetailsSceneDataStore?
-  
+
     init(dataStore: JobDetailsSceneDataStore) {
         self.dataStore = dataStore
     }
- 
+
 }
